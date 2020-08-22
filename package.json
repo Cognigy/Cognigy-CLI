@@ -1,13 +1,13 @@
 {
   "name": "cognigy",
-  "version": "1.0.0",
+  "version": "0.1",
   "description": "",
   "main": "./build/cognigy.js",
   "scripts": {
     "build": "tsc"
   },
   "author": "Cognigy GmbH",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/cli-progress": "^3.4.2",
     "@types/cli-spinner": "^0.2.0",
