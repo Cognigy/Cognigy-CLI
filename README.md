@@ -13,7 +13,7 @@ For Endpoints, Transformers will be separately stores as TypeScript files
 ## Installation
 
 ### Install globally
-
+ 
 We recommend to install the Cognigy.AI CLI globally to use wherever you like. In order to so, perform the following step.
 
 `npm install -g @cognigy/cognigy-cli`
