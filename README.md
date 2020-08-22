@@ -10,6 +10,24 @@ Currently supported resources:
 
 For Endpoints, Transformers will be separately stores as TypeScript files
 
+## Installation
+
+### Install globally
+
+We recommend to install the Cognigy.AI CLI globally to use wherever you like. In order to so, perform the following step.
+
+`npm install -g @cognigy/cognigy-cli`
+
+### Use locally
+
+Alternatively you can use a local copy by performing the following steps:
+
+1. Clone the repo
+2. Run `npm ci`
+3. Run `npm run build`
+4. Run `node build/cognigy init`
+5. (optional) Run `npm link` to enable running `cognigy` globally
+
 ## Configuration
 
 Configuration can be provided either as environment variables or inside a config.json file. The config.json can be created by executing `cognigy init`.
