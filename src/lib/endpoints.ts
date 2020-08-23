@@ -7,6 +7,7 @@ import { addToProgressBar } from '../utils/progressBar';
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
 import { checkCreateDir, removeCreateDir } from '../utils/checks';
+import { indexAll } from '../utils/indexAll';
 
 
 /**
@@ -23,7 +24,7 @@ export const cloneEndpoints = async (availableProgress: number): Promise<void> =
     addToProgressBar(progressIncrement);
 
     // query Cognigy.AI for all Flows in this agent
-    const endpoints = await CognigyClient.indexEndpoints({
+    const endpoints = await indexAll(CognigyClient.indexEndpoints)({
         "projectId": CONFIG.agent
     });
     addToProgressBar(progressIncrement);
@@ -64,7 +65,7 @@ export const pullEndpoint = async (endpointName: string, availableProgress: numb
     const progressIncrement = Math.round(availableProgress / 10);
 
     // query Cognigy.AI for all Flows in this agent
-    const endpoints = await CognigyClient.indexEndpoints({
+    const endpoints = await indexAll(CognigyClient.indexEndpoints)({
         "projectId": CONFIG.agent
     });
     addToProgressBar(progressIncrement);

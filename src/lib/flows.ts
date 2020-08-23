@@ -11,6 +11,8 @@ import CognigyClient from '../utils/cognigyClient';
 import { removeCreateDir } from '../utils/checks';
 import { pullLocales } from './locales';
 
+import { indexAll } from '../utils/indexAll';
+
 // Interfaces
 import { ILocaleIndexItem_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/locales/v2.0';
 import { IIntent } from '@cognigy/rest-api-client/build/shared/interfaces/resources/intent/IIntent';
@@ -26,7 +28,7 @@ export const cloneFlows = async (availableProgress: number): Promise<void> => {
     await removeCreateDir(flowDir);
 
     // query Cognigy.AI for all Flows in this agent
-    const flows = await CognigyClient.indexFlows({
+    const flows = await indexAll(CognigyClient.indexFlows)({
         "projectId": CONFIG.agent
     });
 
@@ -54,7 +56,7 @@ export const pullFlow = async (flowName: string, availableProgress: number): Pro
     await removeCreateDir(flowDir);
 
     // query Cognigy.AI for all Flows in this agent
-    const flows = await CognigyClient.indexFlows({
+    const flows = await indexAll(CognigyClient.indexFlows)({
         "projectId": CONFIG.agent
     });
 
@@ -71,9 +73,9 @@ export const pullFlow = async (flowName: string, availableProgress: number): Pro
 
     const locales = await pullLocales();
 
-    const progressPerLocale = availableProgress / locales.items.length;
+    const progressPerLocale = availableProgress / locales.length;
 
-    for (let locale of locales.items) {
+    for (let locale of locales) {
         const localeDir = flowDir + "/" + locale.name;
 
         await removeCreateDir(localeDir);
@@ -103,9 +105,11 @@ export const pullFlow = async (flowName: string, availableProgress: number): Pro
 
         fs.writeFileSync(localeDir + "/chart.json", JSON.stringify(chart, undefined, 4));
 
-        const flowIntents = await CognigyClient.indexIntents({
+        const flowIntents = await indexAll(CognigyClient.indexIntents)({
             flowId: flow._id,
-            preferredLocaleId: locale._id
+            preferredLocaleId: locale._id,
+            includeChildren: "true",
+            limit: 100
         });
 
         const intents = await pullIntents(flow, flowIntents, locale, progressPerLocale);
@@ -429,6 +433,7 @@ export const trainFlow = async (flowName: string, timeout: number = 10000): Prom
 const pullIntents = async (flow, flowIntents, locale, availableProgress, intents = []) => {
     if (flowIntents && flowIntents.items && flowIntents.items && flowIntents.items.length > 0) {
         const progressPerIntent = availableProgress / 2 / flowIntents.items.length;
+
         for (let intent of flowIntents.items) {
             const intentData = await CognigyClient.readIntent({
                 intentId: intent._id,
@@ -436,33 +441,23 @@ const pullIntents = async (flow, flowIntents, locale, availableProgress, intents
                 preferredLocaleId: locale._id
             });
 
-            // find child intents
-            const childIntents = await CognigyClient.indexIntents({
-                flowId: flow._id,
-                preferredLocaleId: locale._id,
-                parent: intent._id
-            });
-
-            if (childIntents && childIntents.items && childIntents.items.length > 0)
-                await pullIntents(flow, childIntents, locale, 0, intents);
-
-            const flowIntentSentences = await CognigyClient.indexSentences({
+            const flowIntentSentences = await indexAll(CognigyClient.indexSentences)({
                 flowId: flow._id,
                 intentId: intent._id,
                 preferredLocaleId: locale._id
             });
 
-            const intentSentences = [];
+            let intentSentences: any = [];
             if (flowIntentSentences && flowIntentSentences.items && flowIntentSentences.items.length > 0) {
-                for (let sentence of flowIntentSentences.items) {
-                    const sentenceData = await CognigyClient.readSentence({
-                        flowId: flow._id,
-                        intentId: intent._id,
-                        sentenceId: sentence._id
-                    });
-
-                    intentSentences.push(sentenceData);
-                }
+                intentSentences = await Promise.all(
+                    flowIntentSentences.items.map(async sentence => {
+                        return await CognigyClient.readSentence({
+                            flowId: flow._id,
+                            intentId: intent._id,
+                            sentenceId: sentence._id
+                        });
+                    })
+                );
             }
             intents.push({
                 ...intentData,

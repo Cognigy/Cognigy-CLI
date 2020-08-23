@@ -7,6 +7,7 @@ import { addToProgressBar } from '../utils/progressBar';
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
 import { checkCreateDir } from '../utils/checks';
+import { indexAll } from '../utils/indexAll';
 
 
 /**
@@ -35,7 +36,7 @@ export const cloneLexicons = async (availableProgress: number): Promise<void> =>
     addToProgressBar(progressIncrement);
 
     // query Cognigy.AI for all Flows in this agent
-    const lexicons = await CognigyClient.indexLexicons({
+    const lexicons = await indexAll(CognigyClient.indexLexicons)({
         "projectId": CONFIG.agent
     });
     addToProgressBar(progressIncrement);
@@ -75,7 +76,7 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
     const progressIncrement = Math.round(availableProgress / 10);
 
     // query Cognigy.AI for all Flows in this agent
-    const lexicons = await CognigyClient.indexLexicons({
+    const lexicons = await indexAll(CognigyClient.indexLexicons)({
         "projectId": CONFIG.agent
     });
     addToProgressBar(progressIncrement);
