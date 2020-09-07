@@ -100,6 +100,7 @@ export const pullFlow = async (flowName: string, availableProgress: number): Pro
                 "preferredLocaleId": locale._id
             });
             node["config"] = Node.config;
+            delete node["preview"];
             addToProgressBar(progressPerNode);
         }
 
@@ -108,7 +109,7 @@ export const pullFlow = async (flowName: string, availableProgress: number): Pro
         const flowIntents = await indexAll(CognigyClient.indexIntents)({
             flowId: flow._id,
             preferredLocaleId: locale._id,
-            includeChildren: "true",
+            includeChildren: true,
             limit: 100
         });
 
@@ -239,7 +240,8 @@ export const pushFlow = async (flowName: string, availableProgress: number): Pro
                                         localeReference: locale._id,
                                         sentenceId: sentence._id,
                                         slots: sentence.slots,
-                                        text: sentence.text
+                                        text: sentence.text,
+                                        feedbackReport: null
                                     });
                                 }
                             }

@@ -1,7 +1,7 @@
 {
   "name": "cognigy",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.1.1",
+  "description": "Cognigy Command Line Interface",
   "main": "./build/cognigy.js",
   "scripts": {
     "build": "tsc"
@@ -21,7 +21,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@cognigy/rest-api-client": "^0.9.1",
+    "@cognigy/rest-api-client": "^0.10.0",
     "axios": "^0.20.0",
     "chalk": "^4.0.0",
     "cli-progress": "^3.7.0",
@@ -30,7 +30,9 @@
     "express": "^4.17.1",
     "inquirer": "^7.1.0",
     "json-diff": "^0.5.4",
-    "mongodb": "^3.6.0"
+    "mongodb": "^3.6.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
   },
   "bin": {
     "cognigy": "./build/cognigy.js"

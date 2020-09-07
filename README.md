@@ -32,6 +32,10 @@ Alternatively you can use a local copy by performing the following steps:
 4. Run `node build/cognigy init`
 5. (optional) Run `npm link` to enable running `cognigy` globally
 
+### Proxy Configuration
+
+The Cognigy CLI will respect the HTTP_PROXY/http_proxy and HTTPS_PROXY/https_proxy and NO_PROXY/no_proxy environment variables.
+
 ## Configuration
 
 Configuration can be provided either as environment variables or inside a config.json file. The config.json can be created by executing `cognigy init`.
