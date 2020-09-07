@@ -1,7 +1,9 @@
 # Cognigy Command Line Interface (CLI) 
 > This is an unsupported alpha release. Please use with caution!
 
-Cognigy-CLI is a series of tools meant to aid Cognigy.AI developers in maintaining local copies of their virtual agent projects. 
+Cognigy-CLI is a series of tools meant to aid Cognigy.AI developers in maintaining local copies of their virtual agent projects.
+
+**The CLI can currently not create resources (other than Snapshots), but only edit existing resources.**
 
 Currently supported resources:
 
