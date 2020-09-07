@@ -14,7 +14,7 @@ const getConfig = (): ICLIConfig => {
         apiKey: process.env.CAI_APIKEY,
         agent: process.env.CAI_AGENT,
         baseUrl: process.env.CAI_BASEURL,
-        agentDir: process.env.AGENTDIR
+        agentDir: process.env.CAI_AGENTDIR
     };
 
     if (process.argv[2] === "init" || process.argv.length < 3) return config;
