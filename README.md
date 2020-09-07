@@ -36,6 +36,13 @@ Alternatively you can use a local copy by performing the following steps:
 
 The Cognigy CLI will respect the HTTP_PROXY/http_proxy and HTTPS_PROXY/https_proxy and NO_PROXY/no_proxy environment variables.
 
+If you're behind a proxy, you might need to configure NPM separately to use it. You can do that using the commands below.
+
+```
+npm config set proxy http://usr:pwd@proxy.company.com:8080
+npm config set https-proxy http://usr:pwd@proxy.company.com:8080
+```
+
 ## Configuration
 
 Configuration can be provided either as environment variables or inside a config.json file. The config.json can be created by executing `cognigy init`.
