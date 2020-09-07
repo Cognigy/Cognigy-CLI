@@ -13,7 +13,7 @@ import { train } from './commands/train';
 import { create } from './commands/create';
 
 const program = new Command();
-program.version('0.0.4');
+program.version('0.2.0');
 
 program
     .command('init')
