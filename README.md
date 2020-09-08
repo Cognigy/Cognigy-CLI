@@ -165,7 +165,7 @@ This command will go through all Flows in all Locales and check if a valid  `con
 ### Command: execute
 `cognigy execute <command>`
 
-Executes a command of the [Cognigy REST API Client](https://www.npmjs.com/package/@cognigy/rest-api-client).
+Executes a command of the [Cognigy REST API Client](https://www.npmjs.com/package/@cognigy/rest-api-client). For more information on API calls, please see our [OpenAPI documentation](https://api-trial.cognigy.ai/openapi).
 
 Supports injecting payloads either through pipes or the -d (--data) option:
 
