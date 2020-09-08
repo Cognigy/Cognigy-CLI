@@ -2,6 +2,8 @@ import * as fs from 'fs';
 import * as jsonDiff from 'json-diff';
 import { Spinner }  from 'cli-spinner';
 import * as chalk from 'chalk';
+import { createArrayCsvWriter } from 'csv-writer';
+import * as csv from 'csv-parser';
 
 import { checkTask } from '../utils/checks';
 
@@ -17,6 +19,8 @@ import { indexAll } from '../utils/indexAll';
 import { ILocaleIndexItem_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/locales/v2.0';
 import { IIntent } from '@cognigy/rest-api-client/build/shared/interfaces/resources/intent/IIntent';
 import { ISentence_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/flow/v2.0/sentence/ISentence_2_0';
+import { create } from 'domain';
+import { Logger } from 'mongodb';
 
 /**
  * Clones Cognigy Flows to disk
@@ -471,3 +475,156 @@ const pullIntents = async (flow, flowIntents, locale, availableProgress, intents
     return intents;
 };
 
+/**
+ * Exports all strings from a Flow as CSV
+ * @param availableProgress How much of the progress bar can be filled by this process
+ */
+export const exportFlowCSV = async (flowName: string, availableProgress: number): Promise<void> => {
+    const flowsDir = CONFIG.agentDir + "/flows";
+    const flowDir = flowsDir + "/" + flowName;
+
+    if (fs.existsSync(flowDir + "/config.json") && fs.existsSync(flowsDir + "/locales.json")) {
+        const locales = JSON.parse(fs.readFileSync(flowsDir + "/locales.json").toString());
+
+        for (let locale of locales) {
+            // chart and config exist for this flow, proceed
+            try {
+                const flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + locale.name + "/chart.json").toString());
+
+                const csvWriterContent = createArrayCsvWriter({
+                    path: flowDir + "/" + locale.name + "/content.csv",
+                    header: [
+                        "id",
+                        "label",
+                        "type",
+                        "subtype",
+                        "localized",
+                        "content"
+                    ]
+                });
+
+                const contentRecords = [];
+
+                for (let node of flowChart.nodes) {
+                    const localized = (locale._id === node.localeReference);
+                    switch (node.type) {
+                        case "say":
+                            switch (node.config.say.type) {
+                                case "text":
+                                    if (node.config.say.text.length === 1)
+                                        contentRecords.push([
+                                            node._id,
+                                            node.label,
+                                            node.type,
+                                            node.config.say.type,
+                                            localized,
+                                            node.config.say.text[0]
+                                        ]);
+                                    else
+                                        contentRecords.push([
+                                            node._id,
+                                            node.label,
+                                            node.type,
+                                            node.config.say.type,
+                                            localized,
+                                            JSON.stringify(node.config.say.text)
+                                        ]);
+                                    break;
+                                default:
+                                    contentRecords.push([
+                                        node._id,
+                                        node.label,
+                                        node.type,
+                                        node.config.say.type,
+                                        localized,
+                                        JSON.stringify(node.config.say._data)
+                                    ]);
+                            }
+                            break;
+                    }
+                }
+
+                await csvWriterContent.writeRecords(contentRecords);
+
+            } catch (err) {
+
+            }
+        }
+    }
+
+    return Promise.resolve();
+};
+
+/**
+ * Import all strings from a CSV to a Flow
+ * @param availableProgress How much of the progress bar can be filled by this process
+ */
+export const importFlowCSV = async (flowName: string, availableProgress: number): Promise<void> => {
+    const flowsDir = CONFIG.agentDir + "/flows";
+    const flowDir = flowsDir + "/" + flowName;
+
+    if (fs.existsSync(flowDir + "/config.json") && fs.existsSync(flowsDir + "/locales.json")) {
+        const locales = JSON.parse(fs.readFileSync(flowsDir + "/locales.json").toString());
+
+        for (let locale of locales) {
+            // chart and config exist for this flow, proceed
+            try {
+                if (!fs.existsSync(flowDir + "/" + locale.name + "/content.csv"))
+                    break;
+
+                // create Map of Nodes in CSV
+                const nodeMap = new Map();
+                await new Promise((resolve, reject) => {
+                    fs.createReadStream(flowDir + "/" + locale.name + "/content.csv")
+                    .pipe(csv())
+                    .on('data', (data) => {
+                        nodeMap.set(data.id, data);
+                    })
+                    .on('end', () => resolve());
+                });
+
+                const flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + locale.name + "/chart.json").toString());
+
+                for (let node of flowChart.nodes) {
+                    const localized = (locale._id === node.localeReference);
+                    if (localized) {
+                        const csvData = nodeMap.get(node._id);
+                        if (csvData) {
+                            try {
+                                let parsedContent = csvData.content;
+                                try {
+                                    parsedContent = JSON.parse(csvData.content);
+                                } catch (err) {}
+
+                                switch (node.type) {
+                                    case "say":
+                                        switch (node.config.say.type) {
+                                            case "text":
+                                                if (Array.isArray(parsedContent))
+                                                    node.config.say.text = parsedContent;
+                                                else
+                                                    node.config.say.text = [parsedContent];
+                                                break;
+
+                                            default:
+                                                node.config.say._data = parsedContent;
+                                        }
+                                        break;
+                                }
+                            } catch (err) {
+                                console.log(`\n[${chalk.red("error")}] Failed to update Node ${node._id} in ${chalk.yellow(locale.name)} with error ${err.message}`);
+                            }
+                        }
+                    }
+                }
+
+                fs.writeFileSync(flowDir + "/" + locale.name + "/chart.json", JSON.stringify(flowChart, undefined, 4));
+
+            } catch (err) {
+
+            }
+        }
+    }
+
+    return Promise.resolve();
+};

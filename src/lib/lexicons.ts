@@ -156,11 +156,13 @@ export const pushLexicon = async (lexiconName: string, availableProgress: number
             delete lexiconConfig.createdBy;
             delete lexiconConfig.lastChanged;
             delete lexiconConfig.lastChangedBy;
+            delete lexiconConfig.referenceId;
 
             // update Lexicon on Cognigy.AI
             await CognigyClient.updateLexicon({
                 ...lexiconConfig
             });
+
         } catch (err) {
             console.error(`Error when updating Lexicon ${lexiconName} on Cognigy.AI: ${err.message}.\nAborting...`);
             process.exit(0);

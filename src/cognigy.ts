@@ -11,9 +11,11 @@ import { pull } from './commands/pull';
 import { init } from './commands/init';
 import { train } from './commands/train';
 import { create } from './commands/create';
+import { exportcsv } from './commands/exportcsv';
+import { importcsv } from './commands/importcsv';
 
 const program = new Command();
-program.version('0.2.1');
+program.version('0.2.2');
 
 program
     .command('init')
@@ -69,6 +71,20 @@ program
     .option('-t, --timeout <ms>', 'timeout for creating the snapshot')
     .option('-s, --skipDownload', 'skip downloading the snapshot')
     .action(async (resourceType, resourceName, resourceDescription = 'Cognigy.AI CLI', cmdObj) => { await create({ resourceType: 'snapshot', resourceName, description: resourceDescription, timeout: cmdObj.timeout, skipDownload: cmdObj.skipDownload }); });
+
+program
+    .command('exportcsv <resourceType> [resourceName]')
+    .option('-c, --config <configFile>', 'force the use of a specific config file')
+    .option('-y, --forceYes', 'skips warnings and overwrites all content')
+    .description('Exports the content of a Flow to CSV')
+    .action(async (resourceType, resourceName, cmdObj) => { await exportcsv({ resourceType, resourceName }); });
+
+program
+    .command('importcsv <resourceType> [resourceName]')
+    .option('-c, --config <configFile>', 'force the use of a specific config file')
+    .option('-y, --forceYes', 'skips warnings and overwrites all content')
+    .description('Imports the content of a Flow from CSV')
+    .action(async (resourceType, resourceName, cmdObj) => { await importcsv({ resourceType, resourceName }); });
 
 program.parse(process.argv);
 console.log();
