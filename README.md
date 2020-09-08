@@ -136,7 +136,7 @@ Trains the NLU model of a specified Flow on Cognigy.AI
 | --timeout | -t    | Number | 10000   | Timeout in ms before training progress is no longer checked (training will continue on Cognigy.AI) |
 
 ### Command: create
-`cognigy create <resourceType> <resourceName> [resourceDescription]`
+`cognigy create snapshot <resourceName> [resourceDescription]`
 
 Creates a remote resource on Cognigy.AI and downloads it to disk.
 
@@ -146,3 +146,19 @@ Creates a remote resource on Cognigy.AI and downloads it to disk.
 | -------------- | ----- | ------- | ------- | -------------------------------------------------------------------------------------------- |
 | --timeout      | -t    | Number  | 100000  | Timeout in ms before the creation process is no longer checked (will continue on Cognigy.AI) |
 | --skipDownload | -s    | Boolean | false   | Skips download of created resource (for snapshots)                                           |
+
+
+### Command: exportcsv
+`cognigy exportcsv flow <flowName>`
+
+Exports the content of a Flow to CSV.
+
+This command will go through all Flows in all Locales and create a `content.csv` file next to the JSON. This file can be used to update content.
+
+### Command: importcsv
+`cognigy importcsv flow <flowName>`
+
+Imports the content of CSV back into a Flow.
+
+This command will go through all Flows in all Locales and check if a valid  `content.csv` exists. If yes, it will go through the Flow Chart and update all localized Nodes with the content from the CSV.
+
