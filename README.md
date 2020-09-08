@@ -91,7 +91,7 @@ Clones a Virtual Agent from Cognigy.AI to disk
 
 | Option | Alias | Type   | Default | Description                                                           |
 | ------ | ----- | ------ | ------- | --------------------------------------------------------------------- |
-| --type | -t    | String | `agent` | Which type of resource to clone (`agent` stands for the full project) |
+| <nobr>--type</nobr> | -t    | String | `agent` | Which type of resource to clone (`agent` stands for the full project) |
 
 ### Command: restore
 `cognigy restore`
@@ -100,7 +100,7 @@ Restores the local agent copy back into Cognigy.AI by executing a `push` for eve
 
 | Option | Alias | Type   | Default | Description                                                             |
 | ------ | ----- | ------ | ------- | ----------------------------------------------------------------------- |
-| --type | -t    | String | `agent` | Which type of resource to restore (`agent` stands for the full project) |
+| <nobr>--type</nobr> | -t    | String | `agent` | Which type of resource to restore (`agent` stands for the full project) |
 
 ### Command: pull
 `cognigy pull <resourceType> <resourceName>`
@@ -123,7 +123,7 @@ Compares a local resource to a remote resource
 
 | Option | Alias | Type   | Default | Description                                                   |
 | ------ | ----- | ------ | ------- | ------------------------------------------------------------- |
-| --mode | -m    | String | `full`  | Full (`full`) vs Node-by-Node (`node`) comparison of the Flow |
+| <nobr>--mode</nobr> | -m    | String | `full`  | Full (`full`) vs Node-by-Node (`node`) comparison of the Flow |
 
 
 ### Command: train
@@ -133,7 +133,7 @@ Trains the NLU model of a specified Flow on Cognigy.AI
 
 | Option    | Alias | Type   | Default | Description                                                                                        |
 | --------- | ----- | ------ | ------- | -------------------------------------------------------------------------------------------------- |
-| --timeout | -t    | Number | 10000   | Timeout in ms before training progress is no longer checked (training will continue on Cognigy.AI) |
+| <nobr>--timeout</nobr> | -t    | Number | 10000   | Timeout in ms before training progress is no longer checked (training will continue on Cognigy.AI) |
 
 ### Command: create
 `cognigy create snapshot <resourceName> [resourceDescription]`
@@ -142,10 +142,10 @@ Creates a remote resource on Cognigy.AI and downloads it to disk.
 
 > Currently only snapshots can be created with `cognigy create snapshot snapname "My Description"`
 
-| Option         | Alias | Type    | Default | Description                                                                                  |
+| Option   | Alias | Type    | Default | Description                                                                                  |
 | -------------- | ----- | ------- | ------- | -------------------------------------------------------------------------------------------- |
-| --timeout      | -t    | Number  | 100000  | Timeout in ms before the creation process is no longer checked (will continue on Cognigy.AI) |
-| --skipDownload | -s    | Boolean | false   | Skips download of created resource (for snapshots)                                           |
+| <nobr>--timeout</nobr>      | -t    | Number  | 100000  | Timeout in ms before the creation process is no longer checked (will continue on Cognigy.AI) |
+| <nobr>--skipDownload</nobr> | -s    | Boolean | false   | Skips download of created resource (for snapshots)                                           |
 
 
 ### Command: exportcsv
