@@ -162,3 +162,20 @@ Imports the content of a CSV back into a Flow.
 
 This command will go through all Flows in all Locales and check if a valid  `content.csv` exists. If yes, it will go through the Flow Chart and update all localized Nodes with the content from the CSV.
 
+### Command: execute
+`cognigy execute <command>`
+
+Executes a command of the [Cognigy REST API Client](https://www.npmjs.com/package/@cognigy/rest-api-client).
+
+Supports injecting payloads either through pipes or the -d (--data) option:
+
+- `echo '{"flowId": "5f5618bce35138ed3ab9ab9a"}' | cognigy execute readFlow`
+- `cognigy execute readFlow -d '{"flowId": "5f5618bce35138ed3ab9ab9a"}'`
+
+This command uses the `baseUrl` and `apiKey` parameters of your configuration.
+
+| Option   | Alias | Type    | Default | Description                                                                                  |
+| -------------- | ----- | ------- | ------- | -------------------------------------------------------------------------------------------- |
+| <nobr>--list</nobr>      | -l    | -  | -  | Lists all available commands |
+| <nobr>--data</nobr> | -d    | string | -   | Injects a data payload (must be in JSON format)                                           |
+

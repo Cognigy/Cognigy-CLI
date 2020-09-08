@@ -19,8 +19,6 @@ import { indexAll } from '../utils/indexAll';
 import { ILocaleIndexItem_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/locales/v2.0';
 import { IIntent } from '@cognigy/rest-api-client/build/shared/interfaces/resources/intent/IIntent';
 import { ISentence_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/flow/v2.0/sentence/ISentence_2_0';
-import { create } from 'domain';
-import { Logger } from 'mongodb';
 
 /**
  * Clones Cognigy Flows to disk
@@ -607,7 +605,7 @@ export const importFlowCSV = async (flowName: string, availableProgress: number)
                                                 break;
 
                                             default:
-                                                node.config.say._data = parsedContent;
+                                                if (typeof parsedContent === 'object') node.config.say._data = parsedContent;
                                         }
                                         break;
                                 }

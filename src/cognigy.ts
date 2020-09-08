@@ -13,9 +13,12 @@ import { train } from './commands/train';
 import { create } from './commands/create';
 import { exportcsv } from './commands/exportcsv';
 import { importcsv } from './commands/importcsv';
+import { execute } from './commands/execute';
 
 const program = new Command();
-program.version('0.2.2');
+program.version('0.3.0');
+
+let stdin = '';
 
 program
     .command('init')
@@ -86,5 +89,28 @@ program
     .description('Imports the content of a Flow from CSV')
     .action(async (resourceType, resourceName, cmdObj) => { await importcsv({ resourceType, resourceName }); });
 
-program.parse(process.argv);
-console.log();
+program
+    .command('execute <command>')
+    .option('-c, --config <configFile>', 'force the use of a specific config file')
+    .option('-d, --data <data>', 'the JSON data to pass to the command')
+    .option('-l, --list', 'lists all available commands')
+    .description('Executes a command of the Cognigy API client')
+    .action(async (command, cmdObj) => {
+        await execute({ command, options: cmdObj, stdin });
+    });
+
+// enables piping of information into the CLI through stdin
+if (process.stdin.isTTY) {
+    program.parse(process.argv);
+} else {
+    process.stdin.on('readable', () => {
+        const chunk = process.stdin.read();
+        if (chunk !== null) {
+           stdin += chunk;
+        }
+    });
+
+    process.stdin.on('end', () => {
+        program.parse(process.argv);
+    });
+}

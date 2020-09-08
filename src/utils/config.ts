@@ -24,8 +24,6 @@ const getConfig = (): ICLIConfig => {
         try {
             const fileConfig = JSON.parse(fs.readFileSync(configFile).toString());
 
-            console.log(`Configuration in environment variables incomplete, trying to read ./config.json`);
-
             config.apiKey = (config.apiKey) ? config.apiKey : fileConfig.apiKey;
             config.agent = (config.agent) ? config.agent : fileConfig.agent;
             config.baseUrl = (config.baseUrl) ? config.baseUrl : fileConfig.baseUrl;
