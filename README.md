@@ -158,7 +158,7 @@ This command will go through all Flows in all Locales and create a `content.csv`
 ### Command: importcsv
 `cognigy importcsv flow <flowName>`
 
-Imports the content of CSV back into a Flow.
+Imports the content of a CSV back into a Flow.
 
 This command will go through all Flows in all Locales and check if a valid  `content.csv` exists. If yes, it will go through the Flow Chart and update all localized Nodes with the content from the CSV.
 
