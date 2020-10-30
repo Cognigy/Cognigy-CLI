@@ -427,6 +427,17 @@ export const trainFlow = async (flowName: string, timeout: number = 10000): Prom
 };
 
 /**
+ * 
+ * @param flowName The name of the flow
+ * @param locale  The locale in the flow that should be translated
+ * @param targetLanguage The target langauge to translate to
+ * @param timeout The timeout for execution
+ */
+export const translateFlow = async (flowName: string, locale: any, targetLanguage: string, timeout: number = 10000): Promise<void> => {
+};
+
+
+/**
  * Pull Intents recursively
  * @param flow Which flow to pull from
  * @param flowIntents Current level of intents

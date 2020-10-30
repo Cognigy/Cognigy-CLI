@@ -14,6 +14,7 @@ import { create } from './commands/create';
 import { exportcsv } from './commands/exportcsv';
 import { importcsv } from './commands/importcsv';
 import { execute } from './commands/execute';
+import { translate } from './commands/translate';
 
 const program = new Command();
 program.version('0.3.0');
@@ -67,6 +68,14 @@ program
     .description('Trains the intent models ')
     .option('-t, --timeout <ms>', 'timeout for training')
     .action(async (resourceName, cmdObj) => { await train({ resourceName, timeout: cmdObj.timeout }); });
+
+program
+    .command('translate <resourceType> <resourceName>')
+    .description('Translate a resource')
+    .option('-l, --locale <localeId>', 'the locale that should be translated')
+    .option('-tl, --targetLanguage <targetLanguageCode>', 'language to translate to')
+    .option('-t, --timeout <ms>', 'timeout for training')
+    .action(async (resourceType, resourceName, cmdObj) => { await translate({ resourceType, resourceName, locale: cmdObj.locale, targetLanguage: cmdObj.targetLanguage, timeout: cmdObj.timeout }); });
 
 program
     .command('create <resourceType> <resourceName> [resourceDescription]')
