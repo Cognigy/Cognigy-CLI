@@ -38,13 +38,6 @@ export const pullLocales = async (cacheTime: number = 10) => {
 };
 
 export const createLocale = async (localeName, fallbackLocale, nluLanguage) => {
-    console.log(JSON.stringify({
-        "name": localeName,
-        "nluLanguage": nluLanguage,
-        "fallbackLocaleReference": fallbackLocale,
-        "projectId": CONFIG.agent
-    }, undefined, 4));
-
     try {
         await CognigyClient.createLocale({
             "name": localeName,
