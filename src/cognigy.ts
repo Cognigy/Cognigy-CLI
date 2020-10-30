@@ -70,10 +70,14 @@ program
 
 program
     .command('create <resourceType> <resourceName> [resourceDescription]')
-    .description('Creates a Snapshot and downloads it')
+    .description('Creates a Snapshot and downloads it or creates a Locale')
     .option('-t, --timeout <ms>', 'timeout for creating the snapshot')
     .option('-s, --skipDownload', 'skip downloading the snapshot')
-    .action(async (resourceType, resourceName, resourceDescription = 'Cognigy.AI CLI', cmdObj) => { await create({ resourceType: 'snapshot', resourceName, description: resourceDescription, timeout: cmdObj.timeout, skipDownload: cmdObj.skipDownload }); });
+    .option('-lf, --fallbackLocale <localeReferenceId>', 'fallback locale reference ID')
+    .option('-lnlu, --nluLanguage <languageCode>', 'NLU to use')
+    .action(async (resourceType, resourceName, resourceDescription = 'Cognigy.AI CLI', cmdObj) => { 
+        await create({ resourceType, resourceName, description: resourceDescription, timeout: cmdObj.timeout, skipDownload: cmdObj.skipDownload, fallbackLocale: cmdObj.fallbackLocale, nluLanguage: cmdObj.nluLanguage }); 
+    });
 
 program
     .command('exportcsv <resourceType> [resourceName]')
