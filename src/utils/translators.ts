@@ -24,25 +24,175 @@ const translateFlowNode = async (flowNode: IFlowNode, targetLanguage: string, tr
 		// Check type of node
 		switch (type) {
 			case 'say':
-				// check if node only has plain text
-				if (config.say?.text?.length) {
-					for (let text of config.say.text) {
-						config.say.text[config.say.text.indexOf(text)] = await translate(text, targetLanguage, translator, apiKey);
-					}
-				}
+				flowNode.config.say = await translateSayNode(config.say, targetLanguage, translator, apiKey);
 				break;
 			// Skip start and end node
 			case 'start':
 			case 'end':
 				break;
 		}
-
-
 		return flowNode;
 	} catch (error) {
 		console.log(error);
 		process.exit(0);
 	}
+}
+
+async function translateSayNode(data, language, translator, apikey) {
+
+	// Check if type is text
+	if (data.text && data.type === 'text') {
+
+		// Translate plain text SAY Node
+		for (let sentence of data.text) {
+			// Get the index of the current sentence in the list of sentences called 'text'
+			let index = data.text.indexOf(sentence);
+			// Translate the text
+			data.text[index] = await translate(data.text[index], language, translator, apikey)
+
+		}
+		// Check if type is buttons
+	} else if (data._cognigy && data._cognigy._default && data._cognigy._default._buttons && data._cognigy._default._buttons.buttons) {
+
+		/** Translate message */
+
+		// Loop through the buttons
+		for (let button of data._cognigy._default._buttons.buttons) {
+
+			// Get the index of the current sentence in the list of sentences called 'text'
+			let index = data._cognigy._default._buttons.buttons.indexOf(button);
+
+			// Check type of button
+			if (button.type === 'postback') {
+				// Translate button title
+				data._cognigy._default._buttons.buttons[index].title = await translate(data._cognigy._default._buttons.buttons[index].title, language, translator, apikey)
+			}
+
+			// Translate the text of the button message
+			data._cognigy._default._buttons.text = await translate(data._cognigy._default._buttons.text, language, translator, apikey)
+
+		}
+
+		/** Translate data */
+
+		// Loop through the buttons
+		for (let button of data._data._cognigy._default._buttons.buttons) {
+
+			// Get the index of the current sentence in the list of sentences called 'text'
+			let index = data._data._cognigy._default._buttons.buttons.indexOf(button);
+
+			// Check type of button
+			if (button.type === 'postback') {
+				// Translate button title
+				data._data._cognigy._default._buttons.buttons[index].title = await translate(data._data._cognigy._default._buttons.buttons[index].title, language, translator, apikey)
+
+			}
+
+			// Translate the text of the button message
+			data._data._cognigy._default._buttons.text = await translate(data._data._cognigy._default._buttons.text, language, translator, apikey)
+
+		}
+		// Check if type is quick replies
+	} else if (data._cognigy && data._cognigy._default && data._cognigy._default._quickReplies && data._cognigy._default._quickReplies.quickReplies) {
+
+		/** Translate message */
+
+		// Loop through the quick replies
+		for (let quickReply of data._cognigy._default._quickReplies.quickReplies) {
+
+			// Get the index of the current sentence in the list of sentences called 'text'
+			let index = data._cognigy._default._quickReplies.quickReplies.indexOf(quickReply);
+
+			// Check type of button
+			if (quickReply.contentType === 'postback') {
+				// Translate quick reply
+				data._cognigy._default._quickReplies.quickReplies[index].title = await translate(data._cognigy._default._quickReplies.quickReplies[index].title, language, translator, apikey)
+				data._cognigy._default._quickReplies.quickReplies[index].payload = await translate(data._cognigy._default._quickReplies.quickReplies[index].payload, language, translator, apikey)
+
+			}
+
+			// Translate the text of the quick reply text
+			data._cognigy._default._quickReplies.text = await translate(data._cognigy._default._quickReplies.text, language, apikey, translator)
+
+		}
+
+		/** Translate data */
+
+		// Loop through the quick replies
+		for (let quickReply of data._data._cognigy._default._quickReplies.quickReplies) {
+
+			// Get the index of the current sentence in the list of sentences called 'text'
+			let index = data._data._cognigy._default._quickReplies.quickReplies.indexOf(quickReply);
+
+			// Check type of quick reply
+			if (quickReply.contentType === 'postback') {
+				// Translate quick reply
+				data._data._cognigy._default._quickReplies.quickReplies[index].title = await translate(data._data._cognigy._default._quickReplies.quickReplies[index].title, language, translator, apikey)
+				data._data._cognigy._default._quickReplies.quickReplies[index].payload = await translate(data._data._cognigy._default._quickReplies.quickReplies[index].payload, language, translator, apikey)
+
+			}
+
+			// Translate the text of the quick reply text
+			data._data._cognigy._default._quickReplies.text = await translate(data._data._cognigy._default._quickReplies.text, language, translator, apikey)
+
+		}
+	} else if (data._cognigy && data._cognigy._default && data._cognigy._default._gallery && data._cognigy._default._gallery) {
+
+		// Translate Fallback Text
+		if (data._cognigy._default._gallery.fallbackText && data._cognigy._default._gallery.fallbackText !== "") {
+			data._cognigy._default._gallery.fallbackText = await translate(data._cognigy._default._gallery.fallbackText, language, translator, apikey)
+		}
+
+		// Loop through gallery cards
+		for (let item of data._cognigy._default._gallery.items) {
+
+			// Translate title & subtitle
+			item.title = await translate(item.title, language, translator, apikey)
+			item.subtitle = await translate(item.subtitle, language, translator, apikey)
+
+
+			// Check for buttons and translate them
+			if (item.buttons && item.buttons.length > 0) {
+				for (let button of item.buttons) {
+					// Translate button title & payload
+					if (button.type === 'postback') {
+						button.title = await translate(button.title, language, translator, apikey)
+						button.payload = await translate(button.payload, language, translator, apikey)
+					}
+				}
+			}
+		}
+
+		/** Translate data */
+
+		// Translate Fallback Text
+		if (data._data._cognigy._default._gallery.fallbackText && data._data._cognigy._default._gallery.fallbackText !== "") {
+			data._data._cognigy._default._gallery.fallbackText = await translate(data._data._cognigy._default._gallery.fallbackText, language, translator, apikey)
+
+		}
+
+		// Loop through gallery cards
+		for (let item of data._data._cognigy._default._gallery.items) {
+
+			// Translate title & subtitle
+			item.title = await translate(item.title, language, translator, apikey)
+			item.subtitle = await translate(item.subtitle, language, translator, apikey)
+
+			// Check for buttons and translate them
+			if (item.buttons && item.buttons.length > 0) {
+				for (let button of item.buttons) {
+					// Translate button title & payload
+					if (button.type === 'postback') {
+						button.title = await translate(button.title, language, translator, apikey)
+						button.payload = await translate(button.payload, language, translator, apikey)
+					}
+				}
+			}
+		}
+	}
+
+	// Return the translated SAY Node
+	return data;
 }
 
 function formatLocaleToTranslateLId(targetLanguage: string): string {
@@ -119,3 +269,4 @@ const translate = async (text: string, language: string, translator: 'google' | 
 }
 
 export default translateFlowNode;
+
