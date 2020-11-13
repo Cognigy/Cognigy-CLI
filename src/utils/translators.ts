@@ -3,6 +3,48 @@ const { Translate } = require('@google-cloud/translate').v2;
 const axios = require('axios');
 const uuid = require('uuid');
 
+interface IFlowNode {
+	_id: string;
+	referenceId: string;
+	type: 'say' | string;
+	label: string;
+	comment: string;
+	isDisabled: boolean;
+	isEntryPoint: boolean;
+	extension: '@cognigy/basic-nodes' | string;
+	localeReference: string;
+	config: any;
+}
+
+const translateFlowNode = async (flowNode: IFlowNode, targetLanguage: string, translator: 'google' | 'microsoft', apiKey: string): Promise<IFlowNode> => {
+
+	const { type, config } = flowNode;
+
+	try {
+		// Check type of node
+		switch (type) {
+			case 'say':
+				// check if node only has plain text
+				if (config.say?.text?.length) {
+					for (let text of config.say.text) {
+						config.say.text[config.say.text.indexOf(text)] = await translate(text, targetLanguage, translator, apiKey);
+					}
+				}
+				break;
+			// Skip start and end node
+			case 'start':
+			case 'end':
+				break;
+		}
+
+
+		return flowNode;
+	} catch (error) {
+		console.log(error);
+		process.exit(0);
+	}
+}
+
 function formatLocaleToTranslateLId(targetLanguage: string): string {
 	switch (targetLanguage) {
 		case 'en-US':
@@ -38,7 +80,8 @@ async function microsoftTranslate(text: string, language: string, apiKey: string
 		// Return the translated sentence only
 		return response.data[0].translations[0].text;
 	} catch (error) {
-		throw new Error(error.message);
+		console.log(error);
+		process.exit(0);
 	}
 }
 
@@ -75,4 +118,4 @@ const translate = async (text: string, language: string, translator: 'google' | 
 	return text;
 }
 
-export default translate;
+export default translateFlowNode;

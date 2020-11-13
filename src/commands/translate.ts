@@ -6,7 +6,7 @@ import { upperFirst } from '../utils/stringUtils';
  * Translates a resource in Cognigy.AI
  * @param resourceType the type of resources to restore
  */
-export const translate = async ({ resourceType, resourceName, fromLanguage, targetLanguage, translator, apiKey, timeout }): Promise<void> => {
+export const translate = async ({ resourceType, resourceName, fromLanguage, targetLanguage, translator, apiKey }): Promise<void> => {
     // check if project exists on Cognigy.AI and the APIKey can retrieve it
     await checkProject();
 
@@ -28,7 +28,7 @@ export const translate = async ({ resourceType, resourceName, fromLanguage, targ
         process.exit(0);
     }
 
-    await translateFlow(resourceName, fromLanguage, targetLanguage, translator, apiKey, timeout);
+    await translateFlow(resourceName, fromLanguage, targetLanguage, translator, apiKey);
 
     console.log(`\nTranslating ${upperFirst(resourceName)} on Cognigy.AI ended - Enjoy.`);
 

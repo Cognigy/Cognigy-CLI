@@ -76,8 +76,7 @@ program
     .option('-tl, --targetLanguage <targetLanguageCode>', 'language to translate to')
     .option('-tr, --translator <translator>', 'the translation tool, google or microsoft')
     .option('-k, --apiKey <apiKey>', 'the translator api key')
-    .option('-t, --timeout <ms>', 'timeout for training')
-    .action(async (resourceType, resourceName, cmdObj) => { await translate({ resourceType, resourceName, fromLanguage: cmdObj.fromLanguage, targetLanguage: cmdObj.targetLanguage, translator: cmdObj.translator, apiKey: cmdObj.apiKey, timeout: cmdObj.timeout }); });
+    .action(async (resourceType, resourceName, cmdObj) => { await translate({ resourceType, resourceName, fromLanguage: cmdObj.fromLanguage, targetLanguage: cmdObj.targetLanguage, translator: cmdObj.translator, apiKey: cmdObj.apiKey }); });
 
 program
     .command('create <resourceType> <resourceName> [resourceDescription]')
