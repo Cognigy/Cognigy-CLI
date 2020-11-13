@@ -12,6 +12,7 @@ import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
 import { removeCreateDir } from '../utils/checks';
 import { pullLocales } from './locales';
+import translate  from '../utils/translators';
 
 import { indexAll } from '../utils/indexAll';
 
@@ -429,11 +430,46 @@ export const trainFlow = async (flowName: string, timeout: number = 10000): Prom
 /**
  * 
  * @param flowName The name of the flow
- * @param locale  The locale in the flow that should be translated
+ * @param fromLanguage  The locale in the flow that should be translated
  * @param targetLanguage The target langauge to translate to
+ * @param translator Whether to use google or microsoft translate
+ * @param apiKey The google or microsoft translate API Key
  * @param timeout The timeout for execution
  */
-export const translateFlow = async (flowName: string, locale: any, targetLanguage: string, timeout: number = 10000): Promise<void> => {
+export const translateFlow = async (flowName: string, fromLanguage: string, targetLanguage: string, translator: 'google' | 'microsoft', apiKey: string, timeout: number = 10000): Promise<void> => {
+    const flowsDir = CONFIG.agentDir + "/flows";
+    const flowDir = flowsDir + "/" + flowName;
+
+
+    const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString());
+    const locales = await pullLocales();
+
+    // check if locale exists. If yes, translate it to the target language
+    for (let locale of locales) {
+        if (locale.nluLanguage === fromLanguage) {
+            const spinner = new Spinner(`Translating flow ${flowName} from ${chalk.yellow(fromLanguage)} to ${chalk.yellow(targetLanguage)} ... %s`);
+            spinner.setSpinnerString('|/-\\');
+            spinner.start();
+
+            // TODO: Get the text from flow nodes
+
+            // Translate the current text
+            let translatedText: string = await translate('this is an example text', targetLanguage, translator, apiKey)
+            spinner.stop();
+        }
+
+        // const result = await CognigyClient.trainIntents({
+        //     flowId: flowConfig._id,
+        //     localeId: locale._id
+        // });
+
+        // try {
+        //     await checkTask(result._id, 0, timeout);
+        //     console.log(`\n[${chalk.green("success")}] Intents trained for locale ${chalk.yellow(locale.name)}`);
+        // } catch (err) {
+        //     console.log(`\n[${chalk.red("error")}] Intents in ${chalk.yellow(locale)} couldn't be trained within timeout period (${5 * timeout} ms)`);
+        // }
+    }
 };
 
 

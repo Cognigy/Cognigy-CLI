@@ -72,10 +72,12 @@ program
 program
     .command('translate <resourceType> <resourceName>')
     .description('Translate a resource')
-    .option('-l, --locale <localeId>', 'the locale that should be translated')
+    .option('-fl, --fromLanguage <fromLanguageCode>', 'the locale that should be translated')
     .option('-tl, --targetLanguage <targetLanguageCode>', 'language to translate to')
+    .option('-tr, --translator <translator>', 'the translation tool, google or microsoft')
+    .option('-k, --apiKey <apiKey>', 'the translator api key')
     .option('-t, --timeout <ms>', 'timeout for training')
-    .action(async (resourceType, resourceName, cmdObj) => { await translate({ resourceType, resourceName, locale: cmdObj.locale, targetLanguage: cmdObj.targetLanguage, timeout: cmdObj.timeout }); });
+    .action(async (resourceType, resourceName, cmdObj) => { await translate({ resourceType, resourceName, fromLanguage: cmdObj.fromLanguage, targetLanguage: cmdObj.targetLanguage, translator: cmdObj.translator, apiKey: cmdObj.apiKey, timeout: cmdObj.timeout }); });
 
 program
     .command('create <resourceType> <resourceName> [resourceDescription]')
