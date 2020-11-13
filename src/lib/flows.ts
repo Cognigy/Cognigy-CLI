@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as jsonDiff from 'json-diff';
-import { Spinner }  from 'cli-spinner';
+import { Spinner } from 'cli-spinner';
 import * as chalk from 'chalk';
 import { createArrayCsvWriter } from 'csv-writer';
 import * as csv from 'csv-parser';
@@ -21,6 +21,7 @@ import { indexAll } from '../utils/indexAll';
 import { ILocaleIndexItem_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/locales/v2.0';
 import { IIntent } from '@cognigy/rest-api-client/build/shared/interfaces/resources/intent/IIntent';
 import { ISentence_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/flow/v2.0/sentence/ISentence_2_0';
+import { ILocale, ILocale_2_0 } from '@cognigy/rest-api-client';
 
 /**
  * Clones Cognigy Flows to disk
@@ -164,8 +165,8 @@ export const pushFlow = async (flowName: string, availableProgress: number): Pro
             // chart and config exist for this flow, proceed
             try {
                 const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString()),
-                      flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + locale.name + "/chart.json").toString()),
-                      flowIntents: IIntent[] = JSON.parse(fs.readFileSync(flowDir + "/" + locale.name + "/intents.json").toString());
+                    flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + locale.name + "/chart.json").toString()),
+                    flowIntents: IIntent[] = JSON.parse(fs.readFileSync(flowDir + "/" + locale.name + "/intents.json").toString());
 
                 const flowId = flowConfig._id;
 
@@ -249,7 +250,7 @@ export const pushFlow = async (flowName: string, availableProgress: number): Pro
                                     });
                                 }
                             }
-                        } catch (err) {}
+                        } catch (err) { }
 
                         addToProgressBar(progressPerIntent);
                     }
@@ -442,38 +443,72 @@ export const translateFlow = async (flowName: string, fromLanguage: string, targ
     const flowDir = flowsDir + "/" + flowName;
     const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString());
 
-    const locales = await pullLocales();
+    // get all locales for the used agent
+    const locales: ILocale_2_0[] = await pullLocales();
+
+    // get targetLanguage locale
+    let targetLocale: ILocale_2_0;
+    for (let locale of locales) {
+        if (locale.nluLanguage === targetLanguage) {
+            targetLocale = locale;
+        }
+    }
 
     // check if locale exists. If yes, translate it to the target language
     for (let locale of locales) {
-        let targetLocaleId: string;
 
-        if (locale.nluLanguage === targetLanguage) {
-            targetLocaleId = locale._id;
-        }
-
+        // get fromLanguage flow nodes
         if (locale.nluLanguage === fromLanguage) {
+
             const spinner = new Spinner(`Translating flow ${flowName} from ${chalk.yellow(fromLanguage)} to ${chalk.yellow(targetLanguage)} ... %s`);
             spinner.setSpinnerString('|/-\\');
             spinner.start();
+
+            try {
+                // add the targetLanguage locale to the flow
+                await CognigyClient.addFlowLocalization({
+                    flowId: flowConfig._id,
+                    localeId: targetLocale._id,
+                    inheritFromLocaleId: locale._id
+                });
+            } catch (error) {
+                console.log(`${flowName} flow is already localized`);
+            }
 
             // get the flow nodes
             const flowChart: any = JSON.parse(fs.readFileSync(`${flowDir}/${locale.name}/chart.json`).toString());
             const flowNodes: any[] = flowChart.nodes;
 
             for (let flowNode of flowNodes) {
-                // Translate the current flow node
+
+                try {
+                    // add the targetLanguage locale to the current flow node
+                    await CognigyClient.addChartNodeLocalization({
+                        inheritFromLocaleId: locale._id,
+                        nodeId: flowNode._id,
+                        resourceId: flowConfig._id,
+                        resourceType: 'flow',
+                        localeId: targetLocale._id
+                    });
+                } catch (error) {
+                    console.log(`Failed to add locale ${targetLocale.name} to ${flowNode.label} (${flowNode.type}) node`);
+                }
+
+                // translate the current flow node
                 flowNode = await translateFlowNode(flowNode, targetLanguage, translator, apiKey)
 
-                const result = await CognigyClient.updateChartNode({
-                    nodeId: flowNode._id,
-                    config: flowNode.config,
-                    localeId: targetLocaleId,
-                    resourceId: flowConfig._id,
-                    resourceType: 'flow'
-                })
-
-                console.log(JSON.stringify(result))
+                try {
+                    // update node in Cognigy.AI
+                    await CognigyClient.updateChartNode({
+                        nodeId: flowNode._id,
+                        config: flowNode.config,
+                        localeId: targetLocale._id,
+                        resourceId: flowConfig._id,
+                        resourceType: 'flow'
+                    })
+                } catch (error) {
+                    console.log(`Failed to update ${flowNode.label} (${flowNode.type}) node`);
+                }
 
                 console.log(`\n[${chalk.green("success")}] Translated ${flowNode.label} (${flowNode.type}) node to ${chalk.yellow(targetLanguage)}`);
             }
@@ -633,11 +668,11 @@ export const importFlowCSV = async (flowName: string, availableProgress: number)
                 const nodeMap = new Map();
                 await new Promise((resolve, reject) => {
                     fs.createReadStream(flowDir + "/" + locale.name + "/content.csv")
-                    .pipe(csv())
-                    .on('data', (data) => {
-                        nodeMap.set(data.id, data);
-                    })
-                    .on('end', () => resolve());
+                        .pipe(csv())
+                        .on('data', (data) => {
+                            nodeMap.set(data.id, data);
+                        })
+                        .on('end', () => resolve());
                 });
 
                 const flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + locale.name + "/chart.json").toString());
@@ -651,7 +686,7 @@ export const importFlowCSV = async (flowName: string, availableProgress: number)
                                 let parsedContent = csvData.content;
                                 try {
                                     parsedContent = JSON.parse(csvData.content);
-                                } catch (err) {}
+                                } catch (err) { }
 
                                 switch (node.type) {
                                     case "say":
