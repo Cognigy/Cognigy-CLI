@@ -1,0 +1,6 @@
+{ "name": "en-GB",
+  "primary": false,
+  "nluLanguage": "en-GB",
+  "fallbackLocaleReference": "^[a-z0-9]{24}$",
+  "projectId": "^[a-z0-9]{24}$"
+}

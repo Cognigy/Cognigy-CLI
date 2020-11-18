@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
 import { indexAll } from '../utils/indexAll';
+import chalk = require('chalk');
 
 /**
  * Updates locales definitons from server (every x seconds)
@@ -35,3 +36,22 @@ export const pullLocales = async (cacheTime: number = 10) => {
 
     return locales;
 };
+
+export const createLocale = async (localeName, fallbackLocale, nluLanguage) => {
+    try {
+        await CognigyClient.createLocale({
+            "name": localeName,
+            "nluLanguage": nluLanguage,
+            "fallbackLocaleReference": fallbackLocale,
+            "projectId": CONFIG.agent
+        });
+
+        await pullLocales();
+
+        console.log(`\n[${chalk.green("success")}] Created Locale ${localeName} on Cognigy.AI - Enjoy.`);
+    } catch (err) {
+        console.log(`\n[${chalk.red("error")}] ${err.message}`);
+        process.exit(0);
+    }
+
+}
