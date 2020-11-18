@@ -20,6 +20,8 @@ const translateFlowNode = async (flowNode: IFlowNode, targetLanguage: string, tr
 
 	const { type, config } = flowNode;
 
+	// console.log(JSON.stringify(flowNode))
+
 	try {
 		// Check type of node
 		switch (type) {
@@ -93,7 +95,7 @@ async function translateSayNode(data, language, translator, apikey) {
 
 		}
 		// Check if type is quick replies
-	} else if (data._cognigy && data._cognigy._default && data._cognigy._default._quickReplies && data._cognigy._default._quickReplies.quickReplies) {
+	} else if (data?._cognigy?._default?._quickReplies?.quickReplies) {
 
 		/** Translate message */
 
@@ -136,7 +138,7 @@ async function translateSayNode(data, language, translator, apikey) {
 			data._data._cognigy._default._quickReplies.text = await translate(data._data._cognigy._default._quickReplies.text, language, translator, apikey)
 
 		}
-	} else if (data._cognigy && data._cognigy._default && data._cognigy._default._gallery && data._cognigy._default._gallery) {
+	} else if (data?._cognigy?._default?._gallery) {
 
 		// Translate Fallback Text
 		if (data._cognigy._default._gallery.fallbackText && data._cognigy._default._gallery.fallbackText !== "") {
