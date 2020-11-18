@@ -481,6 +481,11 @@ export const translateFlow = async (flowName: string, fromLanguage: string, targ
 
             for (let flowNode of flowNodes) {
 
+                // ignore start and end node
+                if (['start', 'end'].includes(flowNode.type)) {
+                    continue;
+                }
+
                 try {
                     // add the targetLanguage locale to the current flow node
                     await CognigyClient.addChartNodeLocalization({
