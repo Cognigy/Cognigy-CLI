@@ -20,8 +20,6 @@ const translateFlowNode = async (flowNode: IFlowNode, targetLanguage: string, tr
 
 	const { type, config } = flowNode;
 
-	// console.log(JSON.stringify(flowNode))
-
 	try {
 		// Check type of node
 		switch (type) {
@@ -54,7 +52,7 @@ async function translateSayNode(data, language, translator, apikey) {
 
 		}
 		// Check if type is buttons
-	} else if (data._cognigy && data._cognigy._default && data._cognigy._default._buttons && data._cognigy._default._buttons.buttons) {
+	} else if (data?._cognigy?._default?._buttons?.buttons) {
 
 		/** Translate message */
 
@@ -114,7 +112,7 @@ async function translateSayNode(data, language, translator, apikey) {
 			}
 
 			// Translate the text of the quick reply text
-			data._cognigy._default._quickReplies.text = await translate(data._cognigy._default._quickReplies.text, language, apikey, translator)
+			data._cognigy._default._quickReplies.text = await translate(data._cognigy._default._quickReplies.text, language, translator, apikey)
 
 		}
 
@@ -168,7 +166,7 @@ async function translateSayNode(data, language, translator, apikey) {
 		/** Translate data */
 
 		// Translate Fallback Text
-		if (data._data._cognigy._default._gallery.fallbackText && data._data._cognigy._default._gallery.fallbackText !== "") {
+		if (data?._data?._cognigy?._default?._gallery?.fallbackText !== "") {
 			data._data._cognigy._default._gallery.fallbackText = await translate(data._data._cognigy._default._gallery.fallbackText, language, translator, apikey)
 
 		}

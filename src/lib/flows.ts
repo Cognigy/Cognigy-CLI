@@ -496,7 +496,7 @@ export const translateFlow = async (flowName: string, fromLanguage: string, targ
                         localeId: targetLocale._id
                     });
                 } catch (error) {
-                    console.log(`Failed to add locale ${targetLocale.name} to ${flowNode.label} (${flowNode.type}) node`);
+                    console.log(`Locale ${targetLocale.name} was already assigned to ${flowNode.label} (${flowNode.type}) node`);
                 }
 
                 // translate the current flow node
@@ -517,8 +517,6 @@ export const translateFlow = async (flowName: string, fromLanguage: string, targ
 
                 console.log(`\n[${chalk.green("success")}] Translated ${flowNode.label} (${flowNode.type}) node to ${chalk.yellow(targetLanguage)}`);
             }
-
-
             spinner.stop();
         }
     }
