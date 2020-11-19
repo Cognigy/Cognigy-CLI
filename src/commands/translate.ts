@@ -1,4 +1,4 @@
-import { translateFlow } from '../lib/flows';
+import { translateFlow, translateIntents } from '../lib/flows';
 import { checkAgentDir, checkProject } from '../utils/checks';
 import { upperFirst } from '../utils/stringUtils';
 
@@ -13,8 +13,8 @@ export const translate = async ({ resourceType, resourceName, fromLanguage, targ
     // check agent directory
     checkAgentDir();
 
-    if (resourceType !== 'flow') {
-        console.log('Currently only flows can be translated');
+    if (['flow', 'intents'].indexOf(resourceType) === -1) {
+        console.log('Currently only flows or intents can be translated');
         process.exit(0);
     }
 
@@ -28,9 +28,16 @@ export const translate = async ({ resourceType, resourceName, fromLanguage, targ
         process.exit(0);
     }
 
-    await translateFlow(resourceName, fromLanguage, targetLanguage, translator, apiKey);
+    switch (resourceType) {
+        case 'flow':
+            await translateFlow(resourceName, fromLanguage, targetLanguage, translator, apiKey);
+            break;
+        case 'intents':
+            await translateIntents(resourceName, fromLanguage, targetLanguage, translator, apiKey);
+            break;
+    }
 
-    console.log(`\nTranslating ${upperFirst(resourceName)} on Cognigy.AI ended - Enjoy.`);
+    console.log(`\nTranslating ${upperFirst(resourceType)} ${upperFirst(resourceName)} on Cognigy.AI ended - Enjoy.`);
 
     return;
 };

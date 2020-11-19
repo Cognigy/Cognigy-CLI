@@ -16,6 +16,23 @@ interface IFlowNode {
 	config: any;
 }
 
+interface ISentence {
+	_id: string;
+	slots: any[];
+	text: string;
+	localeReference: string;
+	createdAt: string;
+	lastChangedBy: string;
+	feedbackReport: any
+}
+
+export const translateIntentExampleSentence = async (sentence: ISentence , language: string, translator: 'google' | 'microsoft', apikey: string) => {
+
+	sentence.text = await translate(sentence.text, language, translator, apikey);
+	// Return the translated example sentence
+	return sentence;
+}
+
 const translateFlowNode = async (flowNode: IFlowNode, targetLanguage: string, translator: 'google' | 'microsoft', apiKey: string): Promise<IFlowNode> => {
 
 	const { type, config } = flowNode;
@@ -269,4 +286,3 @@ const translate = async (text: string, language: string, translator: 'google' | 
 }
 
 export default translateFlowNode;
-
