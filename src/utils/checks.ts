@@ -1,8 +1,8 @@
 import * as fs from 'fs';
+import * as rimraf from 'rimraf';
+
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
-import * as chalk from 'chalk';
-import { promises } from 'dns';
 
 /**
  * Checks whether the agent directory exists
@@ -35,7 +35,9 @@ export const checkCreateDir = async (dir: string): Promise<void> => {
 export const removeCreateDir = async (dir: string): Promise<void> => {
     // remove target directory
     try {
-        fs.rmdirSync(dir, { recursive: true });
+        await new Promise((resolve, reject) => {
+            rimraf(dir, () => { resolve("done") });
+        });
     } catch (err) { console.log(err.message); }
 
     // make sure flow directory exists
@@ -91,7 +93,7 @@ export const checkTask = async (taskId: string, calls: number = 0, timeout): Pro
         return Promise.reject(new Error(task.failReason));
 
     if (task.status === "queued" || task.status === "active") {
-        return new Promise((resolve) => setTimeout(async () => { await checkTask(taskId, ++calls, timeout); resolve(); }, timeout / 5));
+        return new Promise((resolve) => setTimeout(async () => { await checkTask(taskId, ++calls, timeout); resolve("ok"); }, timeout / 5));
     } else {
         return Promise.resolve(task);
     }

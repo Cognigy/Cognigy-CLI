@@ -17,6 +17,7 @@
     "@types/mongodb": "^3.5.26",
     "@types/mongoose": "^5.7.36",
     "@types/node": "^13.13.0",
+    "@types/rimraf": "^3.0.0",
     "tslint": "^6.1.1",
     "typescript": "^3.8.3"
   },
@@ -34,7 +35,8 @@
     "json-diff": "^0.5.4",
     "mongodb": "^3.6.0",
     "request": "^2.88.2",
-    "request-promise": "^4.2.6"
+    "request-promise": "^4.2.6",
+    "rimraf": "^3.0.2"
   },
   "bin": {
     "cognigy": "./build/cognigy.js"
