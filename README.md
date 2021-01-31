@@ -162,6 +162,23 @@ Imports the content of a CSV back into a Flow.
 
 This command will go through all Flows in all Locales and check if a valid  `content.csv` exists. If yes, it will go through the Flow Chart and update all localized Nodes with the content from the CSV.
 
+### Command: localize
+`cognigy localize flow <flowName>`
+
+Adds localization to Flow Intents and Nodes in bulk.
+
+This command will go through all Intents and Nodes in a given Locale and will add a localization if not already present.
+
+| Option   | Alias | Type    | Default | Description                                                                                  |
+| -------------- | ----- | ------- | ------- | -------------------------------------------------------------------------------------------- |
+| <nobr>--localNAme</nobr>      | -l    | String  | - | Locale to add localizations to |
+| <nobr>--sourceLocale</nobr> | -sl    | String | - | Source Locale to create localization from (optional) |
+| <nobr>--sourceLocale</nobr> | -sl    | String | - | Source Locale to create localization from (optional) |
+| <nobr>--localizeIntents</nobr> | -li    | Boolean | true | Whether to localize intents (if active, localizeNodes default is false) |
+| <nobr>--localizeNodes</nobr> | -ln    | Boolean | true | Whether to localize Nodes (if active, localizeIntents default is false) |
+| <nobr>--contentOnly</nobr> | -co    | Boolean | false | Only localize Say, Question and Optional Question Nodes (optional) |
+
+
 ### Command: execute
 `cognigy execute <command>`
 

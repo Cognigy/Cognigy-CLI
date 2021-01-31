@@ -3,12 +3,13 @@ import * as fs from 'fs';
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
 import { indexAll } from '../utils/indexAll';
+import { ILocaleIndexItem_2_0 } from '@cognigy/rest-api-client';
 
 /**
  * Updates locales definitons from server (every x seconds)
  * @param cacheTime Seconds to cache locales
  */ 
-export const pullLocales = async (cacheTime: number = 10) => {
+export const pullLocales = async (cacheTime: number = 10): Promise<ILocaleIndexItem_2_0[]> => {
     const localesLocation = CONFIG.agentDir + "/flows/locales.json";
 
     let localesAge = cacheTime + 1;
