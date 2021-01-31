@@ -12,7 +12,7 @@ console.log("\n");
                 type: 'input',
                 name: 'command',
                 message: `What is the command?`,
-                default: `diff`
+                default: `localize`
             },
             {
                 type: 'input',
@@ -24,13 +24,28 @@ console.log("\n");
                 type: 'input',
                 name: 'resourceId',
                 message: `What is the resource ID?`,
-                default: `Extension`
+                default: `Flow 1`
+            },
+            {
+                type: 'input',
+                name: 'options',
+                message: `What are other options?`,
+                default: `-l de-DE -c config3.json`
             }
         ]);
 
     process.argv[2] = answers.command;
     process.argv[3] = answers.resourceType;
     process.argv[4] = answers.resourceId;
+
+    if (answers.options) {
+        let splits = answers.options.split(" ");
+        let x = 4;
+        splits.forEach((s) => {
+            x++;
+            process.argv[x] = s;
+        });
+    }
 
     require( '../cognigy');
 })();
