@@ -4,6 +4,7 @@ import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
 import { indexAll } from '../utils/indexAll';
 import chalk = require('chalk');
+import { TNLULanguage_2_0 } from '@cognigy/rest-api-client';
 
 /**
  * Updates locales definitons from server (every x seconds)
@@ -37,7 +38,13 @@ export const pullLocales = async (cacheTime: number = 10) => {
     return locales;
 };
 
-export const createLocale = async (localeName, fallbackLocale, nluLanguage) => {
+/**
+ * Creates a new locale in a project
+ * @param localeName The name of the new locale
+ * @param fallbackLocale Fallback Locale to use
+ * @param nluLanguage NLU Language to set
+ */
+export const createLocale = async (localeName: string, fallbackLocale: string, nluLanguage: TNLULanguage_2_0) => {
     try {
         await CognigyClient.createLocale({
             "name": localeName,
