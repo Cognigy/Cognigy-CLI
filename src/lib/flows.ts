@@ -7,7 +7,7 @@ import * as csv from 'csv-parser';
 
 import { checkTask } from '../utils/checks';
 
-import { addToProgressBar } from '../utils/progressBar';
+import { addToProgressBar, endProgressBar, startProgressBar } from '../utils/progressBar';
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
 import { removeCreateDir } from '../utils/checks';
@@ -642,8 +642,6 @@ export const localizeFlow = async (flowName: string, availableProgress: number, 
     const localizeIntents = (localizeAll || options.localizeIntents);
     const localizeNodes = (localizeAll || options.localizeNodes);
 
-    const onlyLocalizeContentNodes = options.contentOnly;
-
     try {
         const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString()),
                 flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/chart.json").toString()),
@@ -652,8 +650,15 @@ export const localizeFlow = async (flowName: string, availableProgress: number, 
         const targetLocale = (await pullLocales()).find((locale) => locale.name === localeName);
         const sourceLocale = (await pullLocales()).find((locale) => locale.name === sourceLocaleName);
 
+        if (sourceLocaleName && !sourceLocale) {
+            console.log(`\nSource Locale ${sourceLocaleName} doesn't exist. Please check the spelling and try again.\n`);
+            process.exit(0);
+        }
+
         // localize intents
         if (localizeIntents) {
+            console.log(`\nAdding localization to intents...\n`);
+            startProgressBar(100);
             for (let intent of flowIntents) {
                 try {
                     if (intent.localeReference !== targetLocale._id) {
@@ -667,11 +672,17 @@ export const localizeFlow = async (flowName: string, availableProgress: number, 
                 } catch (err) {
                     // if a localization throws an error, we skip
                 }
+                addToProgressBar(100 / flowIntents.length);
             }
+            endProgressBar();
         }
 
         // localize Flow Nodes
         if (localizeNodes) {
+            const onlyLocalizeContentNodes = options.contentOnly;
+
+            console.log(`\nAdding localization to Flow Nodes...\n`);
+            startProgressBar(100);
             for (let node of flowChart.nodes) {
                 const { _id: nodeId, localeReference, type } = node;
                 try {
@@ -689,12 +700,14 @@ export const localizeFlow = async (flowName: string, availableProgress: number, 
                 } catch (err) {
                      // if a localization throws an error, we skip
                 }
+                addToProgressBar(100 / flowChart.nodes.length);
             }
+            endProgressBar();
         }
 
     } catch (err) {
 
     }
-
+    
     return Promise.resolve();
 };

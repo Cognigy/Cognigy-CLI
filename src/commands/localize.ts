@@ -1,10 +1,7 @@
-import CONFIG from '../utils/config';
 import { startProgressBar, endProgressBar } from '../utils/progressBar';
-import { exportFlowCSV, localizeFlow } from '../lib/flows';
-import { checkCreateDir, checkProject } from '../utils/checks';
-import { upperFirst } from '../utils/stringUtils';
+import { localizeFlow, pullFlow } from '../lib/flows';
+import { checkProject } from '../utils/checks';
 import { pullLocales } from '../lib/locales';
-import { WSASERVICE_NOT_FOUND } from 'constants';
 
 /**
  * Adds localizations to Flow Nodes and Intents
@@ -25,10 +22,16 @@ export const localize = async ({ resourceType, resourceName, options }): Promise
     await checkProject();
 
     // start localization process
-    console.log(`Starting to add localizations to Flow ${resourceName} ... \n`);
+    console.log(`Starting to add localizations to Flow '${resourceName}' ... \n`);
     
+    
+    // localize the Flow
+    await localizeFlow(resourceName, 50, options);
+
+    // re-pull the Flow to have newest version on the HD
+    console.log(`\nRefreshing local Flow copy...\n`);
     startProgressBar(100);
-    await localizeFlow(resourceName, 100, options);
+    await pullFlow(resourceName, 50);
     endProgressBar();
 
     console.log(`\nWe've successfully added localizations to Flow ${resourceName || ''} - Enjoy.`);
