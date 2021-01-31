@@ -140,13 +140,16 @@ Trains the NLU model of a specified Flow on Cognigy.AI
 
 Creates a remote resource on Cognigy.AI and downloads it to disk.
 
-> Currently only snapshots can be created with `cognigy create snapshot snapname "My Description"`
+> Currently only Snapshots and Locales can be created
+> For Snapshots, use `cognigy create snapshot snapname "My Description"`
+> For Locales, use `cognigy create locale localename`
 
 | Option   | Alias | Type    | Default | Description                                                                                  |
 | -------------- | ----- | ------- | ------- | -------------------------------------------------------------------------------------------- |
 | <nobr>--timeout</nobr>      | -t    | Number  | 100000  | Timeout in ms before the creation process is no longer checked (will continue on Cognigy.AI) |
 | <nobr>--skipDownload</nobr> | -s    | Boolean | false   | Skips download of created resource (for snapshots)                                           |
-
+| <nobr>--fallbackLocale</nobr>      | -lf    | String  | - | ID (not Reference ID) of Locale to use for new Locale |
+| <nobr>--nluLanguage</nobr>      | -lnlu    | String  | -  | NLU Language to set for new Locale |
 
 ### Command: exportcsv
 `cognigy exportcsv flow <flowName>`
