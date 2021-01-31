@@ -3,7 +3,7 @@
 
 Cognigy-CLI is a series of tools meant to aid Cognigy.AI developers in maintaining local copies of their virtual agent projects.
 
-**The CLI can currently not create resources (other than Snapshots), but only edit existing resources.**
+**The CLI can currently not create resources (other than Snapshots and Locales), but only edit existing resources.**
 
 Currently supported resources:
 
