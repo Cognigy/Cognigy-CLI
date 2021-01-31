@@ -30,7 +30,7 @@ console.log("\n");
                 type: 'input',
                 name: 'options',
                 message: `What are other options?`,
-                default: `-l de-DE -c config3.json`
+                default: ``
             }
         ]);
 

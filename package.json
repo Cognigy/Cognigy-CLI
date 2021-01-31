@@ -12,12 +12,12 @@
     "@types/cli-progress": "^3.4.2",
     "@types/cli-spinner": "^0.2.0",
     "@types/commander": "^2.12.2",
+    "@types/del": "^4.0.0",
     "@types/express": "^4.17.7",
     "@types/inquirer": "^6.5.0",
     "@types/mongodb": "^3.5.26",
     "@types/mongoose": "^5.7.36",
     "@types/node": "^13.13.0",
-    "@types/rimraf": "^3.0.0",
     "tslint": "^6.1.1",
     "typescript": "^3.8.3"
   },
@@ -30,13 +30,13 @@
     "commander": "^5.0.0",
     "csv-parser": "^2.3.3",
     "csv-writer": "^1.6.0",
+    "del": "^6.0.0",
     "express": "^4.17.1",
     "inquirer": "^7.1.0",
     "json-diff": "^0.5.4",
     "mongodb": "^3.6.0",
     "request": "^2.88.2",
-    "request-promise": "^4.2.6",
-    "rimraf": "^3.0.2"
+    "request-promise": "^4.2.6"
   },
   "bin": {
     "cognigy": "./build/cognigy.js"

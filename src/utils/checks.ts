@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import * as rimraf from 'rimraf';
+import * as del from 'del';
 
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
@@ -35,10 +35,10 @@ export const checkCreateDir = async (dir: string): Promise<void> => {
 export const removeCreateDir = async (dir: string): Promise<void> => {
     // remove target directory
     try {
-        await new Promise((resolve, reject) => {
-            rimraf(dir, () => { resolve("done") });
-        });
-    } catch (err) { console.log(err.message); }
+        await del(dir, { force: true });
+    } catch (err) { 
+        console.log(err.message); 
+    }
 
     // make sure flow directory exists
     checkCreateDir(dir);
