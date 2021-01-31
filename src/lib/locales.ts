@@ -1,8 +1,11 @@
 import * as fs from 'fs';
+import chalk = require('chalk');
 
-import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
+import CONFIG from '../utils/config';
 import { indexAll } from '../utils/indexAll';
+
+import { TNLULanguage_2_0 } from '@cognigy/rest-api-client';
 import { ILocaleIndexItem_2_0 } from '@cognigy/rest-api-client';
 
 /**
@@ -36,3 +39,28 @@ export const pullLocales = async (cacheTime: number = 10): Promise<ILocaleIndexI
 
     return locales;
 };
+
+/**
+ * Creates a new locale in a project
+ * @param localeName The name of the new locale
+ * @param fallbackLocale Fallback Locale to use
+ * @param nluLanguage NLU Language to set
+ */
+export const createLocale = async (localeName: string, fallbackLocale: string, nluLanguage: TNLULanguage_2_0) => {
+    try {
+        await CognigyClient.createLocale({
+            "name": localeName,
+            "nluLanguage": nluLanguage,
+            "fallbackLocaleReference": fallbackLocale,
+            "projectId": CONFIG.agent
+        });
+
+        await pullLocales();
+
+        console.log(`\n[${chalk.green("success")}] Created Locale ${localeName} on Cognigy.AI - Enjoy.`);
+    } catch (err) {
+        console.log(`\n[${chalk.red("error")}] ${err.message}`);
+        process.exit(0);
+    }
+
+}
