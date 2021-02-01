@@ -15,6 +15,7 @@ import { exportcsv } from './commands/exportcsv';
 import { importcsv } from './commands/importcsv';
 import { execute } from './commands/execute';
 import { translate } from './commands/translate';
+import { localize } from './commands/localize';
 
 const program = new Command();
 program.version('0.3.0');
@@ -81,9 +82,10 @@ program
 program
     .command('create <resourceType> <resourceName> [resourceDescription]')
     .description('Creates a Snapshot and downloads it or creates a Locale')
+    .option('-c, --config <configFile>', 'force the use of a specific config file')
     .option('-t, --timeout <ms>', 'timeout for creating the snapshot')
     .option('-s, --skipDownload', 'skip downloading the snapshot')
-    .option('-lf, --fallbackLocale <localeId>', 'fallback locale reference ID')
+    .option('-lf, --fallbackLocale <localeId>', 'fallback locale ID')
     .option('-lnlu, --nluLanguage <languageCode>', 'NLU to use')
     .action(async (resourceType, resourceName, resourceDescription = 'Cognigy.AI CLI', cmdObj) => { 
         await create({ resourceType, resourceName, description: resourceDescription, timeout: cmdObj.timeout, skipDownload: cmdObj.skipDownload, fallbackLocale: cmdObj.fallbackLocale, nluLanguage: cmdObj.nluLanguage }); 
@@ -102,6 +104,17 @@ program
     .option('-y, --forceYes', 'skips warnings and overwrites all content')
     .description('Imports the content of a Flow from CSV')
     .action(async (resourceType, resourceName, cmdObj) => { await importcsv({ resourceType, resourceName }); });
+
+program
+    .command('localize <resourceType> [resourceName]')
+    .option('-c, --config <configFile>', 'force the use of a specific config file')
+    .option('-l, --localeName <localeName>', 'locale to process')
+    .option('-sl, --sourceLocale <sourceLocaleName>', 'locale to copy from')
+    .option('-li, --localizeIntents', 'adds localization to Flow Intents')
+    .option('-ln, --localizeNodes', 'adds localization to Flow Nodes')
+    .option('-co, --contentOnly', 'adds localization only to Flow Nodes of type Say, Question and Optional Question')
+    .description('Adds missing localizations to Flow Intents and Nodes')
+    .action(async (resourceType, resourceName, cmdObj) => { await localize({ resourceType, resourceName, options: cmdObj }); });
 
 program
     .command('execute <command>')

@@ -17,7 +17,7 @@ import { indexAll } from '../utils/indexAll';
 export const cloneEndpoints = async (availableProgress: number): Promise<void> => {
     // The base directory for Flows
     const endpointDir = CONFIG.agentDir + "/endpoints";
-    removeCreateDir(endpointDir);
+    await removeCreateDir(endpointDir);
 
     // An increment counter for the progress bar
     const progressIncrement = Math.round(availableProgress / 10);
@@ -39,7 +39,7 @@ export const cloneEndpoints = async (availableProgress: number): Promise<void> =
             endpointId: endpoint._id
         });
 
-        removeCreateDir(individualEndpointDir);
+        await removeCreateDir(individualEndpointDir);
         fs.writeFileSync(individualEndpointDir + "/config.json", JSON.stringify(endpointDetail, undefined, 4));
         fs.writeFileSync(individualEndpointDir + "/transformer.ts", endpointDetail.transformer.transformer);
         addToProgressBar(incrementPerEndpoint);

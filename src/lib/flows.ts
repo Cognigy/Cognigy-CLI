@@ -7,7 +7,7 @@ import * as csv from 'csv-parser';
 
 import { checkTask } from '../utils/checks';
 
-import { addToProgressBar } from '../utils/progressBar';
+import { addToProgressBar, endProgressBar, startProgressBar } from '../utils/progressBar';
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
 import { removeCreateDir } from '../utils/checks';
@@ -409,7 +409,7 @@ export const trainFlow = async (flowName: string, timeout: number = 10000): Prom
     const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString());
     const locales = await pullLocales();
 
-    for (let locale of locales.items) {
+    for (let locale of locales) {
         const spinner = new Spinner(`Training intents for locale ${chalk.yellow(locale.name)} ... %s`);
         spinner.setSpinnerString('|/-\\');
         spinner.start();
@@ -806,7 +806,7 @@ export const importFlowCSV = async (flowName: string, availableProgress: number)
                         .on('data', (data) => {
                             nodeMap.set(data.id, data);
                         })
-                        .on('end', () => resolve());
+                        .on('end', () => resolve(null));
                 });
 
                 const flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + locale.name + "/chart.json").toString());
@@ -852,5 +852,90 @@ export const importFlowCSV = async (flowName: string, availableProgress: number)
         }
     }
 
+    return Promise.resolve();
+};
+
+/**
+ * Adds localization to Flow Intents and Nodes
+ * @param availableProgress How much of the progress bar can be filled by this process
+ */
+export const localizeFlow = async (flowName: string, availableProgress: number, options): Promise<void> => {
+    const flowsDir = CONFIG.agentDir + "/flows";
+    const flowDir = flowsDir + "/" + flowName;
+
+    const localeName = options.localeName;
+    const sourceLocaleName = options.sourceLocale;
+
+    const localizeAll = (!options.localizeIntents && !options.localizeNodes);
+    const localizeIntents = (localizeAll || options.localizeIntents);
+    const localizeNodes = (localizeAll || options.localizeNodes);
+
+    try {
+        const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString()),
+                flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/chart.json").toString()),
+                flowIntents: IIntent[] = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/intents.json").toString());
+
+        const targetLocale = (await pullLocales()).find((locale) => locale.name === localeName);
+        const sourceLocale = (await pullLocales()).find((locale) => locale.name === sourceLocaleName);
+
+        if (sourceLocaleName && !sourceLocale) {
+            console.log(`\nSource Locale ${sourceLocaleName} doesn't exist. Please check the spelling and try again.\n`);
+            process.exit(0);
+        }
+
+        // localize intents
+        if (localizeIntents) {
+            console.log(`\nAdding localization to intents...\n`);
+            startProgressBar(100);
+            for (let intent of flowIntents) {
+                try {
+                    if (intent.localeReference !== targetLocale._id) {
+                        await CognigyClient.addIntentLocalization({
+                            flowId: flowConfig._id,
+                            intentId: intent._id,
+                            localeId: targetLocale._id,
+                            inheritFromLocaleId: sourceLocale?._id
+                        });
+                    }
+                } catch (err) {
+                    // if a localization throws an error, we skip
+                }
+                addToProgressBar(100 / flowIntents.length);
+            }
+            endProgressBar();
+        }
+
+        // localize Flow Nodes
+        if (localizeNodes) {
+            const onlyLocalizeContentNodes = options.contentOnly;
+
+            console.log(`\nAdding localization to Flow Nodes...\n`);
+            startProgressBar(100);
+            for (let node of flowChart.nodes) {
+                const { _id: nodeId, localeReference, type } = node;
+                try {
+                    if (localeReference !== targetLocale._id) {
+                        if (!onlyLocalizeContentNodes || ['say', 'question', 'optionalQuestion'].indexOf(type) > -1) {
+                            await CognigyClient.addChartNodeLocalization({
+                                localeId: targetLocale._id,
+                                nodeId,
+                                resourceId: flowConfig._id,
+                                resourceType: 'flow',
+                                inheritFromLocaleId: sourceLocale?._id
+                            });
+                        }
+                    }
+                } catch (err) {
+                     // if a localization throws an error, we skip
+                }
+                addToProgressBar(100 / flowChart.nodes.length);
+            }
+            endProgressBar();
+        }
+
+    } catch (err) {
+
+    }
+    
     return Promise.resolve();
 };

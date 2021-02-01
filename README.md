@@ -3,7 +3,7 @@
 
 Cognigy-CLI is a series of tools meant to aid Cognigy.AI developers in maintaining local copies of their virtual agent projects.
 
-**The CLI can currently not create resources (other than Snapshots), but only edit existing resources.**
+**The CLI can currently not create resources (other than Snapshots and Locales), but only edit existing resources.**
 
 Currently supported resources:
 
@@ -140,13 +140,16 @@ Trains the NLU model of a specified Flow on Cognigy.AI
 
 Creates a remote resource on Cognigy.AI and downloads it to disk.
 
-> Currently only snapshots can be created with `cognigy create snapshot snapname "My Description"`
+> Currently only Snapshots and Locales can be created
+> For Snapshots, use `cognigy create snapshot snapname "My Description"`
+> For Locales, use `cognigy create locale localename`
 
 | Option   | Alias | Type    | Default | Description                                                                                  |
 | -------------- | ----- | ------- | ------- | -------------------------------------------------------------------------------------------- |
 | <nobr>--timeout</nobr>      | -t    | Number  | 100000  | Timeout in ms before the creation process is no longer checked (will continue on Cognigy.AI) |
 | <nobr>--skipDownload</nobr> | -s    | Boolean | false   | Skips download of created resource (for snapshots)                                           |
-
+| <nobr>--fallbackLocale</nobr>      | -lf    | String  | - | ID (not Reference ID) of Locale to use for new Locale |
+| <nobr>--nluLanguage</nobr>      | -lnlu    | String  | -  | NLU Language to set for new Locale |
 
 ### Command: exportcsv
 `cognigy exportcsv flow <flowName>`
@@ -161,6 +164,23 @@ This command will go through all Flows in all Locales and create a `content.csv`
 Imports the content of a CSV back into a Flow.
 
 This command will go through all Flows in all Locales and check if a valid  `content.csv` exists. If yes, it will go through the Flow Chart and update all localized Nodes with the content from the CSV.
+
+### Command: localize
+`cognigy localize flow <flowName>`
+
+Adds localization to Flow Intents and Nodes in bulk.
+
+This command will go through all Intents and Nodes in a given Locale and will add a localization if not already present.
+
+| Option   | Alias | Type    | Default | Description                                                                                  |
+| -------------- | ----- | ------- | ------- | -------------------------------------------------------------------------------------------- |
+| <nobr>--localNAme</nobr>      | -l    | String  | - | Locale to add localizations to |
+| <nobr>--sourceLocale</nobr> | -sl    | String | - | Source Locale to create localization from (optional) |
+| <nobr>--sourceLocale</nobr> | -sl    | String | - | Source Locale to create localization from (optional) |
+| <nobr>--localizeIntents</nobr> | -li    | Boolean | true | Whether to localize intents (if active, localizeNodes default is false) |
+| <nobr>--localizeNodes</nobr> | -ln    | Boolean | true | Whether to localize Nodes (if active, localizeIntents default is false) |
+| <nobr>--contentOnly</nobr> | -co    | Boolean | false | Only localize Say, Question and Optional Question Nodes (optional) |
+
 
 ### Command: execute
 `cognigy execute <command>`
