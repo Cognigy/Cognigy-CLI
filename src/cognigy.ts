@@ -104,6 +104,7 @@ program
     .option('-ln, --localizeNodes', 'adds localization to Flow Nodes')
     .option('-co, --contentOnly', 'adds localization only to Flow Nodes of type Say, Question and Optional Question')
     .option('-r, --reverse', 'removes the localization from the selected Flow')
+    .option('-y, --forceYes', 'skips warnings and overwrites all content')
     .description('Adds missing localizations to Flow Intents and Nodes')
     .action(async (resourceType, resourceName, cmdObj) => { await localize({ resourceType, resourceName, options: cmdObj }); });
 
