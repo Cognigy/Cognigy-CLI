@@ -356,17 +356,21 @@ const tokenizeText = (text: string): { tokens: string[], text: string } => {
 		let tokens = [];
 
 		// iterate through all found cognigyscript codes and replace with token
-		for(let match of csMatches) {
-			tokens.push(match);
-			text = text.replace(match, `<i class=notranslate>${count}</i>`);
-			count++;
+		if (csMatches) {
+			for(let match of csMatches) {
+				tokens.push(match);
+				text = text.replace(match, `<i class=notranslate>${count}</i>`);
+				count++;
+			}
 		}
 
 		// iterate through all found snippets and replace with token
-		for(let match of snippetMatches) {
-			tokens.push(match);
-			text = text.replace(match, `<i class=notranslate>${count}</i>`);
-			count++;
+		if (snippetMatches) {
+			for(let match of snippetMatches) {
+				tokens.push(match);
+				text = text.replace(match, `<i class=notranslate>${count}</i>`);
+				count++;
+			}
 		}
 
 		return {

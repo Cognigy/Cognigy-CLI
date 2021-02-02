@@ -851,13 +851,17 @@ export const translateIntent = async (intent: any, flowId, targetLocale, toLangu
 
     // translate default reply
     if (intentData.data) {
-        intentData.data = await translateSayNode(intentData.data, toLanguage, translator, apiKey);
-        await CognigyClient.updateIntent({
-            intentId: intent._id,
-            flowId,
-            localeId: targetLocale._id,
-            data: intentData.data
-        });
+        try {
+            intentData.data = await translateSayNode(intentData.data, toLanguage, translator, apiKey);
+            await CognigyClient.updateIntent({
+                intentId: intent._id,
+                flowId,
+                localeId: targetLocale._id,
+                data: intentData.data
+            });
+        } catch (err) {
+            console.log(`${chalk.red('error')}: ${err.message}`);
+        }
     }
 
     const flowIntentSentences = await indexAll(CognigyClient.indexSentences)({
@@ -891,7 +895,6 @@ export const translateIntent = async (intent: any, flowId, targetLocale, toLangu
                     flowId,
                     intentId: intent._id,
                     sentenceId: sentence._id,
-                    slots: sentence.slots,
                     text: sentence.text
                 });
             } catch (error) {
