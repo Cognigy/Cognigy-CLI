@@ -71,15 +71,6 @@ program
     .action(async (resourceName, cmdObj) => { await train({ resourceName, timeout: cmdObj.timeout }); });
 
 program
-    .command('translate <resourceType> <resourceName>')
-    .description('Translate a resource')
-    .option('-fl, --fromLanguage <fromLanguageCode>', 'the locale that should be translated')
-    .option('-tl, --targetLanguage <targetLanguageCode>', 'language to translate to')
-    .option('-tr, --translator <translator>', 'the translation tool, google or microsoft')
-    .option('-k, --apiKey <apiKey>', 'the translator api key')
-    .action(async (resourceType, resourceName, cmdObj) => { await translate({ resourceType, resourceName, fromLanguage: cmdObj.fromLanguage, targetLanguage: cmdObj.targetLanguage, translator: cmdObj.translator, apiKey: cmdObj.apiKey }); });
-
-program
     .command('create <resourceType> <resourceName> [resourceDescription]')
     .description('Creates a Snapshot and downloads it or creates a Locale')
     .option('-c, --config <configFile>', 'force the use of a specific config file')
@@ -114,9 +105,21 @@ program
     .option('-ln, --localizeNodes', 'adds localization to Flow Nodes')
     .option('-co, --contentOnly', 'adds localization only to Flow Nodes of type Say, Question and Optional Question')
     .option('-r, --reverse', 'removes the localization from the selected Flow')
-    .option('-y, --forceYes', 'skips warnings and overwrites all content')
     .description('Adds missing localizations to Flow Intents and Nodes')
     .action(async (resourceType, resourceName, cmdObj) => { await localize({ resourceType, resourceName, options: cmdObj }); });
+
+program
+    .command('translate <resourceType> <resourceName>')
+    .description('Translate a resource')
+    .option('-l, --localeName <localeName>', 'locale to process')
+    .option('-fl, --fromLanguage <fromLanguageCode>', 'language to translate from')
+    .option('-tl, --toLanguage <targetLanguageCode>', 'language to translate to')
+    .option('-tr, --translator <translator>', 'the translation tool, google or microsoft')
+    .option('-ti, --translateIntents', 'adds localization to Flow Intents')
+    .option('-tn, --translateNodes', 'adds localization to Flow Nodes')
+    .option('-k, --apiKey <apiKey>', 'the translator api key')
+    .option('-y, --forceYes', 'skips warnings and overwrites all content')
+    .action(async (resourceType, resourceName, cmdObj) => { await translate({ resourceType, resourceName, options: cmdObj }); });
 
 program
     .command('execute <command>')

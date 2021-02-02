@@ -12,7 +12,7 @@ import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
 import { removeCreateDir } from '../utils/checks';
 import { pullLocales } from './locales';
-import translateFlowNode, { translateIntentExampleSentence } from '../utils/translators';
+import translateFlowNode, { translateIntentExampleSentence, translateSayNode } from '../utils/translators';
 
 
 import { indexAll } from '../utils/indexAll';
@@ -429,98 +429,17 @@ export const trainFlow = async (flowName: string, timeout: number = 10000): Prom
     }
 };
 
-/**
- * 
- * @param flowName The name of the flow
- * @param fromLanguage  The locale in the flow that should be translated
- * @param targetLanguage The target langauge to translate to
- * @param translator Whether to use google or microsoft translate
- * @param apiKey The google or microsoft translate API Key
- * @param timeout The timeout for execution
- */
-export const translateFlow = async (flowName: string, fromLanguage: string, targetLanguage: string, translator: 'google' | 'microsoft', apiKey: string): Promise<void> => {
-    const flowsDir = CONFIG.agentDir + "/flows";
-    const flowDir = flowsDir + "/" + flowName;
-    const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString());
-
-    // get all locales for the used agent
-    const locales: ILocale_2_0[] = await pullLocales();
-
-    // get targetLanguage locale
-    let targetLocale: ILocale_2_0;
-    for (let locale of locales) {
-        if (locale.nluLanguage === targetLanguage) {
-            targetLocale = locale;
-        }
-    }
-
-    // check if locale exists. If yes, translate it to the target language
-    for (let locale of locales) {
-
-        // get fromLanguage flow nodes
-        if (locale.nluLanguage === fromLanguage) {
-
-            const spinner = new Spinner(`Translating flow ${flowName} from ${chalk.yellow(fromLanguage)} to ${chalk.yellow(targetLanguage)} ... %s`);
-            spinner.setSpinnerString('|/-\\');
-            spinner.start();
-
-            try {
-                // add the targetLanguage locale to the flow
-                await CognigyClient.addFlowLocalization({
-                    flowId: flowConfig._id,
-                    localeId: targetLocale._id,
-                    inheritFromLocaleId: locale._id
-                });
-            } catch (error) {
-                console.log(`${flowName} flow is already localized`);
-            }
-
-            // get the flow nodes
-            const flowChart: any = JSON.parse(fs.readFileSync(`${flowDir}/${locale.name}/chart.json`).toString());
-            const flowNodes: any[] = flowChart.nodes;
-
-            for (let flowNode of flowNodes) {
-
-                // ignore start and end node
-                if (['start', 'end'].includes(flowNode.type)) {
-                    continue;
-                }
-
-                try {
-                    // add the targetLanguage locale to the current flow node
-                    await CognigyClient.addChartNodeLocalization({
-                        inheritFromLocaleId: locale._id,
-                        nodeId: flowNode._id,
-                        resourceId: flowConfig._id,
-                        resourceType: 'flow',
-                        localeId: targetLocale._id
-                    });
-                } catch (error) {
-                    console.log(`Locale ${targetLocale.name} was already assigned to ${flowNode.label} (${flowNode.type}) node`);
-                }
-
-                // translate the current flow node
-                flowNode = await translateFlowNode(flowNode, targetLanguage, translator, apiKey)
-
-                try {
-                    // update node in Cognigy.AI
-                    await CognigyClient.updateChartNode({
-                        nodeId: flowNode._id,
-                        config: flowNode.config,
-                        localeId: targetLocale._id,
-                        resourceId: flowConfig._id,
-                        resourceType: 'flow'
-                    })
-                } catch (error) {
-                    console.log(`Failed to update ${flowNode.label} (${flowNode.type}) node`);
-                }
-
-                console.log(`\n[${chalk.green("success")}] Translated ${flowNode.label} (${flowNode.type}) node to ${chalk.yellow(targetLanguage)}`);
-            }
-            spinner.stop();
-        }
-    }
-};
+export interface ITranslateFlowOptions {
+    localeName: string;
+    translator: 'google' | 'microsoft';
+    fromLanguage: string;
+    toLanguage: string;
+    translateIntents: boolean;
+    translateNodes: boolean;
+    apiKey: string;
+    forceYes: boolean;
+    locale: string;
+}
 
 /**
  * 
@@ -531,128 +450,80 @@ export const translateFlow = async (flowName: string, fromLanguage: string, targ
  * @param apiKey The google or microsoft translate API Key
  * @param timeout The timeout for execution
  */
-export const translateIntents = async (flowName: string, fromLanguage: string, targetLanguage: string, translator: 'google' | 'microsoft', apiKey: string): Promise<void> => {
+export const translateFlow = async (flowName: string, options: ITranslateFlowOptions): Promise<void> => {
+    const { toLanguage, translator, apiKey } = options;
+
     const flowsDir = CONFIG.agentDir + "/flows";
     const flowDir = flowsDir + "/" + flowName;
-    const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString());
 
-    // get all locales for the used agent
-    const locales: ILocale_2_0[] = await pullLocales();
+    const localeName = options.localeName;
 
-    // get targetLanguage locale
-    let targetLocale: ILocale_2_0;
-    for (let locale of locales) {
-        if (locale.nluLanguage === targetLanguage) {
-            targetLocale = locale;
-        }
-    }
+    const translateAll = (!options.translateIntents && !options.translateNodes);
+    const translateIntents = (translateAll || options.translateIntents);
+    const translateNodes = (translateAll || options.translateNodes);
 
-    let intents: any[] = [];
+    try {
+        const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString()),
+                flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/chart.json").toString()),
+                flowIntents: IIntent[] = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/intents.json").toString());
 
-    // check if locale exists. If yes, translate it to the target language
-    for (let locale of locales) {
+        const targetLocale = (await pullLocales()).find((locale) => locale.name === localeName);
 
-        // get fromLanguage flow nodes
-        if (locale.nluLanguage === fromLanguage) {
-
-            const spinner = new Spinner(`Translating intents for flow ${flowName} from ${chalk.yellow(fromLanguage)} to ${chalk.yellow(targetLanguage)} ... %s`);
-            spinner.setSpinnerString('|/-\\');
-            spinner.start();
-
-            try {
-                // add the targetLanguage locale to the flow
-                await CognigyClient.addFlowLocalization({
-                    flowId: flowConfig._id,
-                    localeId: targetLocale._id,
-                    inheritFromLocaleId: locale._id
-                });
-            } catch (error) {
-                console.log(`${flowName} flow is already localized`);
-            }
-
-            const flowIntents = await indexAll(CognigyClient.indexIntents)({
-                flowId: flowConfig._id,
-                preferredLocaleId: targetLocale._id,
-                includeChildren: true,
-                limit: 100
-            });
-
-            if (flowIntents && flowIntents.items && flowIntents.items && flowIntents.items.length > 0) {
-        
-                for (let intent of flowIntents.items) {
-                    const intentData = await CognigyClient.readIntent({
-                        intentId: intent._id,
-                        flowId: flowConfig._id,
-                        preferredLocaleId: targetLocale._id
-                    });
-        
-                    const flowIntentSentences = await indexAll(CognigyClient.indexSentences)({
-                        flowId: flowConfig._id,
-                        intentId: intent._id,
-                        preferredLocaleId: targetLocale._id
-                    });
-        
-                    let intentSentences: any = [];
-                    if (flowIntentSentences && flowIntentSentences.items && flowIntentSentences.items.length > 0) {
-                        intentSentences = await Promise.all(
-                            flowIntentSentences.items.map(async sentence => {
-                                return await CognigyClient.readSentence({
-                                    flowId: flowConfig._id,
-                                    intentId: intent._id,
-                                    sentenceId: sentence._id
-                                });
-                            })
-                        );
-                    }
-                    intents.push({
-                        ...intentData,
-                        sentences: intentSentences
-                    });
-                }
-            }
-
-            for (let intent of intents) {
-
+        // localize intents
+        if (translateIntents) {
+            console.log(`\nTranslating ${flowIntents.length} Intents in Flow '${flowName}'...\n`);
+            startProgressBar(100);
+            for (let intent of flowIntents) {
                 try {
-                    // add the targetLanguage locale to the current intent
-                    await CognigyClient.addIntentLocalization({
-                        inheritFromLocaleId: locale._id,
-                        flowId: flowConfig._id,
-                        intentId: intent._id,
-                        localeId: targetLocale._id
-                    });
-                } catch (error) {
-                    console.log(`Locale ${targetLocale.name} was already assigned to ${intent.name} intent`);
-                }
-
-                for (let sentence of intent.sentences) {
-                    // translate the current example sentence of the current intent
-                    sentence = await translateIntentExampleSentence(sentence, targetLanguage, translator, apiKey)
-
-                    try {
-                        // update example sentence in Cognigy.AI
-                        // @ts-ignore
-                        await CognigyClient.updateSentence({
-                            flowId: flowConfig._id,
-                            intentId: intent._id,
-                            sentenceId: sentence._id,
-                            slots: sentence.slots,
-                            text: sentence.text
-                        })
-
-                    } catch (error) {
-                        console.log(JSON.stringify(error))
-                        console.log(`Failed to update ${intent.name} intent`);
+                    if (intent.localeReference === targetLocale._id) {
+                        await translateIntent(intent, flowConfig._id, targetLocale, toLanguage, translator, apiKey);
                     }
+                } catch (err) {
+                    // if a localization throws an error, we skip
                 }
-
-                console.log(`\n[${chalk.green("success")}] Translated ${intent.name} intent to ${chalk.yellow(targetLanguage)}`);
+                addToProgressBar(100 / flowIntents.length);
             }
-            spinner.stop();
+            endProgressBar();
         }
+
+        // localize Flow Nodes
+         if (translateNodes) {
+            console.log(`\nTranslating Flow Nodes in Flow '${flowName}'...\n`);
+                
+            startProgressBar(100);
+            for (let node of flowChart.nodes) {
+                const { _id: nodeId, localeReference, type } = node;
+                try {
+                    if (localeReference === targetLocale._id) {
+                        if (['say', 'question', 'optionalQuestion'].indexOf(type) > -1) {
+                            const flowNode = await translateFlowNode(node, toLanguage, translator, apiKey);
+
+                            try {
+                                // update node in Cognigy.AI
+                                await CognigyClient.updateChartNode({
+                                    nodeId: flowNode._id,
+                                    config: flowNode.config,
+                                    localeId: targetLocale._id,
+                                    resourceId: flowConfig._id,
+                                    resourceType: 'flow'
+                                })
+                            } catch (error) {
+                                console.log(`Failed to update ${flowNode.label} (${flowNode.type}) node`);
+                            }
+                        }
+                    }
+                } catch (err) {
+                     // if a localization throws an error, we skip
+                }
+                addToProgressBar(100 / flowChart.nodes.length);
+            }
+            endProgressBar();
+        }
+
+    } catch (err) {
+
     }
 };
-
 
 /**
  * Pull Intents recursively
@@ -960,4 +831,73 @@ export const localizeFlow = async (flowName: string, availableProgress: number, 
     }
     
     return Promise.resolve();
+};
+
+/**
+ * Translates an Intent
+ * @param intent The Intent to translate
+ * @param flowId Flow ID where the Intent lives
+ * @param targetLocale Target locale to manipulate
+ * @param toLanguage Language to translate to
+ * @param translator Translator to use
+ * @param apiKey apikey for the translator
+ */
+export const translateIntent = async (intent: any, flowId, targetLocale, toLanguage, translator, apiKey): Promise<void> => {
+    const intentData = await CognigyClient.readIntent({
+        intentId: intent._id,
+        flowId,
+        preferredLocaleId: targetLocale._id
+    });
+
+    // translate default reply
+    if (intentData.data) {
+        intentData.data = await translateSayNode(intentData.data, toLanguage, translator, apiKey);
+        await CognigyClient.updateIntent({
+            intentId: intent._id,
+            flowId,
+            localeId: targetLocale._id,
+            data: intentData.data
+        });
+    }
+
+    const flowIntentSentences = await indexAll(CognigyClient.indexSentences)({
+        flowId,
+        intentId: intent._id,
+        preferredLocaleId: targetLocale._id
+    });
+
+    let intentSentences: any[] = [];
+    if (flowIntentSentences && flowIntentSentences.items && flowIntentSentences.items.length > 0) {
+        intentSentences = await Promise.all(
+            flowIntentSentences.items.map(async sentence => {
+                return await CognigyClient.readSentence({
+                    flowId,
+                    intentId: intent._id,
+                    sentenceId: sentence._id
+                });
+            })
+        );
+    }
+
+    try {
+        for (let sentence of intentSentences) {
+            // translate the current example sentence of the current intent
+            sentence = await translateIntentExampleSentence(sentence, toLanguage, translator, apiKey)
+
+            try {
+                // update example sentence in Cognigy.AI
+                // @ts-ignore
+                await CognigyClient.updateSentence({
+                    flowId,
+                    intentId: intent._id,
+                    sentenceId: sentence._id,
+                    slots: sentence.slots,
+                    text: sentence.text
+                });
+            } catch (error) {
+                console.log(JSON.stringify(error))
+                console.log(`Failed to update ${intent.name} intent`);
+            }
+        }
+    } catch (err) {}
 };

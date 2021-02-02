@@ -12,7 +12,7 @@ console.log("\n");
                 type: 'input',
                 name: 'command',
                 message: `What is the command?`,
-                default: `localize`
+                default: `translate`
             },
             {
                 type: 'input',
@@ -24,7 +24,7 @@ console.log("\n");
                 type: 'input',
                 name: 'resourceId',
                 message: `What is the resource ID?`,
-                default: `Flow 1`
+                default: `Test`
             },
             {
                 type: 'input',
