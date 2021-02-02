@@ -1,5 +1,8 @@
+import chalk = require("chalk");
+
 // Imports the Google Cloud client library
 const { Translate } = require('@google-cloud/translate').v2;
+
 const axios = require('axios');
 const uuid = require('uuid');
 
@@ -252,7 +255,7 @@ async function microsoftTranslate(text: string, language: string, apiKey: string
 	try {
 		const response = await axios({
 			method: 'post',
-			url: `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${language}`,
+			url: `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${language}&textType=html`,
 			headers: {
 				'Ocp-Apim-Subscription-Key': apiKey,
 				'Content-type': 'application/json',
@@ -275,17 +278,20 @@ async function microsoftTranslate(text: string, language: string, apiKey: string
 }
 
 async function googleTranslate(text: string, language: string, apiKey) {
+	try {
+		// Creates a client
+		const translate = new Translate({
+			key: apiKey
+		});
 
-	// Creates a client
-	const translate = new Translate({
-		key: apiKey
-	});
+		let [translations] = await translate.translate(text, language);
+		translations = Array.isArray(translations) ? translations : [translations];
 
-	let [translations] = await translate.translate(text, language);
-	translations = Array.isArray(translations) ? translations : [translations];
-
-	// Returns the translated sentence only
-	return translations[0];
+		// Returns the translated sentence only
+		return translations[0];
+	} catch (err) {
+		console.log(`${chalk.red(`error`)}: ${err.message}`);
+	}
 }
 
 const translate = async (text: string, language: string, translator: 'google' | 'microsoft', apiKey: string) => {
@@ -294,22 +300,71 @@ const translate = async (text: string, language: string, translator: 'google' | 
 	// Format the locale to a valid language id
 	language = formatLocaleToTranslateLId(language);
 
+	let { text: newText, tokens } = tokenizeText(text);
+
+	// identify CognigyScript and pad it with notranslate classes
+	//text = text.replace(/\{\{(.*?)[\}\)\s]*\}\}/g, '<i class=notranslate>{{$1}}</i>');
+	
+
 	try {
 		// Check which translator should be used and translate the current sentence
 		switch (translator) {
 			case 'google':
-				text = await googleTranslate(text, language, apiKey);
+				newText = await googleTranslate(newText, language, apiKey);
 				break;
 			case 'microsoft':
-				text = await microsoftTranslate(text, language, apiKey);
+				newText = await microsoftTranslate(newText, language, apiKey);
 				break;
 		}
 	} catch (err) {
 		console.log(err.message);
 	}
 
+	// unpad CognigyScript
+	text = untokenizeText(tokens, newText);
+
 	// Return the translated text
 	return text;
 }
+
+const tokenizeText = (text): { tokens: string[], text: string } => {
+	const matches = text.match(/\{\{(.*?)[\}\)\s]*\}\}/g);
+
+	if (!matches) {
+		return {
+			tokens: null,
+			text
+		};
+	} else {
+		let count = 0;
+		let tokens = [];
+
+		for(let match of matches) {
+			tokens.push(match);
+			text = text.replace(match, `<i class=notranslate>${count}</i>`);
+			count++;
+		}
+
+		return {
+			tokens,
+			text
+		};
+	}
+}
+
+const untokenizeText = (tokens, text) => {
+	if (!tokens || tokens.length === 0)
+		return text;
+
+	let count = 0;
+
+	for (let token of tokens) {
+		text = text.replace(`<i class=notranslate>${count}</i>`, token);
+		count++;
+	}
+
+	return text;
+}
+
 
 export default translateFlowNode;
