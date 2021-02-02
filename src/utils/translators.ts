@@ -1,4 +1,5 @@
 import chalk = require("chalk");
+import { ExecFileOptionsWithStringEncoding } from "child_process";
 
 // Imports the Google Cloud client library
 const { Translate } = require('@google-cloud/translate').v2;
@@ -294,17 +295,21 @@ async function googleTranslate(text: string, language: string, apiKey) {
 	}
 }
 
+/**
+ * Perform the actual translation
+ * @param text Text to translate (can be HTML)
+ * @param language Language to translate
+ * @param translator Translator to use
+ * @param apiKey API Key to use
+ */
 const translate = async (text: string, language: string, translator: 'google' | 'microsoft', apiKey: string) => {
 	if (typeof text !== "string") return text;
 
 	// Format the locale to a valid language id
 	language = formatLocaleToTranslateLId(language);
 
+	// format text so CS and snippets won't be translated
 	let { text: newText, tokens } = tokenizeText(text);
-
-	// identify CognigyScript and pad it with notranslate classes
-	//text = text.replace(/\{\{(.*?)[\}\)\s]*\}\}/g, '<i class=notranslate>{{$1}}</i>');
-	
 
 	try {
 		// Check which translator should be used and translate the current sentence
@@ -320,17 +325,28 @@ const translate = async (text: string, language: string, translator: 'google' | 
 		console.log(err.message);
 	}
 
-	// unpad CognigyScript
+	// Return CognigyScript and Snippets into the text
 	text = untokenizeText(tokens, newText);
 
 	// Return the translated text
 	return text;
 }
 
-const tokenizeText = (text): { tokens: string[], text: string } => {
-	const matches = text.match(/\{\{(.*?)[\}\)\s]*\}\}/g);
+/**
+ * Replaces CognigyScript and Snippets (Tokens) with a notranslate tag
+ * So Translation Engines disregard them
+ * 
+ * @param text 
+ */
+const tokenizeText = (text: string): { tokens: string[], text: string } => {
+	// check if the text contains Cognigy Snippets (e.g. [[snippet-eyJsYWJlbCI6InRleHQiLCJzY3JpcHQiOiJjaS50ZXh0IiwidHlwZSI6ImlucHV0In0=]])
+	const snippetMatches = text.match(/\[\[snippet\-(([a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}\-)|([a-fA-F0-9]{24}\-)){0,1}[a-zA-Z0-9+\/]+={0,2}\]\]/g);
 
-	if (!matches) {
+	// check if the text contains CognigyScript (e.g. {{ input.intent }})
+	const csMatches = text.match(/\{\{(.*?)[\}\)\s]*\}\}/g);
+
+	// if no snippets and no cs, return
+	if (!csMatches && !snippetMatches) {
 		return {
 			tokens: null,
 			text
@@ -339,7 +355,15 @@ const tokenizeText = (text): { tokens: string[], text: string } => {
 		let count = 0;
 		let tokens = [];
 
-		for(let match of matches) {
+		// iterate through all found cognigyscript codes and replace with token
+		for(let match of csMatches) {
+			tokens.push(match);
+			text = text.replace(match, `<i class=notranslate>${count}</i>`);
+			count++;
+		}
+
+		// iterate through all found snippets and replace with token
+		for(let match of snippetMatches) {
 			tokens.push(match);
 			text = text.replace(match, `<i class=notranslate>${count}</i>`);
 			count++;
@@ -352,7 +376,12 @@ const tokenizeText = (text): { tokens: string[], text: string } => {
 	}
 }
 
-const untokenizeText = (tokens, text) => {
+/**
+ * Replaces the tokens with their original CognigyScript or Snippet Code
+ * @param tokens Original Tokens
+ * @param text Text
+ */
+const untokenizeText = (tokens: string[], text: string): string => {
 	if (!tokens || tokens.length === 0)
 		return text;
 
