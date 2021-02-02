@@ -2,6 +2,8 @@ import { startProgressBar, endProgressBar } from '../utils/progressBar';
 import { localizeFlow, pullFlow } from '../lib/flows';
 import { checkProject } from '../utils/checks';
 import { pullLocales } from '../lib/locales';
+import inquirer = require('inquirer');
+import { upperFirst } from '../utils/stringUtils';
 
 /**
  * Adds localizations to Flow Nodes and Intents
@@ -21,10 +23,24 @@ export const localize = async ({ resourceType, resourceName, options }): Promise
     // check if project exists on Cognigy.AI and the APIKey can retrieve it
     await checkProject();
 
+    // get confirmation from user that data will be overwritten
+    const answers = (options.forceYes) ? { overwrite: true } : await inquirer
+        .prompt([
+            {
+                type: 'confirm',
+                name: 'overwrite',
+                message: `This will overwrite data for ${upperFirst(resourceType)} ${resourceName}. Do you want to proceed?`
+            }
+        ]);
+
+    if (!answers.overwrite) {
+        console.log(`Aborting...`);
+        return;
+    }
+
     // start localization process
-    console.log(`Starting to add localizations to Flow '${resourceName}' ... \n`);
-    
-    
+    console.log(`\nStarting to ${options.reverse ? 'remove localizations from' : 'add localizations to'} Flow '${resourceName}'...\n`);
+
     // localize the Flow
     await localizeFlow(resourceName, 50, options);
 
@@ -34,7 +50,7 @@ export const localize = async ({ resourceType, resourceName, options }): Promise
     await pullFlow(resourceName, 50);
     endProgressBar();
 
-    console.log(`\nWe've successfully added localizations to Flow ${resourceName || ''} - Enjoy.`);
+    console.log(`\nWe've successfully ${options.reverse ? 'removed localizations from' : 'added localizations to'} Flow '${resourceName}'...\n`);
 
     return;
 };

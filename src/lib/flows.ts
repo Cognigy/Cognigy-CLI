@@ -885,17 +885,27 @@ export const localizeFlow = async (flowName: string, availableProgress: number, 
 
         // localize intents
         if (localizeIntents) {
-            console.log(`\nAdding localization to intents...\n`);
+            console.log(`\n${options.reverse ? 'Removing localization from' : 'Adding localization to'} Intents...\n`);
             startProgressBar(100);
             for (let intent of flowIntents) {
                 try {
-                    if (intent.localeReference !== targetLocale._id) {
-                        await CognigyClient.addIntentLocalization({
-                            flowId: flowConfig._id,
-                            intentId: intent._id,
-                            localeId: targetLocale._id,
-                            inheritFromLocaleId: sourceLocale?._id
-                        });
+                    if (options.reverse) {
+                        if (intent.localeReference === targetLocale._id) {
+                            await CognigyClient.removeIntentLocalization({
+                                flowId: flowConfig._id,
+                                intentId: intent._id,
+                                localeId: targetLocale._id
+                            });
+                        }
+                    } else {
+                        if (intent.localeReference !== targetLocale._id) {
+                            await CognigyClient.addIntentLocalization({
+                                flowId: flowConfig._id,
+                                intentId: intent._id,
+                                localeId: targetLocale._id,
+                                inheritFromLocaleId: sourceLocale?._id
+                            });
+                        }
                     }
                 } catch (err) {
                     // if a localization throws an error, we skip
@@ -909,20 +919,32 @@ export const localizeFlow = async (flowName: string, availableProgress: number, 
         if (localizeNodes) {
             const onlyLocalizeContentNodes = options.contentOnly;
 
-            console.log(`\nAdding localization to Flow Nodes...\n`);
+            console.log(`\n${options.reverse ? 'Removing localization from' : 'Adding localization to'} Flow Nodes...\n`);
+                
             startProgressBar(100);
             for (let node of flowChart.nodes) {
                 const { _id: nodeId, localeReference, type } = node;
                 try {
-                    if (localeReference !== targetLocale._id) {
-                        if (!onlyLocalizeContentNodes || ['say', 'question', 'optionalQuestion'].indexOf(type) > -1) {
-                            await CognigyClient.addChartNodeLocalization({
+                    if (options.reverse) {
+                        if (localeReference === targetLocale._id) {
+                            await CognigyClient.removeChartNodeLocalization({
                                 localeId: targetLocale._id,
                                 nodeId,
                                 resourceId: flowConfig._id,
-                                resourceType: 'flow',
-                                inheritFromLocaleId: sourceLocale?._id
+                                resourceType: 'flow'
                             });
+                        }
+                    } else {
+                        if (localeReference !== targetLocale._id) {
+                            if (!onlyLocalizeContentNodes || ['say', 'question', 'optionalQuestion'].indexOf(type) > -1) {
+                                await CognigyClient.addChartNodeLocalization({
+                                    localeId: targetLocale._id,
+                                    nodeId,
+                                    resourceId: flowConfig._id,
+                                    resourceType: 'flow',
+                                    inheritFromLocaleId: sourceLocale?._id
+                                });
+                            }
                         }
                     }
                 } catch (err) {

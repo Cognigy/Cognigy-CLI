@@ -180,6 +180,7 @@ This command will go through all Intents and Nodes in a given Locale and will ad
 | <nobr>--localizeIntents</nobr> | -li    | Boolean | true | Whether to localize intents (if active, localizeNodes default is false) |
 | <nobr>--localizeNodes</nobr> | -ln    | Boolean | true | Whether to localize Nodes (if active, localizeIntents default is false) |
 | <nobr>--contentOnly</nobr> | -co    | Boolean | false | Only localize Say, Question and Optional Question Nodes (optional) |
+| <nobr>--reverse</nobr> | -r    | Boolean | false | Removes the localization from the selected Flow (can be combined with -li and -ln) |
 
 
 ### Command: execute
