@@ -19,8 +19,8 @@ export const translate = async ({ resourceType, resourceName, options }): Promis
     // check if a locale was provided and if it actually exists
     await checkLocale(options.localeName);
 
-    if (!['google', 'microsoft'].includes(translator)) {
-        console.log("Please use 'google' or 'microsoft' as translation tool");
+    if (!['google', 'microsoft', 'deepl'].includes(translator)) {
+        console.log("Please use 'google', 'microsoft' or 'deepl' as translation tool");
         process.exit(0);
     }
 

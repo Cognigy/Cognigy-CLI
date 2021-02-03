@@ -30,14 +30,14 @@ interface ISentence {
 	feedbackReport: any
 }
 
-export const translateIntentExampleSentence = async (sentence: ISentence , language: string, translator: 'google' | 'microsoft', apikey: string, fromLanguage?: string) => {
+export const translateIntentExampleSentence = async (sentence: ISentence , language: string, translator: 'google' | 'microsoft' | 'deepl', apikey: string, fromLanguage?: string) => {
 
 	sentence.text = await translate(sentence.text, language, translator, apikey);
 	// Return the translated example sentence
 	return sentence;
 }
 
-const translateFlowNode = async (flowNode: IFlowNode, targetLanguage: string, translator: 'google' | 'microsoft', apiKey: string): Promise<IFlowNode> => {
+const translateFlowNode = async (flowNode: IFlowNode, targetLanguage: string, translator: 'google' | 'microsoft' | 'deepl', apiKey: string): Promise<IFlowNode> => {
 	const { type, config } = flowNode;
 
 	try {
@@ -295,6 +295,25 @@ async function googleTranslate(text: string, language: string, apiKey) {
 	}
 }
 
+async function deepLTranslate(text: string, language: string, apiKey) {
+	try {
+		const response = await axios({
+			method: 'post',
+			url: `https://api.deepl.com/v2/translate?auth_key=${apiKey}&text=${text}&target_lang=${language}`,
+			headers: {
+				'Accept': '*/*',
+				'Content-Type': 'application/x-www-form-urlencoded'
+			}
+		});
+
+		// Return the translated sentence only
+		return response.data.translations[0].text;
+	} catch (error) {
+		console.log(error);
+		process.exit(0);
+	}
+}
+
 /**
  * Perform the actual translation
  * @param text Text to translate (can be HTML)
@@ -302,7 +321,7 @@ async function googleTranslate(text: string, language: string, apiKey) {
  * @param translator Translator to use
  * @param apiKey API Key to use
  */
-const translate = async (text: string, language: string, translator: 'google' | 'microsoft', apiKey: string) => {
+const translate = async (text: string, language: string, translator: 'google' | 'microsoft' | 'deepl', apiKey: string) => {
 	if (typeof text !== "string") return text;
 
 	// Format the locale to a valid language id
@@ -319,6 +338,9 @@ const translate = async (text: string, language: string, translator: 'google' | 
 				break;
 			case 'microsoft':
 				newText = await microsoftTranslate(newText, language, apiKey);
+				break;
+			case 'deepl':
+				newText = await deepLTranslate(newText, language, apiKey);
 				break;
 		}
 	} catch (err) {

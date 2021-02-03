@@ -115,7 +115,7 @@ program
     .option('-l, --localeName <localeName>', 'locale to process')
     .option('-fl, --fromLanguage <fromLanguageCode>', 'language to translate from')
     .option('-tl, --toLanguage <targetLanguageCode>', 'language to translate to')
-    .option('-tr, --translator <translator>', 'the translation tool, google or microsoft')
+    .option('-tr, --translator <translator>', 'the translation tool, google, microsoft or deepl')
     .option('-ti, --translateIntents', 'adds localization to Flow Intents')
     .option('-tn, --translateNodes', 'adds localization to Flow Nodes')
     .option('-k, --apiKey <apiKey>', 'the translator api key')

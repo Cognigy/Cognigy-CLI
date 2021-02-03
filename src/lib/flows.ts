@@ -431,7 +431,7 @@ export const trainFlow = async (flowName: string, timeout: number = 10000): Prom
 
 export interface ITranslateFlowOptions {
     localeName: string;
-    translator: 'google' | 'microsoft';
+    translator: 'google' | 'microsoft' | 'deepl';
     fromLanguage: string;
     toLanguage: string;
     translateIntents: boolean;
@@ -446,8 +446,8 @@ export interface ITranslateFlowOptions {
  * @param flowName The name of the flow
  * @param fromLanguage  The locale in the flow that should be translated
  * @param targetLanguage The target langauge to translate to
- * @param translator Whether to use google or microsoft translate
- * @param apiKey The google or microsoft translate API Key
+ * @param translator Whether to use google, microsoft or deepl translate
+ * @param apiKey The google, microsoft or deepl translate API Key
  * @param timeout The timeout for execution
  */
 export const translateFlow = async (flowName: string, options: ITranslateFlowOptions): Promise<void> => {
