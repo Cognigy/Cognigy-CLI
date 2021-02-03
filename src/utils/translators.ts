@@ -30,7 +30,7 @@ interface ISentence {
 	feedbackReport: any
 }
 
-export const translateIntentExampleSentence = async (sentence: ISentence , language: string, translator: 'google' | 'microsoft' | 'deepl', apikey: string, fromLanguage?: string) => {
+export const translateIntentExampleSentence = async (sentence: ISentence, language: string, translator: 'google' | 'microsoft' | 'deepl', apikey: string, fromLanguage?: string) => {
 
 	sentence.text = await translate(sentence.text, language, translator, apikey);
 	// Return the translated example sentence
@@ -39,6 +39,8 @@ export const translateIntentExampleSentence = async (sentence: ISentence , langu
 
 const translateFlowNode = async (flowNode: IFlowNode, targetLanguage: string, translator: 'google' | 'microsoft' | 'deepl', apiKey: string): Promise<IFlowNode> => {
 	const { type, config } = flowNode;
+
+	console.log(config.say._cognigy._default._list.items)
 
 	try {
 		// Check type of node
@@ -84,9 +86,67 @@ export async function translateSayNode(data, language, translator, apikey) {
 			data.text[index] = await translate(data.text[index], language, translator, apikey);
 
 		}
-		// Check if type is buttons
-	} 
-	
+
+	}
+
+	// Check if type is list
+	if (data?._cognigy?._default?._list?.items) {
+		/** Translate fallback message */
+		if (data._cognigy._default._list.fallbackText) {
+			data._cognigy._default._list.fallbackText = await translate(data._cognigy._default._list.fallbackText, language, translator, apikey);
+		}
+
+		// Loop through the list items
+		for (let item of data._cognigy._default._list.items) {
+
+			// Get the index of the current sentence in the list of sentences called 'text'
+			let index = data._cognigy._default._list.items.indexOf(item);
+
+			data._cognigy._default._list.items[index].title = await translate(data._cognigy._default._list.items[index].title, language, translator, apikey);
+			data._cognigy._default._list.items[index].subtitle = await translate(data._cognigy._default._list.items[index].subtitle, language, translator, apikey);
+		}
+
+		/** Translate data */
+
+		// Loop through the items
+		for (let button of data._data._cognigy._default._list.items) {
+
+			// Get the index of the current sentence in the list of sentences called 'text'
+			let index = data._data._cognigy._default._list.items.indexOf(button);
+
+
+			data._data._cognigy._default._list.items[index].title = await translate(data._data._cognigy._default._list.items[index].title, language, translator, apikey);
+			data._data._cognigy._default._list.items[index].subtitle = await translate(data._data._cognigy._default._list.items[index].subtitle, language, translator, apikey);
+
+
+			// Check if item has buttons
+			if (data?._cognigy?._default?._list?.items[index]?.buttons) {
+
+				// Loop through the buttons
+				for (let button of data._cognigy._default._list.items[index].buttons) {
+
+					// Check type of button
+					if (button.type === 'postback') {
+						// Translate button title
+						button.title = await translate(button.title, language, translator, apikey);
+					}
+				}
+
+				/** Translate data */
+				// Loop through the buttons
+				for (let button of data._data._cognigy._default._list.items[index].buttons) {
+
+					// Check type of button
+					if (button.type === 'postback') {
+						// Translate button title
+						button.title = await translate(button.title, language, translator, apikey);
+					}
+				}
+			}
+		}
+	}
+
+	// Check if type is buttons
 	if (data?._cognigy?._default?._buttons?.buttons) {
 		/** Translate fallback message */
 		if (data._cognigy._default._buttons.fallbackText) {
@@ -129,7 +189,7 @@ export async function translateSayNode(data, language, translator, apikey) {
 			data._data._cognigy._default._buttons.text = await translate(data._data._cognigy._default._buttons.text, language, translator, apikey);
 
 		}
-	} 
+	}
 
 	// Check if type is quick replies
 	if (data?._cognigy?._default?._quickReplies?.quickReplies) {
@@ -178,8 +238,8 @@ export async function translateSayNode(data, language, translator, apikey) {
 			data._data._cognigy._default._quickReplies.text = await translate(data._data._cognigy._default._quickReplies.text, language, translator, apikey)
 
 		}
-	} 
-	
+	}
+
 	if (data?._cognigy?._default?._gallery) {
 		// Translate Fallback Text
 		if (data._cognigy._default._gallery.fallbackText && data._cognigy._default._gallery.fallbackText !== "") {
@@ -379,7 +439,7 @@ const tokenizeText = (text: string): { tokens: string[], text: string } => {
 
 		// iterate through all found cognigyscript codes and replace with token
 		if (csMatches) {
-			for(let match of csMatches) {
+			for (let match of csMatches) {
 				tokens.push(match);
 				text = text.replace(match, `<i class=notranslate>${count}</i>`);
 				count++;
@@ -388,7 +448,7 @@ const tokenizeText = (text: string): { tokens: string[], text: string } => {
 
 		// iterate through all found snippets and replace with token
 		if (snippetMatches) {
-			for(let match of snippetMatches) {
+			for (let match of snippetMatches) {
 				tokens.push(match);
 				text = text.replace(match, `<i class=notranslate>${count}</i>`);
 				count++;
