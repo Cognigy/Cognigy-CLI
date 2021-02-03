@@ -40,8 +40,6 @@ export const translateIntentExampleSentence = async (sentence: ISentence, langua
 const translateFlowNode = async (flowNode: IFlowNode, targetLanguage: string, translator: 'google' | 'microsoft' | 'deepl', apiKey: string): Promise<IFlowNode> => {
 	const { type, config } = flowNode;
 
-	console.log(config.say._cognigy._default._list.items)
-
 	try {
 		// Check type of node
 		switch (type) {
@@ -104,20 +102,6 @@ export async function translateSayNode(data, language, translator, apikey) {
 
 			data._cognigy._default._list.items[index].title = await translate(data._cognigy._default._list.items[index].title, language, translator, apikey);
 			data._cognigy._default._list.items[index].subtitle = await translate(data._cognigy._default._list.items[index].subtitle, language, translator, apikey);
-		}
-
-		/** Translate data */
-
-		// Loop through the items
-		for (let button of data._data._cognigy._default._list.items) {
-
-			// Get the index of the current sentence in the list of sentences called 'text'
-			let index = data._data._cognigy._default._list.items.indexOf(button);
-
-
-			data._data._cognigy._default._list.items[index].title = await translate(data._data._cognigy._default._list.items[index].title, language, translator, apikey);
-			data._data._cognigy._default._list.items[index].subtitle = await translate(data._data._cognigy._default._list.items[index].subtitle, language, translator, apikey);
-
 
 			// Check if item has buttons
 			if (data?._cognigy?._default?._list?.items[index]?.buttons) {
@@ -125,23 +109,73 @@ export async function translateSayNode(data, language, translator, apikey) {
 				// Loop through the buttons
 				for (let button of data._cognigy._default._list.items[index].buttons) {
 
+					let buttonIndex = data._cognigy._default._list.items[index].buttons.indexOf(button);
+
+					// translate the button title
+					data._cognigy._default._list.items[index].buttons[buttonIndex].title = await translate(data._cognigy._default._list.items[index].buttons[buttonIndex].title, language, translator, apikey);
+
 					// Check type of button
 					if (button.type === 'postback') {
 						// Translate button title
-						button.title = await translate(button.title, language, translator, apikey);
+						data._cognigy._default._list.items[index].buttons[buttonIndex].payload = await translate(data._cognigy._default._list.items[index].buttons[buttonIndex].payload, language, translator, apikey);
 					}
 				}
+			}
+		}
 
-				/** Translate data */
+		// Check if there is a button for this list
+		if (data._cognigy?._default?._list?.button) {
+
+			data._cognigy._default._list.button.title = await translate(data._cognigy?._default?._list?.button.title, language, translator, apikey);
+
+			// Check type of button
+			if (data._cognigy?._default?._list?.button.type === 'postback') {
+				// Translate button title
+				data._cognigy._default._list.button.payload = await translate(data._cognigy._default._list.button.payload, language, translator, apikey);
+			}
+		}
+
+		/** Translate data */
+
+		// Loop through the items
+		for (let item of data._data._cognigy._default._list.items) {
+
+			// Get the index of the current sentence in the list of sentences called 'text'
+			let index = data._data._cognigy._default._list.items.indexOf(item);
+
+
+			data._data._cognigy._default._list.items[index].title = await translate(data._data._cognigy._default._list.items[index].title, language, translator, apikey);
+			data._data._cognigy._default._list.items[index].subtitle = await translate(data._data._cognigy._default._list.items[index].subtitle, language, translator, apikey);
+
+			// Check if item has buttons
+			if (data?._data._cognigy?._default?._list?.items[index]?.buttons) {
+
 				// Loop through the buttons
 				for (let button of data._data._cognigy._default._list.items[index].buttons) {
 
+					let buttonIndex = data._data._cognigy._default._list.items[index].buttons.indexOf(button);
+
+					// translate the button title
+					data._data._cognigy._default._list.items[index].buttons[buttonIndex].title = await translate(data._data._cognigy._default._list.items[index].buttons[buttonIndex].title, language, translator, apikey);
+
 					// Check type of button
 					if (button.type === 'postback') {
 						// Translate button title
-						button.title = await translate(button.title, language, translator, apikey);
+						data._data._cognigy._default._list.items[index].buttons[buttonIndex].payload = await translate(data._data._cognigy._default._list.items[index].buttons[buttonIndex].payload, language, translator, apikey);
 					}
 				}
+			}
+		}
+
+		// Check if there is a button for this list
+		if (data._data._cognigy?._default?._list?.button) {
+
+			data._data._cognigy._default._list.button.title = await translate(data._data._cognigy?._default?._list?.button.title, language, translator, apikey);
+
+			// Check type of button
+			if (data._data._cognigy?._default?._list?.button.type === 'postback') {
+				// Translate button title
+				data._data._cognigy._default._list.button.payload = await translate(data._data._cognigy._default._list.button.payload, language, translator, apikey);
 			}
 		}
 	}
