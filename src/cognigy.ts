@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-import './utils/checkConfig';
-
 import { Command } from 'commander';
 import { clone } from './commands/clone';
 import { restore } from './commands/restore';
@@ -17,9 +15,14 @@ import { execute } from './commands/execute';
 import { localize } from './commands/localize';
 
 const program = new Command();
-program.version('0.3.0');
+program.version('0.5.3');
 
 let stdin = '';
+
+program
+    .option('-v, --version', 'output the version number')
+    .option('-h, --help', 'display help for command')
+    .action(async () => { program.outputHelp(); });
 
 program
     .command('init')
@@ -133,3 +136,5 @@ if (process.stdin.isTTY) {
         program.parse(process.argv);
     });
 }
+
+import './utils/checkConfig';
