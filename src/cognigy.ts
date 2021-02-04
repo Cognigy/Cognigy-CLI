@@ -16,7 +16,7 @@ import { execute } from './commands/execute';
 import { localize } from './commands/localize';
 
 const program = new Command();
-program.version('0.5.4');
+program.version('0.5.6');
 
 let stdin = '';
 
@@ -63,10 +63,10 @@ program
     .action(async (resourceType, resourceName, cmdObj) => { await pull({ resourceType, resourceName, forceYes: cmdObj.forceYes }); });
 
 program
-    .command('train [resourceName]')
+    .command('train <resourceType> <resourceName>')
     .description('Trains the intent models of a Flow')
     .option('-t, --timeout <ms>', 'timeout for training')
-    .action(async (resourceName, cmdObj) => { await train({ resourceName, timeout: cmdObj.timeout }); });
+    .action(async (resourceType, resourceName, cmdObj) => { await train({ resourceName, timeout: cmdObj.timeout }); });
 
 program
     .command('create <resourceType> <resourceName> [resourceDescription]')
@@ -108,7 +108,7 @@ program
     .action(async (resourceType, resourceName, cmdObj) => { await localize({ resourceType, resourceName, options: cmdObj }); });
 
 program
-    .command('execute <command>')
+    .command('execute [command]')
     .option('-c, --config <configFile>', 'force the use of a specific config file')
     .option('-d, --data <data>', 'the JSON data to pass to the command')
     .option('-l, --list', 'lists all available commands')

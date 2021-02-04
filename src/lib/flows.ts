@@ -403,7 +403,14 @@ export const trainFlow = async (flowName: string, timeout: number = 10000): Prom
     const flowsDir = CONFIG.agentDir + "/flows";
     const flowDir = flowsDir + "/" + flowName;
 
-    const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString());
+    let flowConfig = null;
+    
+    try {
+        flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString());
+    } catch (err) {
+        console.log("Flow can't be found locally, aborting...");
+        process.exit(0);
+    }
     const locales = await pullLocales();
 
     for (let locale of locales) {
@@ -506,6 +513,8 @@ export const exportFlowCSV = async (flowName: string, availableProgress: number)
                 for (let node of flowChart.nodes) {
                     const localized = (locale._id === node.localeReference);
                     switch (node.type) {
+                        case "question":
+                        case "optionalQuestion":
                         case "say":
                             switch (node.config.say.type) {
                                 case "text":
@@ -595,6 +604,8 @@ export const importFlowCSV = async (flowName: string, availableProgress: number)
                                 } catch (err) {}
 
                                 switch (node.type) {
+                                    case "question":
+                                    case "optionalQuestion":
                                     case "say":
                                         switch (node.config.say.type) {
                                             case "text":
@@ -605,7 +616,9 @@ export const importFlowCSV = async (flowName: string, availableProgress: number)
                                                 break;
 
                                             default:
-                                                if (typeof parsedContent === 'object') node.config.say._data = parsedContent;
+                                                if (typeof parsedContent === 'object') {
+                                                    node.config.say._cognigy = parsedContent?._cognigy;
+                                                }
                                         }
                                         break;
                                 }
