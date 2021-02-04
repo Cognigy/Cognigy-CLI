@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import './utils/checkConfig';
 
 import { Command } from 'commander';
 import { clone } from './commands/clone';
@@ -15,14 +16,9 @@ import { execute } from './commands/execute';
 import { localize } from './commands/localize';
 
 const program = new Command();
-program.version('0.5.3');
+program.version('0.5.4');
 
 let stdin = '';
-
-program
-    .option('-v, --version', 'output the version number')
-    .option('-h, --help', 'display help for command')
-    .action(async () => { program.outputHelp(); });
 
 program
     .command('init')
@@ -68,7 +64,7 @@ program
 
 program
     .command('train [resourceName]')
-    .description('Trains the intent models ')
+    .description('Trains the intent models of a Flow')
     .option('-t, --timeout <ms>', 'timeout for training')
     .action(async (resourceName, cmdObj) => { await train({ resourceName, timeout: cmdObj.timeout }); });
 
@@ -136,5 +132,3 @@ if (process.stdin.isTTY) {
         program.parse(process.argv);
     });
 }
-
-import './utils/checkConfig';

@@ -3,7 +3,7 @@ import { findConfig } from '../utils/findConfig';
 
 const configFile = findConfig();
 
-if (process.argv[2] !== "init" && process.argv[2] !== "-V") {
+if (process.argv[2] !== "init" && process.argv[2]) {
     if (!fs.existsSync(configFile)) {
         console.error("No config.json file found. Please run cognigy init.");
         process.exit(0);
