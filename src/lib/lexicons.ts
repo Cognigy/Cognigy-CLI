@@ -8,7 +8,7 @@ import { addToProgressBar } from '../utils/progressBar';
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
 import { makeAxiosRequest } from '../utils/axiosClient';
-import { checkCreateDir, checkTask } from '../utils/checks';
+import { checkCreateDir, checkTask, removeCreateDir } from '../utils/checks';
 import { indexAll } from '../utils/indexAll';
 
 /**
@@ -26,35 +26,19 @@ export const cloneLexicons = async (availableProgress: number): Promise<void> =>
     // An increment counter for the progress bar
     const progressIncrement = Math.round(availableProgress / 10);
 
-    // remove target directory
-    try {
-        fs.rmdirSync(lexiconDir, { recursive: true });
-        addToProgressBar(progressIncrement);
-    } catch (err) { console.log(err.message); }
-
-    // create Flow base directory
-    fs.mkdirSync(lexiconDir);
-    addToProgressBar(progressIncrement);
+    // remove and create target directory
+    await removeCreateDir(lexiconDir);
 
     // query Cognigy.AI for all Flows in this agent
     const lexicons = await indexAll(CognigyClient.indexLexicons)({
         "projectId": CONFIG.agent
     });
-    addToProgressBar(progressIncrement);
 
-    const incrementPerLexicon = 70 / lexicons.items.length;
+    const incrementPerLexicon = availableProgress / lexicons.items.length;
 
     // create a sub-folder, chart.json and config.json for each Flow
     for (let lexicon of lexicons.items) {
-        const individualLexiconDir = lexiconDir + "/" + lexicon.name;
-
-        const lexiconDetail = await CognigyClient.readLexicon({
-            lexiconId: lexicon._id
-        });
-
-        fs.mkdirSync(individualLexiconDir);
-        fs.writeFileSync(individualLexiconDir + "/config.json", JSON.stringify(lexiconDetail, undefined, 4));
-        addToProgressBar(incrementPerLexicon);
+        await pullLexicon(lexicon.name, incrementPerLexicon);
     }
 
     return Promise.resolve();
@@ -93,13 +77,7 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
     }
 
     // remove target directory
-    try {
-        fs.rmdirSync(lexiconDir, { recursive: true });
-        addToProgressBar(progressIncrement);
-    } catch (err) { console.log(err.message); }
-
-    // create Flow base directory
-    fs.mkdirSync(lexiconDir);
+    await removeCreateDir(lexiconDir);
     addToProgressBar(progressIncrement);
 
     // store lexicon data
