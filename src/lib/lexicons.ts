@@ -141,7 +141,7 @@ export const restoreLexicons = async (availableProgress: number): Promise<void> 
 
     // iterate through lexicons and push all to Cognigy.AI
     for (let lexicon of lexiconDirectories) {
-        await pushLexicon(lexicon, incrementPerLexicon, 10000000);
+        await pushLexicon(lexicon, incrementPerLexicon, { "timeout": 10000000 });
     }
     return Promise.resolve();
 };
