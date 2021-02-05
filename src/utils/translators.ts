@@ -286,14 +286,17 @@ export async function translateSayNode(data, language, translator, apikey) {
 			// Translate title & subtitle
 			item.title = await translate(item.title, language, translator, apikey);
 			item.subtitle = await translate(item.subtitle, language, translator, apikey);
+			item.imageAltText = await translate(item.imageAltText, language, translator, apikey);
 
 
 			// Check for buttons and translate them
 			if (item.buttons && item.buttons.length > 0) {
 				for (let button of item.buttons) {
+
+					button.title = await translate(button.title, language, translator, apikey);
+
 					// Translate button title & payload
 					if (button.type === 'postback') {
-						button.title = await translate(button.title, language, translator, apikey);
 						button.payload = await translate(button.payload, language, translator, apikey);
 					}
 				}
@@ -314,13 +317,16 @@ export async function translateSayNode(data, language, translator, apikey) {
 			// Translate title & subtitle
 			item.title = await translate(item.title, language, translator, apikey);
 			item.subtitle = await translate(item.subtitle, language, translator, apikey);
+			item.imageAltText = await translate(item.imageAltText, language, translator, apikey);
 
 			// Check for buttons and translate them
 			if (item.buttons && item.buttons.length > 0) {
 				for (let button of item.buttons) {
+
+					button.title = await translate(button.title, language, translator, apikey);
+
 					// Translate button title & payload
 					if (button.type === 'postback') {
-						button.title = await translate(button.title, language, translator, apikey);
 						button.payload = await translate(button.payload, language, translator, apikey);
 					}
 				}
