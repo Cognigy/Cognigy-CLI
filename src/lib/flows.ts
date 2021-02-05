@@ -578,12 +578,13 @@ export const localizeFlow = async (flowName: string, availableProgress: number, 
     const localizeNodes = (localizeAll || options.localizeNodes);
 
     try {
-        const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString()),
-                flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/chart.json").toString()),
-                flowIntents: IIntent[] = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/intents.json").toString());
-
+        const primaryLocale = (await pullLocales()).find((locale) => locale.primary === true);
         const targetLocale = (await pullLocales()).find((locale) => locale.name === localeName);
         const sourceLocale = (await pullLocales()).find((locale) => locale.name === sourceLocaleName);
+
+        const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString()),
+              flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/chart.json").toString()),
+              flowIntents: IIntent[] = JSON.parse(fs.readFileSync(flowDir + "/" + primaryLocale.name + "/intents.json").toString());
 
         if (sourceLocaleName && !sourceLocale) {
             console.log(`\nSource Locale ${sourceLocaleName} doesn't exist. Please check the spelling and try again.\n`);
@@ -592,27 +593,29 @@ export const localizeFlow = async (flowName: string, availableProgress: number, 
 
         // localize intents
         if (localizeIntents) {
+
+            let allIntents = await indexAll(CognigyClient.indexIntents)({
+                flowId: flowConfig._id,
+                preferredLocaleId: primaryLocale._id
+            });
+
             console.log(`\n${options.reverse ? 'Removing localization from' : 'Adding localization to'} Intents...\n`);
             startProgressBar(100);
-            for (let intent of flowIntents) {
+            for (let intent of allIntents.items) {
                 try {
                     if (options.reverse) {
-                        if (intent.localeReference === targetLocale._id) {
-                            await CognigyClient.removeIntentLocalization({
-                                flowId: flowConfig._id,
-                                intentId: intent._id,
-                                localeId: targetLocale._id
-                            });
-                        }
+                        await CognigyClient.removeIntentLocalization({
+                            flowId: flowConfig._id,
+                            intentId: intent._id,
+                            localeId: targetLocale._id
+                        });
                     } else {
-                        if (intent.localeReference !== targetLocale._id) {
-                            await CognigyClient.addIntentLocalization({
-                                flowId: flowConfig._id,
-                                intentId: intent._id,
-                                localeId: targetLocale._id,
-                                inheritFromLocaleId: sourceLocale?._id
-                            });
-                        }
+                        await CognigyClient.addIntentLocalization({
+                            flowId: flowConfig._id,
+                            intentId: intent._id,
+                            localeId: targetLocale._id,
+                            inheritFromLocaleId: sourceLocale?._id
+                        });
                     }
                 } catch (err) {
                     // if a localization throws an error, we skip
