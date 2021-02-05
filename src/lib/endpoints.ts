@@ -81,13 +81,7 @@ export const pullEndpoint = async (endpointName: string, availableProgress: numb
     }
 
     // remove target directory
-    try {
-        fs.rmdirSync(endpointDir, { recursive: true });
-        addToProgressBar(progressIncrement);
-    } catch (err) { console.log(err.message); }
-
-    // create Flow base directory
-    fs.mkdirSync(endpointDir);
+    await removeCreateDir(endpointDir);
     addToProgressBar(progressIncrement);
 
     // pull endpoint data from Cognigy.AI
