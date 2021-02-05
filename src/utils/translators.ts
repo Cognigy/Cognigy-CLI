@@ -1,3 +1,4 @@
+import _default from "@google-cloud/translate";
 import chalk = require("chalk");
 
 // Imports the Google Cloud client library
@@ -326,6 +327,24 @@ export async function translateSayNode(data, language, translator, apikey) {
 			}
 		}
 	}
+
+	if (data?._cognigy?._default?._image) {
+		// Translate fallback text
+		data._cognigy._default._image.fallbackText = await translate(data._cognigy._default._image.fallbackText, language, translator, apikey);
+		// Translate alternative text
+		data._cognigy._default._image.imageAltText = await translate(data._cognigy._default._image.imageAltText, language, translator, apikey);
+	}
+
+	if (data?._data?._cognigy?._default?._image) {
+
+		// Translate fallback text
+		data._data._cognigy._default._image.fallbackText = await translate(data._data._cognigy._default._image.fallbackText, language, translator, apikey);
+		// Translate alternative text
+		data._data._cognigy._default._image.imageAltText = await translate(data._data._cognigy._default._image.imageAltText, language, translator, apikey);
+
+	}
+
+
 
 	// Return the translated SAY Node
 	return data;
