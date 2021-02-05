@@ -23,6 +23,11 @@ export const execute = async ({ command, options, stdin }): Promise<void> => {
         process.exit(0);
     }
 
+    if (!command) {
+        console.log(`error: Missing paramter 'command'`);
+        process.exit(0);
+    }
+
     // check if command exists
     if (Object.keys(CognigyClient).indexOf(command) === -1) {
         console.log(`error: Command '${command}' doesn't exist. Please execute 'cognigy execute -l' to see a list of available commands`);

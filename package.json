@@ -1,5 +1,5 @@
 {
-  "name": "cognigy",
+  "name": "@cognigy/cognigy-cli",
   "version": "0.6.0",
   "description": "Cognigy Command Line Interface",
   "main": "./build/cognigy.js",
@@ -33,6 +33,7 @@
     "csv-writer": "^1.6.0",
     "del": "^6.0.0",
     "express": "^4.17.1",
+    "form-data": "^3.0.0",
     "inquirer": "^7.1.0",
     "json-diff": "^0.5.4",
     "mongodb": "^3.6.0",

@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 import './utils/checkConfig';
 
 import { Command } from 'commander';
@@ -18,7 +17,7 @@ import { translate } from './commands/translate';
 import { localize } from './commands/localize';
 
 const program = new Command();
-program.version('0.3.0');
+program.version('0.5.8');
 
 let stdin = '';
 
@@ -54,8 +53,9 @@ program
     .command('push <resourceType> <resourceName>')
     .option('-c, --config <configFile>', 'force the use of a specific config file')
     .option('-y, --forceYes', 'skips warnings and overwrites all content')
+    .option('-t, --timeout <ms>', 'timeout for training')
     .description('Pushes a resource from disk to Cognigy.AI')
-    .action(async (resourceType, resourceName, cmdObj) => { await push({ resourceType, resourceName, forceYes: cmdObj.forceYes }); });
+    .action(async (resourceType, resourceName, cmdObj) => { await push({ resourceType, resourceName, options: cmdObj }); });
 
 program
     .command('pull <resourceType> [resourceName]')
@@ -65,10 +65,10 @@ program
     .action(async (resourceType, resourceName, cmdObj) => { await pull({ resourceType, resourceName, forceYes: cmdObj.forceYes }); });
 
 program
-    .command('train [resourceName]')
-    .description('Trains the intent models ')
+    .command('train <resourceType> <resourceName>')
+    .description('Trains the intent models of a Flow')
     .option('-t, --timeout <ms>', 'timeout for training')
-    .action(async (resourceName, cmdObj) => { await train({ resourceName, timeout: cmdObj.timeout }); });
+    .action(async (resourceType, resourceName, cmdObj) => { await train({ resourceName, timeout: cmdObj.timeout }); });
 
 program
     .command('create <resourceType> <resourceName> [resourceDescription]')

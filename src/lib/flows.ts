@@ -4,6 +4,7 @@ import { Spinner } from 'cli-spinner';
 import * as chalk from 'chalk';
 import { createArrayCsvWriter } from 'csv-writer';
 import * as csv from 'csv-parser';
+import * as FormData from 'form-data';
 
 import { checkTask } from '../utils/checks';
 
@@ -13,15 +14,13 @@ import CognigyClient from '../utils/cognigyClient';
 import { removeCreateDir } from '../utils/checks';
 import { pullLocales } from './locales';
 import translateFlowNode, { translateIntentExampleSentence, translateSayNode } from '../utils/translators';
-
+import { makeAxiosRequest } from '../utils/axiosClient';
 
 import { indexAll } from '../utils/indexAll';
 
 // Interfaces
 import { ILocaleIndexItem_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/locales/v2.0';
 import { IIntent } from '@cognigy/rest-api-client/build/shared/interfaces/resources/intent/IIntent';
-import { ISentence_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/flow/v2.0/sentence/ISentence_2_0';
-import { ILocale, ILocale_2_0 } from '@cognigy/rest-api-client';
 
 /**
  * Clones Cognigy Flows to disk
@@ -111,16 +110,14 @@ export const pullFlow = async (flowName: string, availableProgress: number): Pro
 
         fs.writeFileSync(localeDir + "/chart.json", JSON.stringify(chart, undefined, 4));
 
-        const flowIntents = await indexAll(CognigyClient.indexIntents)({
+        const flowIntents = await CognigyClient.exportIntents({
             flowId: flow._id,
-            preferredLocaleId: locale._id,
-            includeChildren: true,
-            limit: 100
+            localeId: locale._id,
+            format: 'json',
+            type: null
         });
 
-        const intents = await pullIntents(flow, flowIntents, locale, progressPerLocale);
-
-        fs.writeFileSync(localeDir + "/intents.json", JSON.stringify(intents, undefined, 4));
+        fs.writeFileSync(localeDir + "/intents.json", JSON.stringify(flowIntents, undefined, 4));
     }
 
     return Promise.resolve();
@@ -144,7 +141,7 @@ export const restoreFlows = async (availableProgress: number): Promise<void> => 
 
     // Go through all Flows and try to push them to Cognigy.AI
     for (let flow of flowDirectories) {
-        await pushFlow(flow, progressPerFlow);
+        await pushFlow(flow, progressPerFlow, { "timeout": 10000000 });
     }
     return Promise.resolve();
 };
@@ -154,7 +151,7 @@ export const restoreFlows = async (availableProgress: number): Promise<void> => 
  * @param flowName The name of the Flow to push
  * @param availableProgress How much of the progress bar can be filled by this process
  */
-export const pushFlow = async (flowName: string, availableProgress: number): Promise<void> => {
+export const pushFlow = async (flowName: string, availableProgress: number, options?: any): Promise<void> => {
     const flowsDir = CONFIG.agentDir + "/flows";
     const flowDir = flowsDir + "/" + flowName;
 
@@ -207,54 +204,23 @@ export const pushFlow = async (flowName: string, availableProgress: number): Pro
                 }
 
                 if (flowIntents.length > 0) {
-                    const progressPerIntent = availableProgress / 2 / locales.length / flowIntents.length;
-                    for (let intent of flowIntents) {
-                        try {
-                            const {
-                                _id: intentId,
-                                tags,
-                                name,
-                                isDisabled,
-                                confirmationSentences,
-                                condition,
-                                rules,
-                                childFeatures,
-                                localeReference
-                            } = intent;
+                    const form = new FormData();
+                    form.append('mode', 'overwrite');
+                    form.append('flowId', flowId);
+                    form.append('localeId', locale._id);
+                    form.append('file', fs.createReadStream(flowDir + "/" + locale.name + "/intents.json"));
 
-                            if (localeReference === locale._id) {
-                                const sentences: ISentence_2_0[] = intent["sentences"];
+                    // update Lexicon on Cognigy.AI
+                    const result = await makeAxiosRequest({
+                        path: `/new/v2.0/flows/${flowId}/intents/import`,
+                        method: 'POST',
+                        type: 'multipart/form-data',
+                        form: form
+                    });
 
-                                await CognigyClient.updateIntent({
-                                    intentId,
-                                    tags,
-                                    name,
-                                    isDisabled,
-                                    confirmationSentences,
-                                    condition,
-                                    rules,
-                                    childFeatures,
-                                    flowId,
-                                    localeId: locale._id
-                                });
-
-                                for (let sentence of sentences) {
-                                    await CognigyClient.updateSentence({
-                                        flowId,
-                                        intentId,
-                                        localeReference: locale._id,
-                                        sentenceId: sentence._id,
-                                        slots: sentence.slots,
-                                        text: sentence.text,
-                                        feedbackReport: null
-                                    });
-                                }
-                            }
-                        } catch (err) { }
-
-                        addToProgressBar(progressPerIntent);
-                    }
-                } else addToProgressBar(availableProgress / 2);
+                    await checkTask(result?.data?._id, 0, options?.timeout || 10000);                    
+                } 
+                addToProgressBar(availableProgress / 2);
 
             } catch (err) {
                 console.log(err.message);
@@ -406,7 +372,14 @@ export const trainFlow = async (flowName: string, timeout: number = 10000): Prom
     const flowsDir = CONFIG.agentDir + "/flows";
     const flowDir = flowsDir + "/" + flowName;
 
-    const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString());
+    let flowConfig = null;
+    
+    try {
+        flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString());
+    } catch (err) {
+        console.log("Flow can't be found locally, aborting...");
+        process.exit(0);
+    }
     const locales = await pullLocales();
 
     for (let locale of locales) {
@@ -526,53 +499,6 @@ export const translateFlow = async (flowName: string, options: ITranslateFlowOpt
 };
 
 /**
- * Pull Intents recursively
- * @param flow Which flow to pull from
- * @param flowIntents Current level of intents
- * @param locale Locale to pull from
- * @param availableProgress How much progress is left on the progress bar
- * @param intents Intents found
- */
-const pullIntents = async (flow, flowIntents, locale, availableProgress, intents = []) => {
-    if (flowIntents && flowIntents.items && flowIntents.items && flowIntents.items.length > 0) {
-        const progressPerIntent = availableProgress / 2 / flowIntents.items.length;
-
-        for (let intent of flowIntents.items) {
-            const intentData = await CognigyClient.readIntent({
-                intentId: intent._id,
-                flowId: flow._id,
-                preferredLocaleId: locale._id
-            });
-
-            const flowIntentSentences = await indexAll(CognigyClient.indexSentences)({
-                flowId: flow._id,
-                intentId: intent._id,
-                preferredLocaleId: locale._id
-            });
-
-            let intentSentences: any = [];
-            if (flowIntentSentences && flowIntentSentences.items && flowIntentSentences.items.length > 0) {
-                intentSentences = await Promise.all(
-                    flowIntentSentences.items.map(async sentence => {
-                        return await CognigyClient.readSentence({
-                            flowId: flow._id,
-                            intentId: intent._id,
-                            sentenceId: sentence._id
-                        });
-                    })
-                );
-            }
-            intents.push({
-                ...intentData,
-                sentences: intentSentences
-            });
-            addToProgressBar(progressPerIntent); // half the value as other half was other intents
-        }
-    }
-    return intents;
-};
-
-/**
  * Exports all strings from a Flow as CSV
  * @param availableProgress How much of the progress bar can be filled by this process
  */
@@ -605,6 +531,8 @@ export const exportFlowCSV = async (flowName: string, availableProgress: number)
                 for (let node of flowChart.nodes) {
                     const localized = (locale._id === node.localeReference);
                     switch (node.type) {
+                        case "question":
+                        case "optionalQuestion":
                         case "say":
                             switch (node.config.say.type) {
                                 case "text":
@@ -694,6 +622,8 @@ export const importFlowCSV = async (flowName: string, availableProgress: number)
                                 } catch (err) { }
 
                                 switch (node.type) {
+                                    case "question":
+                                    case "optionalQuestion":
                                     case "say":
                                         switch (node.config.say.type) {
                                             case "text":
@@ -704,7 +634,9 @@ export const importFlowCSV = async (flowName: string, availableProgress: number)
                                                 break;
 
                                             default:
-                                                if (typeof parsedContent === 'object') node.config.say._data = parsedContent;
+                                                if (typeof parsedContent === 'object') {
+                                                    node.config.say._cognigy = parsedContent?._cognigy;
+                                                }
                                         }
                                         break;
                                 }

@@ -11,7 +11,7 @@ import { pushLexicon } from '../lib/lexicons';
  * Pushes a single resource from disk to Cognigy.AI
  * @param resourceType the type of resources to restore
  */
-export const push = async ({ resourceType, resourceName, forceYes = false }): Promise<void> => {
+export const push = async ({ resourceType, resourceName, options }): Promise<void> => {
     // check if project exists on Cognigy.AI and the APIKey can retrieve it
     await checkProject();
 
@@ -22,7 +22,7 @@ export const push = async ({ resourceType, resourceName, forceYes = false }): Pr
     checkResourceDir(resourceType, resourceName);
 
     // get confirmation from user that Cognigy.AI data will be overwritten
-    const answers = (forceYes) ? { overwrite: true } : await inquirer
+    const answers = (options.forceYes) ? { overwrite: true } : await inquirer
     	.prompt([
             {
             type: 'confirm',
@@ -36,26 +36,29 @@ export const push = async ({ resourceType, resourceName, forceYes = false }): Pr
     }
 
     console.log(`Starting to push ${upperFirst(resourceType)} ${resourceName} to Cognigy.AI ... \n`);
-    startProgressBar(100);
+    
 
     switch (resourceType) {
         case "flow":
+            startProgressBar(100);
             await pushFlow(resourceName, 100);
+            endProgressBar();
             break;
 
         case "endpoint":
+            startProgressBar(100);
             await pushEndpoint(resourceName, 100);
+            endProgressBar();
             break;
 
         case "lexicon":
-            await pushLexicon(resourceName, 100);
+            await pushLexicon(resourceName, 100, options.timeout);
             break;
 
         default:
             console.log(`Resource type ${resourceType} can't be pushed.`);
     }
 
-    endProgressBar();
     console.log(`\nWe've successfully pushed ${upperFirst(resourceType)} ${resourceName} to Cognigy.AI - Enjoy.`);
 
     return;
