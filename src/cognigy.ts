@@ -16,7 +16,7 @@ import { execute } from './commands/execute';
 import { localize } from './commands/localize';
 
 const program = new Command();
-program.version('0.5.6');
+program.version('0.5.7');
 
 let stdin = '';
 
@@ -52,8 +52,9 @@ program
     .command('push <resourceType> <resourceName>')
     .option('-c, --config <configFile>', 'force the use of a specific config file')
     .option('-y, --forceYes', 'skips warnings and overwrites all content')
+    .option('-t, --timeout <ms>', 'timeout for training')
     .description('Pushes a resource from disk to Cognigy.AI')
-    .action(async (resourceType, resourceName, cmdObj) => { await push({ resourceType, resourceName, forceYes: cmdObj.forceYes }); });
+    .action(async (resourceType, resourceName, cmdObj) => { await push({ resourceType, resourceName, options: cmdObj }); });
 
 program
     .command('pull <resourceType> [resourceName]')

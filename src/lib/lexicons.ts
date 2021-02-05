@@ -2,13 +2,14 @@ import * as fs from 'fs';
 import * as jsonDiff from 'json-diff';
 import { Spinner }  from 'cli-spinner';
 import * as chalk from 'chalk';
+import * as FormData from 'form-data';
 
 import { addToProgressBar } from '../utils/progressBar';
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
-import { checkCreateDir } from '../utils/checks';
+import { makeAxiosRequest } from '../utils/axiosClient';
+import { checkCreateDir, checkTask } from '../utils/checks';
 import { indexAll } from '../utils/indexAll';
-
 
 /**
  * Clones Cognigy Lexicons to disk
@@ -101,13 +102,22 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
     fs.mkdirSync(lexiconDir);
     addToProgressBar(progressIncrement);
 
-    // pull lexicon data from Cognigy.AI
-    const lexiconDetail = await CognigyClient.readLexicon({
+    // store lexicon data
+    const lexiconConfig = {
         lexiconId: lexicon._id
+    };
+
+    fs.writeFileSync(lexiconDir + "/config.json", JSON.stringify(lexiconConfig, undefined, 4));
+
+    // pull lexicon data from Cognigy.AI
+    const csvData = await CognigyClient.exportFromLexicon({
+        lexiconId: lexicon._id,
+        projectId: CONFIG.agent,
+        type: 'text/csv'
     });
 
     // write files to disk
-    fs.writeFileSync(lexiconDir + "/config.json", JSON.stringify(lexiconDetail, undefined, 4));
+    fs.writeFileSync(lexiconDir + "/keyphrases.csv", csvData);
     addToProgressBar(70);
 
     return Promise.resolve();
@@ -131,7 +141,7 @@ export const restoreLexicons = async (availableProgress: number): Promise<void> 
 
     // iterate through lexicons and push all to Cognigy.AI
     for (let lexicon of lexiconDirectories) {
-        await pushLexicon(lexicon, incrementPerLexicon);
+        await pushLexicon(lexicon, incrementPerLexicon, 10000000);
     }
     return Promise.resolve();
 };
@@ -141,33 +151,39 @@ export const restoreLexicons = async (availableProgress: number): Promise<void> 
  * @param lexiconName Name of the Lexicon to push to Cognigy.aI
  * @param availableProgress How much of the progress bar can be filled by this process
  */
-export const pushLexicon = async (lexiconName: string, availableProgress: number): Promise<void> => {
+export const pushLexicon = async (lexiconName: string, availableProgress: number, options: any): Promise<void> => {
     const lexiconDir = CONFIG.agentDir + "/lexicons/" + lexiconName;
 
     if (fs.existsSync(lexiconDir + "/config.json")) {
         // config exist for this lexicon, proceed
-
+        const spinner = new Spinner(`Uploading lexicon ${lexiconName} to Cognigy.AI... %s`);
+        spinner.setSpinnerString('|/-\\');
         try {
+            spinner.start();
             // read local lexicon config
             const lexiconConfig = JSON.parse(fs.readFileSync(lexiconDir + "/config.json").toString());
-            lexiconConfig.lexiconId = lexiconConfig._id;
-            delete lexiconConfig._id;
-            delete lexiconConfig.createdAt;
-            delete lexiconConfig.createdBy;
-            delete lexiconConfig.lastChanged;
-            delete lexiconConfig.lastChangedBy;
-            delete lexiconConfig.referenceId;
+            const lexiconId = lexiconConfig.lexiconId;
+
+            const form = new FormData();
+            form.append('mode', 'overwrite');
+            form.append('lexiconId', lexiconId);
+            form.append('file', fs.createReadStream(lexiconDir + "/keyphrases.csv"));
 
             // update Lexicon on Cognigy.AI
-            await CognigyClient.updateLexicon({
-                ...lexiconConfig
+            const result = await makeAxiosRequest({
+                path: `/new/v2.0/lexicons/${lexiconId}/import`,
+                method: 'POST',
+                type: 'multipart/form-data',
+                form: form
             });
 
+            await checkTask(result?.data?._id, 0, options?.timeout || 10000);
+            spinner.stop()
         } catch (err) {
-            console.error(`Error when updating Lexicon ${lexiconName} on Cognigy.AI: ${err.message}.\nAborting...`);
+            console.error(`\n${chalk.red('error:')} Error when updating Lexicon ${lexiconName} on Cognigy.AI: ${err.message}.\nAborting...`);
+            spinner.stop()
             process.exit(0);
         }
-        addToProgressBar(availableProgress);
     } else {
         // chart or config are missing, skip
         console.log(`Lexicon ${lexiconName} can't be found in '${lexiconDir}'`);
