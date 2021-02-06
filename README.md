@@ -135,21 +135,6 @@ Trains the NLU model of a specified Flow on Cognigy.AI
 | --------- | ----- | ------ | ------- | -------------------------------------------------------------------------------------------------- |
 | <nobr>--timeout</nobr> | -t    | Number | 10000   | Timeout in ms before training progress is no longer checked (training will continue on Cognigy.AI) |
 
-### Command: translate
-`cognigy translate <resourceType> <resourceName>`
-
-Translates the plain text of a chosen resource, such all Nodes inside a Flow.
-
-| Option    | Alias | Type   | Default | Description                                                                                        |
-| --------- | ----- | ------ | ------- | -------------------------------------------------------------------------------------------------- |
-| <nobr>--localeName</nobr> | -l    | String | -   | The locale to process) |
-| <nobr>--fromLanguage</nobr> | -fl    | String | -   | The language to translate from) |
-| <nobr>--toLanguage</nobr> | -tl    | String | -   | The language to translate to) |
-| <nobr>--translator</nobr> | -tr    | String | -   | The translation tool that should be used. 'google', 'microsoft' or 'deepl' |
-| <nobr>--translateIntents</nobr> | -ti   | Boolean | false   | Whether to add localization to Flow Intents |
-| <nobr>--translateNodes</nobr> | -tn   | Boolean | false  | Whether to add localization to Flow Nodes|
-| <nobr>--apiKey</nobr> | -k | String | -  | The API Key for the chosen translation tool |
-| <nobr>--forceYes</nobr> | -y | Boolean | false  | Whether to skip warnings and overwrite all content |
 ### Command: create
 `cognigy create snapshot <resourceName> [resourceDescription]`
 
@@ -197,6 +182,21 @@ This command will go through all Intents and Nodes in a given Locale and will ad
 | <nobr>--contentOnly</nobr> | -co    | Boolean | false | Only localize Say, Question and Optional Question Nodes (optional) |
 | <nobr>--reverse</nobr> | -r    | Boolean | false | Removes the localization from the selected Flow (can be combined with -li and -ln) |
 
+### Command: translate
+`cognigy translate <resourceType> <resourceName>`
+
+Translates the plain text of a chosen resource, such all Nodes inside a Flow.
+
+| Option    | Alias | Type   | Default | Description                                                                                        |
+| --------- | ----- | ------ | ------- | -------------------------------------------------------------------------------------------------- |
+| <nobr>--localeName</nobr> | -l    | String | -   | The locale to process) |
+| <nobr>--fromLanguage</nobr> | -fl    | String | -   | The language to translate from) |
+| <nobr>--toLanguage</nobr> | -tl    | String | -   | The language to translate to) |
+| <nobr>--translator</nobr> | -tr    | String | -   | The translation tool that should be used. 'google', 'microsoft' or 'deepl' |
+| <nobr>--translateIntents</nobr> | -ti   | Boolean | false   | Whether to add localization to Flow Intents |
+| <nobr>--translateNodes</nobr> | -tn   | Boolean | false  | Whether to add localization to Flow Nodes|
+| <nobr>--apiKey</nobr> | -k | String | -  | The API Key for the chosen translation tool |
+| <nobr>--forceYes</nobr> | -y | Boolean | false  | Whether to skip warnings and overwrite all content |
 
 ### Command: execute
 `cognigy execute <command>`

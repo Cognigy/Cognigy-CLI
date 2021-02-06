@@ -481,7 +481,7 @@ export const translateFlow = async (flowName: string, options: ITranslateFlowOpt
                                     resourceType: 'flow'
                                 })
                             } catch (error) {
-                                console.log(`Failed to update ${flowNode.label} (${flowNode.type}) node`);
+                                // console.log(`Failed to update ${flowNode.label} (${flowNode.type}) node`);
                             }
                         }
                     }
