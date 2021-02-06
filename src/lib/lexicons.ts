@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as jsonDiff from 'json-diff';
+import * as Diff from 'diff';
 import { Spinner }  from 'cli-spinner';
 import * as chalk from 'chalk';
 import * as FormData from 'form-data';
@@ -190,23 +191,38 @@ export const diffLexicons = async (lexiconName: string, mode: string = 'full'): 
         const lexiconDir = CONFIG.agentDir + "/lexicons";
 
         // check whether Lexicon directory and config.json for the Lexicon exist
-        if (!fs.existsSync(lexiconDir + "/" + lexiconName) || !fs.existsSync(lexiconDir + "/" + lexiconName + "/config.json")) {
+        if (!fs.existsSync(lexiconDir + "/" + lexiconName) || !fs.existsSync(lexiconDir + "/" + lexiconName + "/config.json")  || !fs.existsSync(lexiconDir + "/" + lexiconName + "/keyphrases.csv")) {
             spinner.stop();
             console.log(`\nThe requested Lexicon resource (${lexiconName}) couldn't be found ${chalk.green('locally')}. Aborting...`);
             process.exit(0);
         }
 
-        // retrieve local Flow chart
+        // retrieve local Lexicon config & csv
         const localConfig = JSON.parse(fs.readFileSync(lexiconDir + "/" + lexiconName + "/config.json").toString());
+        const localCsvData = fs.readFileSync(lexiconDir + "/" + lexiconName + "/keyphrases.csv").toString();
 
         // retrieve remote Flow chart
         const remoteConfig = await CognigyClient.readLexicon({
-            "lexiconId": localConfig._id
+            "lexiconId": localConfig.lexiconId
         });
 
-        // perform full comparison and output results
-        const diffString = jsonDiff.diffString(remoteConfig, localConfig);
+        const remoteCsvData = await CognigyClient.exportFromLexicon({
+            lexiconId: localConfig.lexiconId,
+            projectId: CONFIG.agent,
+            type: 'text/csv'
+        });
 
+        const diff = Diff.diffChars(remoteCsvData, localCsvData);
+ 
+        // perform full comparison and output results
+        let diffString = "";
+        diff.forEach((part) => {
+            // green for additions, red for deletions
+            // grey for common parts
+            const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
+            diffString += part.value[color];
+        });
+ 
         spinner.stop();
 
         if (diffString) console.log(`\n\n ${diffString}`);

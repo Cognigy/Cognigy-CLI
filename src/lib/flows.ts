@@ -290,6 +290,7 @@ export const diffFlows = async (flowName: string, mode: string = 'full'): Promis
                     "preferredLocaleId": locale._id
                 });
                 node["config"] = Node.config;
+                delete node["preview"];
             }
 
             // comparing Flows
@@ -344,17 +345,17 @@ export const diffFlows = async (flowName: string, mode: string = 'full'): Promis
 
                 // show results
                 if (copiesAreDifferent) {
-                    console.log(`The Flow ${chalk.blueBright(flowName)} in locale ${chalk.yellow(locale.name)} DIFFERS on ${chalk.green('local')} and ${chalk.red('remote')}.`);
+                    console.log(`\nThe Flow ${chalk.blueBright(flowName)} in locale ${chalk.yellow(locale.name)} DIFFERS on ${chalk.green('local')} and ${chalk.red('remote')}.`);
                     console.log(differences);
-                } else console.log(`The Flow ${chalk.blueBright(flowName)} in locale ${chalk.yellow(locale.name)} is identical on ${chalk.green('local')} and ${chalk.red('remote')}.`);
+                } else console.log(`\nThe Flow ${chalk.blueBright(flowName)} in locale ${chalk.yellow(locale.name)} is identical on ${chalk.green('local')} and ${chalk.red('remote')}.`);
             } else {
                 // perform full comparison and output results
                 const diffString = jsonDiff.diffString(remoteChart, localChart);
 
                 if (diffString) {
-                    console.log(`The Flow ${chalk.blueBright(flowName)} in locale ${chalk.yellow(locale.name)} DIFFERS on ${chalk.green('local')} and ${chalk.red('remote')}.`);
+                    console.log(`\nThe Flow ${chalk.blueBright(flowName)} in locale ${chalk.yellow(locale.name)} DIFFERS on ${chalk.green('local')} and ${chalk.red('remote')}.`);
                     console.log(`\n${diffString}`);
-                } else console.log(`The Flow ${chalk.blueBright(flowName)} in locale ${chalk.yellow(locale.name)} is identical on ${chalk.green('local')} and ${chalk.red('remote')}.`);
+                } else console.log(`\nThe Flow ${chalk.blueBright(flowName)} in locale ${chalk.yellow(locale.name)} is identical on ${chalk.green('local')} and ${chalk.red('remote')}.`);
             }
         } catch (err) {
             spinner.stop();
