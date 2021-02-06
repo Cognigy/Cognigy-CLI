@@ -17,7 +17,7 @@ import { translate } from './commands/translate';
 import { localize } from './commands/localize';
 
 const program = new Command();
-program.version('0.6.2');
+program.version('0.6.3');
 
 let stdin = '';
 
