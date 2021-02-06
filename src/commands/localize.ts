@@ -1,6 +1,6 @@
 import { startProgressBar, endProgressBar } from '../utils/progressBar';
 import { localizeFlow, pullFlow } from '../lib/flows';
-import { checkProject } from '../utils/checks';
+import { checkLocale, checkProject } from '../utils/checks';
 import { pullLocales } from '../lib/locales';
 import inquirer = require('inquirer');
 import { upperFirst } from '../utils/stringUtils';
@@ -54,38 +54,3 @@ export const localize = async ({ resourceType, resourceName, options }): Promise
 
     return;
 };
-
-/**
- * Checks if a locale name was provided and if the locale actually exists on the server
- * @param localeName 
- */
-const checkLocale = async (localeName: string): Promise<boolean> => {
-    let found = false;
-
-    if (!localeName) {
-        console.log(`\nYou must provide a localeName`);
-        process.exit(0);
-    } else {
-        const locales = await pullLocales();
-        
-        if (!locales) {
-            console.log(`\nLocales can't be loaded from server`);
-            process.exit(0);
-        }
-
-        if (locales && Array.isArray(locales)) {
-            locales.forEach((locale) => {
-                if (locale.name === localeName) {
-                    found = true;
-                }
-            })
-        }
-
-        if (!found) {
-            console.log(`\nLocale ${localeName} can't be found. Please create it before continuing.`);
-            process.exit(0);
-        }
-    }
-
-    return found;
-}

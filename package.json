@@ -1,6 +1,6 @@
 {
   "name": "@cognigy/cognigy-cli",
-  "version": "0.5.12",
+  "version": "0.6.2",
   "description": "Cognigy Command Line Interface",
   "main": "./build/cognigy.js",
   "scripts": {
@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@cognigy/rest-api-client": "^0.10.0",
+    "@google-cloud/translate": "^6.0.3",
     "axios": "^0.21.1",
     "chalk": "^4.0.0",
     "cli-progress": "^3.7.0",
@@ -37,7 +38,8 @@
     "json-diff": "^0.5.4",
     "mongodb": "^3.6.0",
     "request": "^2.88.2",
-    "request-promise": "^4.2.6"
+    "request-promise": "^4.2.6",
+    "uuid": "^8.3.1"
   },
   "bin": {
     "cognigy": "./build/cognigy.js"

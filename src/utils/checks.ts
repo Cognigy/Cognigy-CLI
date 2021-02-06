@@ -3,6 +3,7 @@ import * as del from 'del';
 
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
+import { pullLocales } from '../lib/locales';
 
 /**
  * Checks whether the agent directory exists
@@ -98,3 +99,38 @@ export const checkTask = async (taskId: string, calls: number = 0, timeout): Pro
         return Promise.resolve(task);
     }
 };
+
+/**
+ * Checks if a locale name was provided and if the locale actually exists on the server
+ * @param localeName 
+ */
+export const checkLocale = async (localeName: string): Promise<boolean> => {
+    let found = false;
+
+    if (!localeName) {
+        console.log(`\nYou must provide a localeName`);
+        process.exit(0);
+    } else {
+        const locales = await pullLocales();
+        
+        if (!locales) {
+            console.log(`\nLocales can't be loaded from server`);
+            process.exit(0);
+        }
+
+        if (locales && Array.isArray(locales)) {
+            locales.forEach((locale) => {
+                if (locale.name === localeName) {
+                    found = true;
+                }
+            })
+        }
+
+        if (!found) {
+            console.log(`\nLocale ${localeName} can't be found. Please create it before continuing.`);
+            process.exit(0);
+        }
+    }
+
+    return found;
+}

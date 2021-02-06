@@ -13,10 +13,11 @@ import { create } from './commands/create';
 import { exportcsv } from './commands/exportcsv';
 import { importcsv } from './commands/importcsv';
 import { execute } from './commands/execute';
+import { translate } from './commands/translate';
 import { localize } from './commands/localize';
 
 const program = new Command();
-program.version('0.5.12');
+program.version('0.6.2');
 
 let stdin = '';
 
@@ -109,7 +110,20 @@ program
     .action(async (resourceType, resourceName, cmdObj) => { await localize({ resourceType, resourceName, options: cmdObj }); });
 
 program
-    .command('execute [command]')
+    .command('translate <resourceType> <resourceName>')
+    .description('Translate a resource')
+    .option('-l, --localeName <localeName>', 'locale to process')
+    .option('-fl, --fromLanguage <fromLanguageCode>', 'language to translate from')
+    .option('-tl, --toLanguage <targetLanguageCode>', 'language to translate to')
+    .option('-tr, --translator <translator>', 'the translation tool, google, microsoft or deepl')
+    .option('-ti, --translateIntents', 'adds localization to Flow Intents')
+    .option('-tn, --translateNodes', 'adds localization to Flow Nodes')
+    .option('-k, --apiKey <apiKey>', 'the translator api key')
+    .option('-y, --forceYes', 'skips warnings and overwrites all content')
+    .action(async (resourceType, resourceName, cmdObj) => { await translate({ resourceType, resourceName, options: cmdObj }); });
+
+program
+    .command('execute <command>')
     .option('-c, --config <configFile>', 'force the use of a specific config file')
     .option('-d, --data <data>', 'the JSON data to pass to the command')
     .option('-l, --list', 'lists all available commands')

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as jsonDiff from 'json-diff';
-import { Spinner }  from 'cli-spinner';
+import { Spinner } from 'cli-spinner';
 import * as chalk from 'chalk';
 import { createArrayCsvWriter } from 'csv-writer';
 import * as csv from 'csv-parser';
@@ -13,14 +13,14 @@ import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
 import { removeCreateDir } from '../utils/checks';
 import { pullLocales } from './locales';
+import translateFlowNode, { translateIntentExampleSentence, translateSayNode } from '../utils/translators';
+import { makeAxiosRequest } from '../utils/axiosClient';
 
 import { indexAll } from '../utils/indexAll';
 
 // Interfaces
 import { ILocaleIndexItem_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/locales/v2.0';
 import { IIntent } from '@cognigy/rest-api-client/build/shared/interfaces/resources/intent/IIntent';
-import { ISentence_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/flow/v2.0/sentence/ISentence_2_0';
-import { makeAxiosRequest } from '../utils/axiosClient';
 
 /**
  * Clones Cognigy Flows to disk
@@ -162,8 +162,8 @@ export const pushFlow = async (flowName: string, availableProgress: number, opti
             // chart and config exist for this flow, proceed
             try {
                 const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString()),
-                      flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + locale.name + "/chart.json").toString()),
-                      flowIntents: IIntent[] = JSON.parse(fs.readFileSync(flowDir + "/" + locale.name + "/intents.json").toString());
+                    flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + locale.name + "/chart.json").toString()),
+                    flowIntents: IIntent[] = JSON.parse(fs.readFileSync(flowDir + "/" + locale.name + "/intents.json").toString());
 
                 const flowId = flowConfig._id;
 
@@ -402,6 +402,102 @@ export const trainFlow = async (flowName: string, timeout: number = 10000): Prom
     }
 };
 
+export interface ITranslateFlowOptions {
+    localeName: string;
+    translator: 'google' | 'microsoft' | 'deepl';
+    fromLanguage: string;
+    toLanguage: string;
+    translateIntents: boolean;
+    translateNodes: boolean;
+    apiKey: string;
+    forceYes: boolean;
+    locale: string;
+}
+
+/**
+ * 
+ * @param flowName The name of the flow
+ * @param fromLanguage  The locale in the flow that should be translated
+ * @param targetLanguage The target langauge to translate to
+ * @param translator Whether to use google, microsoft or deepl translate
+ * @param apiKey The google, microsoft or deepl translate API Key
+ * @param timeout The timeout for execution
+ */
+export const translateFlow = async (flowName: string, options: ITranslateFlowOptions): Promise<void> => {
+    const { toLanguage, translator, apiKey } = options;
+
+    const flowsDir = CONFIG.agentDir + "/flows";
+    const flowDir = flowsDir + "/" + flowName;
+
+    const localeName = options.localeName;
+
+    const translateAll = (!options.translateIntents && !options.translateNodes);
+    const translateIntents = (translateAll || options.translateIntents);
+    const translateNodes = (translateAll || options.translateNodes);
+
+    try {
+        const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString()),
+                flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/chart.json").toString()),
+                flowIntents: IIntent[] = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/intents.json").toString());
+
+        const targetLocale = (await pullLocales()).find((locale) => locale.name === localeName);
+
+        // localize intents
+        if (translateIntents) {
+            console.log(`\nTranslating ${flowIntents.length} Intents in Flow '${flowName}'...\n`);
+            startProgressBar(100);
+            for (let intent of flowIntents) {
+                try {
+                    if (intent.localeReference === targetLocale._id) {
+                        await translateIntent(intent, flowConfig._id, targetLocale, toLanguage, translator, apiKey);
+                    }
+                } catch (err) {
+                    // if a localization throws an error, we skip
+                }
+                addToProgressBar(100 / flowIntents.length);
+            }
+            endProgressBar();
+        }
+
+        // localize Flow Nodes
+         if (translateNodes) {
+            console.log(`\nTranslating Flow Nodes in Flow '${flowName}'...\n`);
+                
+            startProgressBar(100);
+            for (let node of flowChart.nodes) {
+                const { _id: nodeId, localeReference, type } = node;
+                try {
+                    if (localeReference === targetLocale._id) {
+                        if (['say', 'question', 'optionalQuestion'].indexOf(type) > -1) {
+                            const flowNode = await translateFlowNode(node, toLanguage, translator, apiKey);
+
+                            try {
+                                // update node in Cognigy.AI
+                                await CognigyClient.updateChartNode({
+                                    nodeId: flowNode._id,
+                                    config: flowNode.config,
+                                    localeId: targetLocale._id,
+                                    resourceId: flowConfig._id,
+                                    resourceType: 'flow'
+                                })
+                            } catch (error) {
+                                // console.log(`Failed to update ${flowNode.label} (${flowNode.type}) node`);
+                            }
+                        }
+                    }
+                } catch (err) {
+                     // if a localization throws an error, we skip
+                }
+                addToProgressBar(100 / flowChart.nodes.length);
+            }
+            endProgressBar();
+        }
+
+    } catch (err) {
+
+    }
+};
+
 /**
  * Exports all strings from a Flow as CSV
  * @param availableProgress How much of the progress bar can be filled by this process
@@ -505,11 +601,11 @@ export const importFlowCSV = async (flowName: string, availableProgress: number)
                 const nodeMap = new Map();
                 await new Promise((resolve, reject) => {
                     fs.createReadStream(flowDir + "/" + locale.name + "/content.csv")
-                    .pipe(csv())
-                    .on('data', (data) => {
-                        nodeMap.set(data.id, data);
-                    })
-                    .on('end', () => resolve(null));
+                        .pipe(csv())
+                        .on('data', (data) => {
+                            nodeMap.set(data.id, data);
+                        })
+                        .on('end', () => resolve(null));
                 });
 
                 const flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + locale.name + "/chart.json").toString());
@@ -523,7 +619,7 @@ export const importFlowCSV = async (flowName: string, availableProgress: number)
                                 let parsedContent = csvData.content;
                                 try {
                                     parsedContent = JSON.parse(csvData.content);
-                                } catch (err) {}
+                                } catch (err) { }
 
                                 switch (node.type) {
                                     case "question":
@@ -670,4 +766,76 @@ export const localizeFlow = async (flowName: string, availableProgress: number, 
     }
     
     return Promise.resolve();
+};
+
+/**
+ * Translates an Intent
+ * @param intent The Intent to translate
+ * @param flowId Flow ID where the Intent lives
+ * @param targetLocale Target locale to manipulate
+ * @param toLanguage Language to translate to
+ * @param translator Translator to use
+ * @param apiKey apikey for the translator
+ */
+export const translateIntent = async (intent: any, flowId, targetLocale, toLanguage, translator, apiKey): Promise<void> => {
+    const intentData = await CognigyClient.readIntent({
+        intentId: intent._id,
+        flowId,
+        preferredLocaleId: targetLocale._id
+    });
+
+    // translate default reply
+    if (intentData.data) {
+        try {
+            intentData.data = await translateSayNode(intentData.data, toLanguage, translator, apiKey);
+            await CognigyClient.updateIntent({
+                intentId: intent._id,
+                flowId,
+                localeId: targetLocale._id,
+                data: intentData.data
+            });
+        } catch (err) {
+            console.log(`${chalk.red('error')}: ${err.message}`);
+        }
+    }
+
+    const flowIntentSentences = await indexAll(CognigyClient.indexSentences)({
+        flowId,
+        intentId: intent._id,
+        preferredLocaleId: targetLocale._id
+    });
+
+    let intentSentences: any[] = [];
+    if (flowIntentSentences && flowIntentSentences.items && flowIntentSentences.items.length > 0) {
+        intentSentences = await Promise.all(
+            flowIntentSentences.items.map(async sentence => {
+                return await CognigyClient.readSentence({
+                    flowId,
+                    intentId: intent._id,
+                    sentenceId: sentence._id
+                });
+            })
+        );
+    }
+
+    try {
+        for (let sentence of intentSentences) {
+            // translate the current example sentence of the current intent
+            sentence = await translateIntentExampleSentence(sentence, toLanguage, translator, apiKey)
+
+            try {
+                // update example sentence in Cognigy.AI
+                // @ts-ignore
+                await CognigyClient.updateSentence({
+                    flowId,
+                    intentId: intent._id,
+                    sentenceId: sentence._id,
+                    text: sentence.text
+                });
+            } catch (error) {
+                console.log(JSON.stringify(error))
+                console.log(`Failed to update ${intent.name} intent`);
+            }
+        }
+    } catch (err) {}
 };
