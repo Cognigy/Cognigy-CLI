@@ -189,9 +189,9 @@ Translates the plain text of a chosen resource, such all Nodes inside a Flow.
 
 | Option    | Alias | Type   | Default | Description                                                                                        |
 | --------- | ----- | ------ | ------- | -------------------------------------------------------------------------------------------------- |
-| <nobr>--localeName</nobr> | -l    | String | -   | The locale to process) |
-| <nobr>--fromLanguage</nobr> | -fl    | String | -   | The language to translate from) |
-| <nobr>--toLanguage</nobr> | -tl    | String | -   | The language to translate to) |
+| <nobr>--localeName</nobr> | -l    | String | -   | The locale to process |
+| <nobr>--fromLanguage</nobr> | -fl    | String | -   | The language to translate from |
+| <nobr>--toLanguage</nobr> | -tl    | String | -   | The language to translate to |
 | <nobr>--translator</nobr> | -tr    | String | -   | The translation tool that should be used. 'google', 'microsoft' or 'deepl' |
 | <nobr>--translateIntents</nobr> | -ti   | Boolean | false   | Whether to add localization to Flow Intents |
 | <nobr>--translateNodes</nobr> | -tn   | Boolean | false  | Whether to add localization to Flow Nodes|
