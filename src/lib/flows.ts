@@ -438,10 +438,14 @@ export const translateFlow = async (flowName: string, options: ITranslateFlowOpt
 
     try {
         const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString()),
-                flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/chart.json").toString()),
-                flowIntents: IIntent[] = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/intents.json").toString());
+              flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/chart.json").toString());
 
         const targetLocale = (await pullLocales()).find((locale) => locale.name === localeName);
+
+        const flowIntents = (await CognigyClient.indexIntents({
+            flowId: flowConfig._id,
+            preferredLocaleId: targetLocale._id
+        })).items;
 
         // localize intents
         if (translateIntents) {
@@ -495,7 +499,7 @@ export const translateFlow = async (flowName: string, options: ITranslateFlowOpt
         }
 
     } catch (err) {
-
+        console.log(err);
     }
 };
 
