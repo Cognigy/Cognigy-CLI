@@ -5,7 +5,7 @@ Cognigy-CLI is a series of tools to interact with your Cognigy.AI virtual agent 
 
 **The CLI can currently not create resources (other than Snapshots and Locales), but only edit existing resources.**
 
-Currently supported resources:
+Currently supported resources (`<resourceType>`):
 
 - Flows (clone, restore, push, pull, diff, train)
 - Lexicons (clone, restore, push, pull, diff)
@@ -127,7 +127,7 @@ Compares a local resource to a remote resource
 
 
 ### Command: train
-`cognigy train <flowName>`
+`cognigy train flow <flowName>`
 
 Trains the NLU model of a specified Flow on Cognigy.AI
 
@@ -174,7 +174,7 @@ This command will go through all Intents and Nodes in a given Locale and will ad
 
 | Option   | Alias | Type    | Default | Description                                                                                  |
 | -------------- | ----- | ------- | ------- | -------------------------------------------------------------------------------------------- |
-| <nobr>--localNAme</nobr>      | -l    | String  | - | Locale to add localizations to |
+| <nobr>--localName</nobr>      | -l    | String  | - | Locale to add localizations to |
 | <nobr>--sourceLocale</nobr> | -sl    | String | - | Source Locale to create localization from (optional) |
 | <nobr>--sourceLocale</nobr> | -sl    | String | - | Source Locale to create localization from (optional) |
 | <nobr>--localizeIntents</nobr> | -li    | Boolean | true | Whether to localize intents (if active, localizeNodes default is false) |
