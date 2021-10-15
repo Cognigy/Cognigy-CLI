@@ -1,5 +1,7 @@
 import _default from "@google-cloud/translate";
 import chalk = require("chalk");
+import { StringDecoder }  from "string_decoder";
+import * as https from "https";
 
 // Imports the Google Cloud client library
 const { Translate } = require('@google-cloud/translate').v2;
@@ -415,17 +417,42 @@ async function googleTranslate(text: string, language: string, apiKey) {
 
 async function deepLTranslate(text: string, language: string, apiKey) {
 	try {
-		const response = await axios({
-			method: 'post',
-			url: `https://api.deepl.com/v2/translate?auth_key=${apiKey}&text=${text}&target_lang=${language}`,
-			headers: {
-				'Accept': '*/*',
-				'Content-Type': 'application/x-www-form-urlencoded'
+		const decoder = new StringDecoder('utf-8');
+	
+		const translation: Buffer = await new Promise((resolve, reject) => {
+			const options = {
+				hostname: 'api.deepl.com',
+				port: 443,
+				path: `/v2/translate?text=${encodeURIComponent(text)}&target_lang=${language}`,
+				method: 'POST',
+				encoding: null,
+				headers: {
+					"Authorization": `DeepL-Auth-Key ${apiKey}`,
+					"Accept": "*/*",
+					"Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
+				},
 			}
-		});
+			const req = https.request(options, function (res) {
+				res.setEncoding('binary');
 
-		// Return the translated sentence only
-		return response.data.translations[0].text;
+				const data = [];
+				res.on('data', function (chunk) {
+					data.push(Buffer.from(chunk, 'binary'));
+				});
+				res.on('end', function () {
+					const binary = Buffer.concat(data);
+					resolve(binary);
+				});
+			});
+			req.on('error', (e) => {
+				console.error(e);
+				reject(e);
+			});
+			req.end();
+		})
+
+		//@ts-ignore
+		return JSON.parse(decoder.write(translation)).translations[0].text;
 	} catch (error) {
 		console.log(error);
 		process.exit(0);

@@ -491,6 +491,7 @@ export const translateFlow = async (flowName: string, options: ITranslateFlowOpt
                         }
                     }
                 } catch (err) {
+                    console.error(err)
                      // if a localization throws an error, we skip
                 }
                 addToProgressBar(100 / flowChart.nodes.length);
