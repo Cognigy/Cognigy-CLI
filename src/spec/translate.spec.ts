@@ -28,7 +28,7 @@ describe('translation cli tests', () => {
                 translations: [{ text: german[0] }]
             });
 
-        const result = await translators.translateSayNode(data, 'de', 'deepl', deeplApiKEy);
+        const result = await translators.translateSayNode(data, langauge, 'deepl', deeplApiKEy);
 
         expect(result.text[0], "umlauts should be correctly parsed").to.eql(german[0]);
     })
