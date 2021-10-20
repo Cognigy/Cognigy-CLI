@@ -141,7 +141,7 @@ export const restoreFlows = async (availableProgress: number): Promise<void> => 
 
     // Go through all Flows and try to push them to Cognigy.AI
     for (let flow of flowDirectories) {
-        await pushFlow(flow, progressPerFlow, { "timeout": 10000000 });
+        await pushFlow(flow, progressPerFlow, { "timeout": 10000 });
     }
     return Promise.resolve();
 };
