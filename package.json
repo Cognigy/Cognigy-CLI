@@ -4,7 +4,8 @@
   "description": "Cognigy Command Line Interface",
   "main": "./build/cognigy.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test-tsmocha": "ts-mocha --recursive './src/spec/**/*.ts' --preserve-symlinks"
   },
   "author": "Cognigy GmbH",
   "license": "MIT",
@@ -15,10 +16,14 @@
     "@types/del": "^4.0.0",
     "@types/express": "^4.17.7",
     "@types/inquirer": "^6.5.0",
+    "@types/mocha": "^9.0.0",
     "@types/mongodb": "^3.5.26",
     "@types/mongoose": "^5.7.36",
     "@types/node": "^13.13.0",
+    "chai": "^4.3.4",
+    "nock": "^13.1.3",
     "tslint": "^6.1.1",
+    "ts-mocha": "^8.0.0",
     "typescript": "^3.8.3"
   },
   "dependencies": {
