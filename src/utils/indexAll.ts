@@ -15,6 +15,7 @@ export const indexAll = <Query, Entity>(indexFn: TIndexFn<Query, Entity>) => {
 
 		const firstResponse = await indexFn({
 			...query,
+			limit: MAX_LIMIT,
 			skip: 0
 		});
 
