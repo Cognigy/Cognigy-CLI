@@ -12,6 +12,11 @@ import {
 	IRestAPIClientConfig,
 } from "@cognigy/rest-api-client";
 
+import { doLogging } from "./verbose";
+
+const doRequestPromise = requestPromise;
+//const doRequestPromise = doLogging(requestPromise);
+
 export class RequestPromiseAdapter implements IHttpAdapter {
 	private config: IRestAPIClientConfig;
 
@@ -21,7 +26,20 @@ export class RequestPromiseAdapter implements IHttpAdapter {
 
 	public async request(request: IHttpRequest, client: any): Promise<IHttpResponse> {
 		const requestPromiseRequest = await this.convertRequest(request, client);
-		const requestPromiseResponse = await requestPromise(requestPromiseRequest);
+
+		let requestPromiseResponse: any;
+
+		for (let attempt = 0; attempt < (this.config.numberOfRetries ?? 1); attempt++) {
+			try {
+				requestPromiseResponse = await doRequestPromise(requestPromiseRequest);
+				break;
+			} catch (error) {
+				if (error.statusCode == 503 && attempt + 1 < (this.config.numberOfRetries ?? 1))
+					continue;
+
+				throw error;
+			}
+		}
 
 		const response = await this.convertResponse(requestPromiseResponse);
 		return response;
