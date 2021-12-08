@@ -7,7 +7,7 @@
     "build": "tsc",
     "commit": "git-cz",
     "test": "ts-mocha --recursive './src/spec/**/*.ts' --preserve-symlinks",
-    "install-from-npm": "npm ci --registry=https://registry.npmjs.com/",
+    "install-from-npm": "npm i --registry=https://registry.npmjs.com/",
     "prepare": "husky install"
   },
   "author": "Cognigy GmbH",
