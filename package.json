@@ -1,10 +1,11 @@
 {
   "name": "@cognigy/cognigy-cli",
-  "version": "0.7.0",
+  "version": "0.0.0-semantic-release",
   "description": "Cognigy Command Line Interface",
   "main": "./build/cognigy.js",
   "scripts": {
     "build": "tsc",
+    "commit": "git-cz",
     "test-tsmocha": "ts-mocha --recursive './src/spec/**/*.ts' --preserve-symlinks",
     "install-from-npm": "npm ci --registry=https://registry.npmjs.com/",
     "prepare": "husky install"
