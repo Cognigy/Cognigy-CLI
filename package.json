@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "commit": "git-cz",
-    "test-tsmocha": "ts-mocha --recursive './src/spec/**/*.ts' --preserve-symlinks",
+    "test": "ts-mocha --recursive './src/spec/**/*.ts' --preserve-symlinks",
     "install-from-npm": "npm ci --registry=https://registry.npmjs.com/",
     "prepare": "husky install"
   },
