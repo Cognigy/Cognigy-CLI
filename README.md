@@ -213,3 +213,23 @@ This command uses the `baseUrl` and `apiKey` parameters of your configuration.
 | <nobr>--list</nobr>      | -l    | -  | -  | Lists all available commands |
 | <nobr>--data</nobr> | -d    | string | -   | Injects a data payload (must be in JSON format)                                           |
 
+
+## Contibuting
+
+### Commiting
+
+Commit using the commitizen hook with semantic naming convetion promt 
+
+```bash
+npm run commit
+```
+
+### Pull Requests
+
+Create PR with any kind of feature/bugfix folloving the [semantic message format](https://github.com/semantic-release/semantic-release#commit-message-format) to the develop branch.
+
+Any PRs to develop needs to be merged as squash merges.
+
+### Release
+
+Create a PR from develop to main and do a merge commit. This will automatically trigger a new release.
