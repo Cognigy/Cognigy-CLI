@@ -1,0 +1,29 @@
+{
+  "LABEL": {
+    "name": "Title needs to be semantic",
+    "color": "EEEEEE"
+  },
+  "CHECKS": {
+    "prefixes": [
+      "fix",
+      "feat",
+      "build",
+      "chore",
+      "ci",
+      "docs",
+      "perf",
+      "refactor",
+      "revert",
+      "style",
+      "test"
+    ],
+    "regexp": "\\([a-zA-z]{0,93}\\): :*",
+    "regexpFlags": "i",
+    "ignoreLabels": ["dont-check-PRs-with-this-label", "meta"]
+  },
+  "MESSAGES": {
+    "success": "All OK",
+    "failure": "Failing CI test",
+    "notice": "Please check this https://github.com/semantic-release/semantic-release#commit-message-format"
+  }
+}
