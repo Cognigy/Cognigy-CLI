@@ -17,7 +17,7 @@
       "style",
       "test"
     ],
-    "regexp": "\\([a-zA-z]{0,93}\\): :*",
+    "regexp": "\\([a-zA-z]{0,93}\\): .*",
     "regexpFlags": "i",
     "ignoreLabels": ["dont-check-PRs-with-this-label", "meta"]
   },
