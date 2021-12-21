@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: 16.x
       - name: Install dependencies
-        run: npm run install-from-npm
+        run: npm ci
       - name: Build
         run: npm build
       - name: Install semantic-release extra plugins
