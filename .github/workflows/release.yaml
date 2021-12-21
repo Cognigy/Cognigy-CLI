@@ -17,6 +17,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
+      - name: Install dependencies
+        run: npm run install-from-npm
+      - name: Build
+        run: npm build
       - name: Install semantic-release extra plugins
         run: npm --save-dev i @semantic-release/changelog @semantic-release/git
       - name: Release
