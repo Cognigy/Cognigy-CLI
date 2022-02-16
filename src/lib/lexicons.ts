@@ -11,6 +11,7 @@ import CognigyClient from '../utils/cognigyClient';
 import { makeAxiosRequest } from '../utils/axiosClient';
 import { checkCreateDir, checkTask, removeCreateDir } from '../utils/checks';
 import { indexAll } from '../utils/indexAll';
+import { sortUtils } from '../utils/sortUtils';
 
 /**
  * Clones Cognigy Lexicons to disk
@@ -86,7 +87,7 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
         lexiconId: lexicon._id
     };
 
-    fs.writeFileSync(lexiconDir + "/config.json", JSON.stringify(lexiconConfig, undefined, 4));
+    fs.writeFileSync(lexiconDir + "/config.json", JSON.stringify(sortUtils.sortObj(lexiconConfig), undefined, 4));
 
     // pull lexicon data from Cognigy.AI
     const csvData = await CognigyClient.exportFromLexicon({
@@ -94,9 +95,11 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
         projectId: CONFIG.agent,
         type: 'text/csv'
     });
-
+    let csvArr = csvData.split("\n");
+    // console.log(csvArr);
+    csvArr = sortUtils.sortObj(csvArr,true);
     // write files to disk
-    fs.writeFileSync(lexiconDir + "/keyphrases.csv", csvData);
+    fs.writeFileSync(lexiconDir + "/keyphrases.csv", csvArr.join("\n"));
     addToProgressBar(70);
 
     return Promise.resolve();
