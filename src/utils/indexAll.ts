@@ -1,7 +1,7 @@
 import { AsyncReturnType } from 'type-fest';
 import { IRestPagination, ICursorBasedPaginationReturnValue } from '@cognigy/rest-api-client/build/shared/mongoose/pagination';
 
-const MAX_LIMIT = 100;
+const MAX_LIMIT = 25;
 type TIndexFn<Query extends IRestPagination<Entity>, Entity> = (query: Query) => Promise<ICursorBasedPaginationReturnValue<Entity>>;
 
 export const indexAll = <Query, Entity>(indexFn: TIndexFn<Query, Entity>) => {
@@ -15,6 +15,7 @@ export const indexAll = <Query, Entity>(indexFn: TIndexFn<Query, Entity>) => {
 
 		const firstResponse = await indexFn({
 			...query,
+			limit: 999999,
 			skip: 0
 		});
 
