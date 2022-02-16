@@ -17,6 +17,7 @@ import translateFlowNode, { translateIntentExampleSentence, translateSayNode } f
 import { makeAxiosRequest } from '../utils/axiosClient';
 
 import { indexAll } from '../utils/indexAll';
+import { sortUtils } from '../utils/sortUtils';
 
 // Interfaces
 import { ILocaleIndexItem_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/locales/v2.0';
@@ -117,7 +118,20 @@ export const pullFlow = async (flowName: string, availableProgress: number): Pro
             type: null
         });
 
-        fs.writeFileSync(localeDir + "/intents.json", JSON.stringify(flowIntents, undefined, 4));
+        let sortedFlowIntents = [];
+        flowIntents.forEach(flowIntent => {
+            flowIntent = sortUtils.sortObj(flowIntent);
+            if (flowIntent.confirmationSentences.length > 1) {
+                flowIntent.confirmationSentences.sort(sortUtils.sortI);
+            }
+            if (flowIntent.exampleSentences.length > 1) {
+                flowIntent.exampleSentences.sort(sortUtils.sortI);
+            }
+            sortedFlowIntents.push(flowIntent);
+        });
+        
+        sortedFlowIntents.sort(sortUtils.sortIByNameKey);
+        fs.writeFileSync(localeDir + "/intents.json", JSON.stringify(sortedFlowIntents, undefined, 4));
     }
 
     return Promise.resolve();
