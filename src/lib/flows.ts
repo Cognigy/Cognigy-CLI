@@ -84,7 +84,7 @@ export const pullFlow = async (flowName: string, availableProgress: number): Pro
 
         await removeCreateDir(localeDir);
 
-        fs.writeFileSync(flowDir + "/config.json", JSON.stringify(flow, undefined, 4));
+        fs.writeFileSync(flowDir + "/config.json", JSON.stringify(sortUtils.sortObj(flow), undefined, 4));
 
         const chart = await CognigyClient.readChart({
             "resourceId": flow._id,
