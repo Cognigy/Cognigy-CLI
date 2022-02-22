@@ -95,11 +95,9 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
         projectId: CONFIG.agent,
         type: 'text/csv'
     });
-    let csvArr = csvData.split("\n");
-    // console.log(csvArr);
-    csvArr = sortUtils.sortObj(csvArr,true);
+    const sortedCsvData = sortUtils.sortLexiconCsv(csvData);
     // write files to disk
-    fs.writeFileSync(lexiconDir + "/keyphrases.csv", csvArr.join("\n"));
+    fs.writeFileSync(lexiconDir + "/keyphrases.csv", sortedCsvData);
     addToProgressBar(70);
 
     return Promise.resolve();
