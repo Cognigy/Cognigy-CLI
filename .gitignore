@@ -3,4 +3,6 @@ build
 agent
 .vscode
 .history
+coverage/
+.nyc_output
 config.json
