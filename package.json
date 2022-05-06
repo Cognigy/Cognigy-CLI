@@ -5,8 +5,9 @@
   "main": "./build/cognigy.js",
   "scripts": {
     "build": "npm run build:production && npm run test",
-    "build:debug": "rimraf ./build && tsc",
-    "build:production": "rimraf ./build && npm run tsc:production",
+    "build:debug": "rimraf ./build && tsc && npm run execution-permission",
+    "build:production": "rimraf ./build && npm run tsc:production && npm run execution-permission",
+    "execution-permission": "chmod +x ./build/cognigy.js",
     "commit": "git-cz",
     "test": "rimraf ./coverage && nyc mocha --require chai-autoload-plugins --recursive ./build/spec --exit --timeout 120000 --color --check-leaks  && rimraf ./.nyc_output",
 		"test:tsmocha": "ts-mocha -p tsconfig.json --experimental-worker --recursive './src/spec/**/*.ts' --timeout 120000 --preserve-symlinks",
