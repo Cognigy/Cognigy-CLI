@@ -22,6 +22,8 @@ export const setStdIn = (input: string) => {
     stdin += input;
 }
 
+export const getStdIn = (): string => stdin;
+
 export const program = new Command();
 program.version('0.6.3');
 

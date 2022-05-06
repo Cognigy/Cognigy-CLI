@@ -3,7 +3,7 @@ import { expect } from "chai";
 import * as sinon from "sinon";
 
 /* Custom Modules */
-import { program } from '../program';
+import { program, setStdIn, getStdIn } from '../program';
 import * as  init from '../commands/init';
 import * as  restore from '../commands/restore';
 import * as  diff from '../commands/diff';
@@ -227,11 +227,22 @@ describe("cognigy CLI commands", () => {
 
         it("Should call the execute method and pass basic compulsory params resourceType and resourceName", () => {
             program.parse(["", "cognigy", "execute", "readFlow", "-d", '{"flowId": "5f5618bce35138ed3ab9ab9a"}']);
-            console.log(JSON.parse(executeStub.firstCall.args[0].options.data))
-            console.log(JSON.parse(executeStub.firstCall.args[0].options.data).flowId)
+
             expect(executeStub.called).to.be.true;
             expect(executeStub.firstCall.args[0].command, "Execute function should have the correct params").to.be.equal('readFlow');
             expect(JSON.parse(executeStub.firstCall.args[0].options.data).flowId, "Execute function should have the correct params").to.be.equal('5f5618bce35138ed3ab9ab9a');
+        });
+    });
+
+    describe("Other methods", () => {
+        it("Should stdin have all appended strings", () => {
+            setStdIn("hello");
+
+            expect(getStdIn()).to.be.equal('hello');
+
+            setStdIn(" world");
+
+            expect(getStdIn()).to.be.equal('hello world');
         });
     });
 })
