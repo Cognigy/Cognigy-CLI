@@ -238,7 +238,7 @@ This command uses the `baseUrl` and `apiKey` parameters of your configuration.
 Commit using the commitizen hook with semantic naming convetion promt 
 
 ```bash
-npm run commit
+npx cz
 ```
 
 ### Pull Requests
