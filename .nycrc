@@ -1,0 +1,17 @@
+{
+	"all": true,
+	"exclude": [
+		"coverage",
+		"src",
+		"build/spec",
+		".history",
+		"./commitlint.config.js",
+		"./release.config.js"
+	],
+	"reporter": [
+		"lcovonly",
+		"html",
+		"text",
+		"text-summary"
+	]
+}

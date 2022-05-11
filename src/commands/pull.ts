@@ -8,6 +8,7 @@ import { checkCreateDir, checkProject } from '../utils/checks';
 import { upperFirst } from '../utils/stringUtils';
 import { pullLexicon } from '../lib/lexicons';
 import { pullLocales } from '../lib/locales';
+import { pullExtensions } from '../lib/extensions';
 
 /**
  * Pushes a single resource from disk to Cognigy.AI
@@ -26,6 +27,7 @@ export const pull = async ({ resourceType, resourceName, forceYes = false }): Pr
             message: `This will overwrite data for ${upperFirst(resourceType)} ${resourceName} you have stored locally. Do you want to proceed?`
         }
     ]);
+
     if (!answers.overwrite) {
         console.log(`Aborting...`);
         return;
@@ -54,8 +56,11 @@ export const pull = async ({ resourceType, resourceName, forceYes = false }): Pr
             await pullLocales();
             break;
 
+        case "extensions":
+            await pullExtensions();
+            break;
         default:
-            console.log(`Resource type ${resourceType} can't be pulled.`);
+            throw(new Error(`Resource type ${resourceType} can't be pulled.`));
     }
 
     endProgressBar();
