@@ -9,6 +9,7 @@ Currently supported resources (`<resourceType>`):
 - Lexicons (clone, restore, push, pull, diff)
 - Endpoints (clone, restore, push, pull, diff)
 - Snapshots (create)
+- Extensions (pull)
 
 For Endpoints, Transformers will be separately stores as TypeScript files
 
@@ -237,7 +238,7 @@ This command uses the `baseUrl` and `apiKey` parameters of your configuration.
 Commit using the commitizen hook with semantic naming convetion promt 
 
 ```bash
-npm run commit
+npx cz
 ```
 
 ### Pull Requests
