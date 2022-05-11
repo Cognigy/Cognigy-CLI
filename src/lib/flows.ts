@@ -141,7 +141,7 @@ export const restoreFlows = async (availableProgress: number): Promise<void> => 
 
     // Go through all Flows and try to push them to Cognigy.AI
     for (let flow of flowDirectories) {
-        await pushFlow(flow, progressPerFlow, { "timeout": 10000000 });
+        await pushFlow(flow, progressPerFlow, { "timeout": 10000 });
     }
     return Promise.resolve();
 };
@@ -218,8 +218,8 @@ export const pushFlow = async (flowName: string, availableProgress: number, opti
                         form: form
                     });
 
-                    await checkTask(result?.data?._id, 0, options?.timeout || 10000);                    
-                } 
+                    await checkTask(result?.data?._id, 0, options?.timeout || 10000);
+                }
                 addToProgressBar(availableProgress / 2);
 
             } catch (err) {
@@ -374,7 +374,7 @@ export const trainFlow = async (flowName: string, timeout: number = 10000): Prom
     const flowDir = flowsDir + "/" + flowName;
 
     let flowConfig = null;
-    
+
     try {
         flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString());
     } catch (err) {
@@ -438,10 +438,13 @@ export const translateFlow = async (flowName: string, options: ITranslateFlowOpt
 
     try {
         const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString()),
-                flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/chart.json").toString()),
-                flowIntents: IIntent[] = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/intents.json").toString());
+            flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/chart.json").toString());
 
         const targetLocale = (await pullLocales()).find((locale) => locale.name === localeName);
+        const flowIntents = (await CognigyClient.indexIntents({
+            flowId: flowConfig._id,
+            preferredLocaleId: targetLocale._id
+        })).items;
 
         // localize intents
         if (translateIntents) {
@@ -461,33 +464,29 @@ export const translateFlow = async (flowName: string, options: ITranslateFlowOpt
         }
 
         // localize Flow Nodes
-         if (translateNodes) {
+        if (translateNodes) {
             console.log(`\nTranslating Flow Nodes in Flow '${flowName}'...\n`);
-                
+
             startProgressBar(100);
             for (let node of flowChart.nodes) {
                 const { _id: nodeId, localeReference, type } = node;
                 try {
                     if (localeReference === targetLocale._id) {
                         if (['say', 'question', 'optionalQuestion'].indexOf(type) > -1) {
-                            const flowNode = await translateFlowNode(node, toLanguage, translator, apiKey);
-
-                            try {
-                                // update node in Cognigy.AI
-                                await CognigyClient.updateChartNode({
-                                    nodeId: flowNode._id,
-                                    config: flowNode.config,
-                                    localeId: targetLocale._id,
-                                    resourceId: flowConfig._id,
-                                    resourceType: 'flow'
-                                })
-                            } catch (error) {
-                                // console.log(`Failed to update ${flowNode.label} (${flowNode.type}) node`);
-                            }
-                        }
+                        const flowNode = await translateFlowNode(node, toLanguage, translator, apiKey);
+                        // update node in Cognigy.AI
+                        await CognigyClient.updateChartNode({
+                            nodeId: flowNode._id,
+                            config: flowNode.config,
+                            localeId: targetLocale._id,
+                            resourceId: flowConfig._id,
+                            resourceType: 'flow'
+                        })
                     }
+                }
                 } catch (err) {
-                     // if a localization throws an error, we skip
+                    console.error(err)
+                    // if a localization throws an error, we skip
                 }
                 addToProgressBar(100 / flowChart.nodes.length);
             }
@@ -495,7 +494,7 @@ export const translateFlow = async (flowName: string, options: ITranslateFlowOpt
         }
 
     } catch (err) {
-
+        console.log(err);
     }
 };
 
@@ -680,8 +679,8 @@ export const localizeFlow = async (flowName: string, availableProgress: number, 
         const sourceLocale = (await pullLocales()).find((locale) => locale.name === sourceLocaleName);
 
         const flowConfig = JSON.parse(fs.readFileSync(flowDir + "/config.json").toString()),
-              flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/chart.json").toString()),
-              flowIntents: IIntent[] = JSON.parse(fs.readFileSync(flowDir + "/" + primaryLocale.name + "/intents.json").toString());
+            flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/chart.json").toString()),
+            flowIntents: IIntent[] = JSON.parse(fs.readFileSync(flowDir + "/" + primaryLocale.name + "/intents.json").toString());
 
         if (sourceLocaleName && !sourceLocale) {
             console.log(`\nSource Locale ${sourceLocaleName} doesn't exist. Please check the spelling and try again.\n`);
@@ -727,7 +726,7 @@ export const localizeFlow = async (flowName: string, availableProgress: number, 
             const onlyLocalizeContentNodes = options.contentOnly;
 
             console.log(`\n${options.reverse ? 'Removing localization from' : 'Adding localization to'} Flow Nodes...\n`);
-                
+
             startProgressBar(100);
             for (let node of flowChart.nodes) {
                 const { _id: nodeId, localeReference, type } = node;
@@ -755,7 +754,7 @@ export const localizeFlow = async (flowName: string, availableProgress: number, 
                         }
                     }
                 } catch (err) {
-                     // if a localization throws an error, we skip
+                    // if a localization throws an error, we skip
                 }
                 addToProgressBar(100 / flowChart.nodes.length);
             }
@@ -765,7 +764,7 @@ export const localizeFlow = async (flowName: string, availableProgress: number, 
     } catch (err) {
 
     }
-    
+
     return Promise.resolve();
 };
 
@@ -838,5 +837,5 @@ export const translateIntent = async (intent: any, flowId, targetLocale, toLangu
                 console.log(`Failed to update ${intent.name} intent`);
             }
         }
-    } catch (err) {}
+    } catch (err) { }
 };

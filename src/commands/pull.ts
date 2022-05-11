@@ -54,6 +54,7 @@ export const pull = async ({ resourceType, resourceName, forceYes = false }): Pr
         case "locales":
             await pullLocales();
             break;
+
         case "extensions":
             await pullExtensions();
             break;
