@@ -27,6 +27,7 @@ export const pull = async ({ resourceType, resourceName, forceYes = false }): Pr
             message: `This will overwrite data for ${upperFirst(resourceType)} ${resourceName} you have stored locally. Do you want to proceed?`
         }
     ]);
+
     if (!answers.overwrite) {
         console.log(`Aborting...`);
         return;
@@ -59,7 +60,7 @@ export const pull = async ({ resourceType, resourceName, forceYes = false }): Pr
             await pullExtensions();
             break;
         default:
-            console.log(`Resource type ${resourceType} can't be pulled.`);
+            throw(new Error(`Resource type ${resourceType} can't be pulled.`));
     }
 
     endProgressBar();
