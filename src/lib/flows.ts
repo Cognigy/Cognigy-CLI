@@ -113,8 +113,7 @@ export const pullFlow = async (flowName: string, availableProgress: number): Pro
         const flowIntents = await CognigyClient.exportIntents({
             flowId: flow._id,
             localeId: locale._id,
-            format: 'json',
-            type: null
+            format: 'json'
         });
 
         fs.writeFileSync(localeDir + "/intents.json", JSON.stringify(flowIntents, undefined, 4));

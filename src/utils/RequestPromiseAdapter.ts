@@ -18,6 +18,10 @@ export class RequestPromiseAdapter implements IHttpAdapter {
 	constructor(config?: IRestAPIClientConfig) {
 		this.config = config;
 	}
+	
+	setConfig(config: IRestAPIClientConfig): void {
+		throw new Error("Method not implemented.");
+	}
 
 	public async request(request: IHttpRequest, client: any): Promise<IHttpResponse> {
 		const requestPromiseRequest = await this.convertRequest(request, client);

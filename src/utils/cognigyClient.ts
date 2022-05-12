@@ -5,7 +5,7 @@ import CONFIG from './config';
 const CognigyClient = new Cognigy({
     httpAdapter: new RequestPromiseAdapter({
         "baseUrl": CONFIG.baseUrl,
-        numberOfRetries: 10
+        maxRetries: 10
     }),
     "baseUrl": CONFIG.baseUrl,
     numberOfRetries: 10
