@@ -3,7 +3,7 @@
  * @returns Either the found config or the standard config
  */
 export const findConfig = () => {
-    let result = './config.json';
+    let result = !process.env.ENVIRONMENT ? './config-test.json' :'./config.json';
     if (process.argv) {
         process.argv.forEach((arg, index) => {
             if (arg === "-c" || arg === "--config" && process.argv[index + 1])
