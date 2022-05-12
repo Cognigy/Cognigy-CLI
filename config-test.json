@@ -1,0 +1,6 @@
+{
+    "apiKey": "some-key",
+    "agent": "some-agent-id",
+    "baseUrl": "http://some-url",
+    "agentDir": "./agent"
+}

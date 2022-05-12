@@ -6,3 +6,4 @@ agent
 coverage/
 .nyc_output
 config.json
+.env
