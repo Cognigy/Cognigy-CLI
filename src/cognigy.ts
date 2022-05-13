@@ -3,8 +3,6 @@ import './utils/checkConfig';
 
 import { program, setStdIn } from './program'
 
-require('dotenv').config();
-
 // enables piping of information into the CLI through stdin
 if (process.stdin.isTTY) {
     program.parse(process.argv);
