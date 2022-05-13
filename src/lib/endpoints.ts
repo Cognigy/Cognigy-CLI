@@ -8,6 +8,7 @@ import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
 import { checkCreateDir, removeCreateDir } from '../utils/checks';
 import { indexAll } from '../utils/indexAll';
+import { sortUtils } from '../utils/sortUtils';
 
 
 /**
@@ -40,7 +41,7 @@ export const cloneEndpoints = async (availableProgress: number): Promise<void> =
         });
 
         await removeCreateDir(individualEndpointDir);
-        fs.writeFileSync(individualEndpointDir + "/config.json", JSON.stringify(endpointDetail, undefined, 4));
+        fs.writeFileSync(individualEndpointDir + "/config.json", JSON.stringify(sortUtils.sortObj(endpointDetail), undefined, 4));
         fs.writeFileSync(individualEndpointDir + "/transformer.ts", endpointDetail.transformer.transformer);
         addToProgressBar(incrementPerEndpoint);
     }
@@ -90,7 +91,7 @@ export const pullEndpoint = async (endpointName: string, availableProgress: numb
     });
 
     // write files to disk
-    fs.writeFileSync(endpointDir + "/config.json", JSON.stringify(endpointDetail, undefined, 4));
+    fs.writeFileSync(endpointDir + "/config.json", JSON.stringify(sortUtils.sortObj(endpointDetail), undefined, 4));
     fs.writeFileSync(endpointDir + "/transformer.ts", endpointDetail.transformer.transformer);
     addToProgressBar(70);
 
