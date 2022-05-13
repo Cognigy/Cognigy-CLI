@@ -9,6 +9,7 @@ Currently supported resources (`<resourceType>`):
 - Lexicons (clone, restore, push, pull, diff)
 - Endpoints (clone, restore, push, pull, diff)
 - Snapshots (create)
+- Extensions (pull)
 
 For Endpoints, Transformers will be separately stores as TypeScript files
 
@@ -61,28 +62,33 @@ Both environment configuration and file-based configuration can be used together
 ### General Commands
 
 #### Help
+
 To get help on any command, use the `-h` flag.
 
 `cognigy -h` or `cognigy <command> -h`
 
 #### Forcing configuration files
+
 By default the CLI will use the ./config.json configuration file. 
 You can force the use of another configuration file by using the `-c` flag.
 
 `cognigy <command> -c ./config2.json` or `cognigy <command> --config ./config2.json`
 
 #### Forcing execution without warnings
+
 By default the CLI will reconfirm if data is overwritten locally or on Cognigy.AI.
 You can force these checks to be skipped with the `-y` flag.
 
 Example: `cognigy clone -y` or `cognigy clone --forceYes`
 
 ### Command: init
+
 `cognigy init`
 
 Initializes a new Cognigy.AI CLI project
 
 ### Command: clone
+
 `cognigy clone`
 
 Clones a Virtual Agent from Cognigy.AI to disk
@@ -92,6 +98,7 @@ Clones a Virtual Agent from Cognigy.AI to disk
 | <nobr>--type</nobr> | -t    | String | `agent` | Which type of resource to clone (`agent` stands for the full project) |
 
 ### Command: restore
+
 `cognigy restore`
 
 Restores the local agent copy back into Cognigy.AI by executing a `push` for every resource.
@@ -101,11 +108,13 @@ Restores the local agent copy back into Cognigy.AI by executing a `push` for eve
 | <nobr>--type</nobr> | -t    | String | `agent` | Which type of resource to restore (`agent` stands for the full project) |
 
 ### Command: pull
+
 `cognigy pull <resourceType> <resourceName>`
 
 Pulls a specific remote resource from Cognigy.AI
 
 ### Command: push
+
 `cognigy push <resourceType> <resourceName>`
 
 Pushes a specific remote resource to Cognigy.AI
@@ -115,6 +124,7 @@ Pushes a specific remote resource to Cognigy.AI
 > For Flows, only Intents and Node configurations will be updated, not Flow structure
 
 ### Command: diff
+
 `cognigy diff <resourceType> <resourceName>`
 
 Compares a local resource to a remote resource
@@ -125,6 +135,7 @@ Compares a local resource to a remote resource
 
 
 ### Command: train
+
 `cognigy train flow <flowName>`
 
 Trains the NLU model of a specified Flow on Cognigy.AI
@@ -134,6 +145,7 @@ Trains the NLU model of a specified Flow on Cognigy.AI
 | <nobr>--timeout</nobr> | -t    | Number | 10000   | Timeout in ms before training progress is no longer checked (training will continue on Cognigy.AI) |
 
 ### Command: create
+
 `cognigy create snapshot <resourceName> [resourceDescription]`
 
 Creates a remote resource on Cognigy.AI and downloads it to disk.
@@ -150,6 +162,7 @@ Creates a remote resource on Cognigy.AI and downloads it to disk.
 | <nobr>--nluLanguage</nobr>      | -lnlu    | String  | -  | NLU Language to set for new Locale |
 
 ### Command: exportcsv
+
 `cognigy exportcsv flow <flowName>`
 
 Exports the content of a Flow to CSV.
@@ -157,6 +170,7 @@ Exports the content of a Flow to CSV.
 This command will go through all Flows in all Locales and create a `content.csv` file next to the JSON. This file can be used to update content.
 
 ### Command: importcsv
+
 `cognigy importcsv flow <flowName>`
 
 Imports the content of a CSV back into a Flow.
@@ -164,6 +178,7 @@ Imports the content of a CSV back into a Flow.
 This command will go through all Flows in all Locales and check if a valid  `content.csv` exists. If yes, it will go through the Flow Chart and update all localized Nodes with the content from the CSV.
 
 ### Command: localize
+
 `cognigy localize flow <flowName>`
 
 Adds localization to Flow Intents and Nodes in bulk.
@@ -181,6 +196,7 @@ This command will go through all Intents and Nodes in a given Locale and will ad
 | <nobr>--reverse</nobr> | -r    | Boolean | false | Removes the localization from the selected Flow (can be combined with -li and -ln) |
 
 ### Command: translate
+
 `cognigy translate <resourceType> <resourceName>`
 
 Translates the plain text of a chosen resource, such all Nodes inside a Flow.
@@ -197,6 +213,7 @@ Translates the plain text of a chosen resource, such all Nodes inside a Flow.
 | <nobr>--forceYes</nobr> | -y | Boolean | false  | Whether to skip warnings and overwrite all content |
 
 ### Command: execute
+
 `cognigy execute <command>`
 
 Executes a command of the [Cognigy REST API Client](https://www.npmjs.com/package/@cognigy/rest-api-client). For more information on API calls, please see our [OpenAPI documentation](https://api-trial.cognigy.ai/openapi).
@@ -213,3 +230,23 @@ This command uses the `baseUrl` and `apiKey` parameters of your configuration.
 | <nobr>--list</nobr>      | -l    | -  | -  | Lists all available commands |
 | <nobr>--data</nobr> | -d    | string | -   | Injects a data payload (must be in JSON format)                                           |
 
+
+## Contibuting
+
+### Commiting
+
+Commit using the commitizen hook with semantic naming convetion promt 
+
+```bash
+npx cz
+```
+
+### Pull Requests
+
+Create PR with any kind of feature/bugfix folloving the [semantic message format](https://github.com/semantic-release/semantic-release#commit-message-format) to the develop branch.
+
+Any PRs to develop needs to be merged as squash merges.
+
+### Release
+
+Create a PR from develop to main and do a merge commit. This will automatically trigger a new release.
