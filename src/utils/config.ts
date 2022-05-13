@@ -24,10 +24,10 @@ const getConfig = (): ICLIConfig => {
         try {
             const fileConfig = JSON.parse(fs.readFileSync(configFile).toString());
 
-            config.apiKey = (config.apiKey) ? config.apiKey : (fileConfig.apiKey) ? fileConfig.apiKey : '';
-            config.agent = (config.agent) ? config.agent : (fileConfig.agent) ? fileConfig.agent : '';
-            config.baseUrl = (config.baseUrl) ? config.baseUrl : (fileConfig.baseUrl) ? fileConfig.baseUrl : '';
-            config.agentDir = (config.agentDir) ? config.agentDir : (fileConfig.agentDir) ? fileConfig.agentDir : '';
+            config.apiKey = (config.apiKey) ? config.apiKey : fileConfig.apiKey;
+            config.agent = (config.agent) ? config.agent : fileConfig.agent;
+            config.baseUrl = (config.baseUrl) ? config.baseUrl : fileConfig.baseUrl;
+            config.agentDir = (config.agentDir) ? config.agentDir : fileConfig.agentDir;
 
             if (!config.apiKey || !config.agent || !config.baseUrl || !config.agentDir)
                 throw("incomplete config");
