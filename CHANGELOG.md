@@ -1,5 +1,5 @@
 
-# 1.1.0 (2022-05-16)
+## 1.1.0 (2022-05-16)
 ### Bug Fixes
 
 * snyk fix: upgrade mongodb from 3.6.1 to 3.7.3 ([f1f01cd](https://github.com/Cognigy/Cognigy-CLI/commit/8cd10128a75f2094fe90989753914c1f6f1f01cd))
@@ -13,6 +13,7 @@
 
 * Update rest-api-client to 0.11.0
 * Add new resource type to Pull Command (pull extensions)
+
 ## [1.0.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.0.0...v1.0.1) (2021-12-21)
 
 
@@ -23,8 +24,7 @@
 * **build:** fix package-lock.json ([82e18e3](https://github.com/Cognigy/Cognigy-CLI/commit/82e18e3aea50710bf5abd03dcb72f2a1d5ae6b6d))
 * **ci:** fix pr title checker ([#24](https://github.com/Cognigy/Cognigy-CLI/issues/24)) ([6ef25a9](https://github.com/Cognigy/Cognigy-CLI/commit/6ef25a99a997ec564e8d5396b815967577a23ae6))
 
-# 1.0.0 (2021-12-08)
-
+## 1.0.0 (2021-12-08)
 
 ### Bug Fixes
 
