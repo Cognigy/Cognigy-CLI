@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@cognigy/rest-api-client": "^0.10.0",
-    "@google-cloud/translate": "^6.0.3",
+    "@google-cloud/translate": "^6.3.1",
     "axios": "^0.26.1",
     "chalk": "^4.0.0",
     "cli-progress": "^3.10.0",
