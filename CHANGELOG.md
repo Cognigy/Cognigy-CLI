@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.1.0...v1.1.1) (2022-05-18)
+
+
+### Bug Fixes
+
+* **global:** update fix for pipeline ([1558b06](https://github.com/Cognigy/Cognigy-CLI/commit/1558b06e786395e967f097e55e2a8ebe37e496df))
+
 # [1.1.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.0.1...v1.1.0) (2022-05-18)
 
 
