@@ -1,4 +1,5 @@
 # Cognigy Command Line Interface (CLI)
+
 Cognigy CLI offers a series of tools and functionalities in order to interact with your Cognigy.AI virtual agent projects from the command line.
 
 **The CLI can only create Snapshots and Locales right now - no other resources. It is meant for changing already existing resources and manipulating their state.**
