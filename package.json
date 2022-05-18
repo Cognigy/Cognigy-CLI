@@ -41,7 +41,7 @@
     "express": "^4.17.1",
     "form-data": "^3.0.0",
     "inquirer": "^7.1.0",
-    "json-diff": "^0.5.4",
+    "json-diff": "^0.7.4",
     "mongodb": "^3.6.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
