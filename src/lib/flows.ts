@@ -17,6 +17,7 @@ import translateFlowNode, { translateIntentExampleSentence, translateSayNode } f
 import { makeAxiosRequest } from '../utils/axiosClient';
 
 import { indexAll } from '../utils/indexAll';
+import { sortUtils } from '../utils/sortUtils';
 
 // Interfaces
 import { ILocaleIndexItem_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/locales/v2.0';
@@ -84,7 +85,7 @@ export const pullFlow = async (flowName: string, availableProgress: number): Pro
 
         await removeCreateDir(localeDir);
 
-        fs.writeFileSync(flowDir + "/config.json", JSON.stringify(flow, undefined, 4));
+        fs.writeFileSync(flowDir + "/config.json", JSON.stringify(sortUtils.sortObj(flow), undefined, 4));
 
         const chart = await CognigyClient.readChart({
             "resourceId": flow._id,
@@ -116,7 +117,20 @@ export const pullFlow = async (flowName: string, availableProgress: number): Pro
             format: 'json'
         });
 
-        fs.writeFileSync(localeDir + "/intents.json", JSON.stringify(flowIntents, undefined, 4));
+        let sortedFlowIntents = [];
+        flowIntents.forEach(flowIntent => {
+            flowIntent = sortUtils.sortObj(flowIntent);
+            if (flowIntent.confirmationSentences.length > 1) {
+                flowIntent.confirmationSentences.sort(sortUtils.sortI);
+            }
+            if (flowIntent.exampleSentences.length > 1) {
+                flowIntent.exampleSentences.sort(sortUtils.sortI);
+            }
+            sortedFlowIntents.push(flowIntent);
+        });
+        
+        sortedFlowIntents.sort(sortUtils.sortIByNameKey);
+        fs.writeFileSync(localeDir + "/intents.json", JSON.stringify(sortedFlowIntents, undefined, 4));
     }
 
     return Promise.resolve();
