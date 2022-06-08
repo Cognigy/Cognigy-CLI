@@ -1,10 +1,13 @@
+/* Node modules */
 import * as fs from 'fs';
 import * as jsonDiff from 'json-diff';
+import axios from 'axios';
 import * as Diff from 'diff';
 import { Spinner }  from 'cli-spinner';
 import * as chalk from 'chalk';
 import * as FormData from 'form-data';
 
+/* Custom modules */
 import { addToProgressBar } from '../utils/progressBar';
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
@@ -89,13 +92,21 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
     fs.writeFileSync(lexiconDir + "/config.json", JSON.stringify(lexiconConfig, undefined, 4));
 
     // pull lexicon data from Cognigy.AI
-    const csvData = await CognigyClient.exportFromLexicon({
+    const exportFromLexiconTask = await CognigyClient.exportFromLexicon({
         lexiconId: lexicon._id,
         projectId: CONFIG.agent
     });
 
+    await checkTask(exportFromLexiconTask._id, 0, 100000);
+
+    const downloadLink = await CognigyClient.composeLexiconDownloadLink({
+        lexiconId: lexicon._id,
+    });
+
+    const lexiconFile = (await axios.get(downloadLink.downloadLink)).data;
+
     // write files to disk
-    fs.writeFileSync(lexiconDir + "/keyphrases.csv", csvData);
+    fs.writeFileSync(lexiconDir + "/keyphrases.csv", lexiconFile);
     addToProgressBar(70);
 
     return Promise.resolve();
