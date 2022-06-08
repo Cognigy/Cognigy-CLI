@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as jsonDiff from 'json-diff';
 import axios from 'axios';
 import * as Diff from 'diff';
-import { Spinner }  from 'cli-spinner';
+import { Spinner } from 'cli-spinner';
 import * as chalk from 'chalk';
 import * as FormData from 'form-data';
 
@@ -89,7 +89,9 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
     fs.writeFileSync(lexiconDir + "/config.json", JSON.stringify(lexiconConfig, undefined, 4));
 
     // create pulling lexicon task from Cognigy.AI
-    const exportFromLexiconTask = await CognigyClient.exportFromLexicon({
+    let exportFromLexiconTask;
+
+    exportFromLexiconTask = await CognigyClient.exportFromLexicon({
         lexiconId: lexicon._id,
         projectId: CONFIG.agent
     });
@@ -201,7 +203,7 @@ export const diffLexicons = async (lexiconName: string, mode: string = 'full'): 
         const lexiconDir = CONFIG.agentDir + "/lexicons";
 
         // check whether Lexicon directory and config.json for the Lexicon exist
-        if (!fs.existsSync(lexiconDir + "/" + lexiconName) || !fs.existsSync(lexiconDir + "/" + lexiconName + "/config.json")  || !fs.existsSync(lexiconDir + "/" + lexiconName + "/keyphrases.csv")) {
+        if (!fs.existsSync(lexiconDir + "/" + lexiconName) || !fs.existsSync(lexiconDir + "/" + lexiconName + "/config.json") || !fs.existsSync(lexiconDir + "/" + lexiconName + "/keyphrases.csv")) {
             spinner.stop();
             console.log(`\nThe requested Lexicon resource (${lexiconName}) couldn't be found ${chalk.green('locally')}. Aborting...`);
             process.exit(0);
@@ -222,7 +224,7 @@ export const diffLexicons = async (lexiconName: string, mode: string = 'full'): 
         });
 
         const diff = Diff.diffChars(remoteCsvData, localCsvData);
- 
+
         // perform full comparison and output results
         let diffString = "";
         diff.forEach((part) => {
@@ -231,7 +233,7 @@ export const diffLexicons = async (lexiconName: string, mode: string = 'full'): 
             const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
             diffString += part.value[color];
         });
- 
+
         spinner.stop();
 
         if (diffString) console.log(`\n\n ${diffString}`);
