@@ -24,16 +24,13 @@ export const cloneLexicons = async (availableProgress: number): Promise<void> =>
     checkCreateDir(CONFIG.agentDir);
     checkCreateDir(CONFIG.agentDir + "/lexicons");
 
-    // The base directory for Flows
+    // The base directory for Lexicons
     const lexiconDir = CONFIG.agentDir + "/lexicons";
-
-    // An increment counter for the progress bar
-    const progressIncrement = Math.round(availableProgress / 10);
 
     // remove and create target directory
     await removeCreateDir(lexiconDir);
 
-    // query Cognigy.AI for all Flows in this agent
+    // query Cognigy.AI for all Lexicons in this agent
     const lexicons = await indexAll(CognigyClient.indexLexicons)({
         "projectId": CONFIG.agent
     });
@@ -58,19 +55,19 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
     checkCreateDir(CONFIG.agentDir);
     checkCreateDir(CONFIG.agentDir + "/lexicons");
 
-    // The base directory for Flows
+    // The base directory for Lexicons
     const lexiconDir = CONFIG.agentDir + "/lexicons/" + lexiconName;
 
     // An increment counter for the progress bar
     const progressIncrement = Math.round(availableProgress / 10);
 
-    // query Cognigy.AI for all Flows in this agent
+    // query Cognigy.AI for all Lexicons in this agent
     const lexicons = await indexAll(CognigyClient.indexLexicons)({
         "projectId": CONFIG.agent
     });
     addToProgressBar(progressIncrement);
 
-    // check if flow with given name exists
+    // check if lexicon with given name exists
     const lexicon = lexicons.items.find((lexicon) => {
         if (lexicon.name === lexiconName)
             return lexicon;
@@ -84,25 +81,28 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
     await removeCreateDir(lexiconDir);
     addToProgressBar(progressIncrement);
 
-    // store lexicon data
+    // store lexicon config
     const lexiconConfig = {
         lexiconId: lexicon._id
     };
 
     fs.writeFileSync(lexiconDir + "/config.json", JSON.stringify(lexiconConfig, undefined, 4));
 
-    // pull lexicon data from Cognigy.AI
+    // create pulling lexicon task from Cognigy.AI
     const exportFromLexiconTask = await CognigyClient.exportFromLexicon({
         lexiconId: lexicon._id,
         projectId: CONFIG.agent
     });
 
+    // check previous tasks is done.
     await checkTask(exportFromLexiconTask._id, 0, 100000);
 
+    // create a downloadable link for the lexicon task data
     const downloadLink = await CognigyClient.composeLexiconDownloadLink({
         lexiconId: lexicon._id,
     });
 
+    // download the lexicon dataFile
     const lexiconFile = (await axios.get(downloadLink.downloadLink)).data;
 
     // write files to disk
