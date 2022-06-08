@@ -129,7 +129,7 @@ program
     .action(async (resourceType, resourceName, cmdObj) => { await translate({ resourceType, resourceName, options: cmdObj }); });
 
 program
-    .command('execute <command>')
+    .command('execute [command]')
     .option('-c, --config <configFile>', 'force the use of a specific config file')
     .option('-d, --data <data>', 'the JSON data to pass to the command')
     .option('-l, --list', 'lists all available commands')
