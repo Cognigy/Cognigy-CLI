@@ -21,13 +21,13 @@ export const restore = async ({ resourceType = 'agent', forceYes = false }): Pro
 
     // get confirmation from user that Cognigy.AI data will be overwritten
     const answers = (forceYes) ? { overwrite: true } : await inquirer
-    	.prompt([
+        .prompt([
             {
-            type: 'confirm',
-            name: 'overwrite',
-            message: `This will overwrite all ${upperFirst(resourceType)} data you have stored on Cognigy.AI. Do you want to proceed?`
-        }
-    ]);
+                type: 'confirm',
+                name: 'overwrite',
+                message: `This will overwrite all ${upperFirst(resourceType)} data you have stored on Cognigy.AI. Do you want to proceed?`
+            }
+        ]);
 
     if (!answers.overwrite) {
         console.log(`Aborting...`);
@@ -39,9 +39,11 @@ export const restore = async ({ resourceType = 'agent', forceYes = false }): Pro
 
     switch (resourceType) {
         case "agent":
-            await restoreFlows(33);
-            await restoreEndpoints(33);
-            await restoreLexicons(33);
+            await Promise.all([
+                restoreFlows(33),
+                restoreEndpoints(33),
+                restoreLexicons(33)
+            ]);
             break;
 
         case "flows":
