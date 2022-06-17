@@ -19,13 +19,13 @@ export const clone = async ({ resourceType = 'agent', forceYes = false }): Promi
 
     // get confirmation from user that local data will be overwritten
     const answers = (forceYes) ? { overwrite: true } : await inquirer
-    	.prompt([
+        .prompt([
             {
-            type: 'confirm',
-            name: 'overwrite',
-            message: `This will delete all ${resourceType} data you have stored currently locally. Do you want to proceed?`
-        }
-    ]);
+                type: 'confirm',
+                name: 'overwrite',
+                message: `This will delete all ${resourceType} data you have stored currently locally. Do you want to proceed?`
+            }
+        ]);
 
     if (!answers.overwrite) {
         console.log(`Aborting...`);
@@ -40,9 +40,11 @@ export const clone = async ({ resourceType = 'agent', forceYes = false }): Promi
 
     switch (resourceType) {
         case "agent":
-            await cloneFlows(33);
-            await cloneEndpoints(33);
-            await cloneLexicons(33);
+            await Promise.all([
+                cloneFlows(33),
+                cloneEndpoints(33),
+                cloneLexicons(33)
+            ]);
             break;
 
         case "flows":

@@ -1,10 +1,13 @@
+/* Node modules */
 import * as fs from 'fs';
 import * as jsonDiff from 'json-diff';
+import axios from 'axios';
 import * as Diff from 'diff';
-import { Spinner }  from 'cli-spinner';
+import { Spinner } from 'cli-spinner';
 import * as chalk from 'chalk';
 import * as FormData from 'form-data';
 
+/* Custom modules */
 import { addToProgressBar } from '../utils/progressBar';
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
@@ -21,16 +24,13 @@ export const cloneLexicons = async (availableProgress: number): Promise<void> =>
     checkCreateDir(CONFIG.agentDir);
     checkCreateDir(CONFIG.agentDir + "/lexicons");
 
-    // The base directory for Flows
+    // The base directory for Lexicons
     const lexiconDir = CONFIG.agentDir + "/lexicons";
-
-    // An increment counter for the progress bar
-    const progressIncrement = Math.round(availableProgress / 10);
 
     // remove and create target directory
     await removeCreateDir(lexiconDir);
 
-    // query Cognigy.AI for all Flows in this agent
+    // query Cognigy.AI for all Lexicons in this agent
     const lexicons = await indexAll(CognigyClient.indexLexicons)({
         "projectId": CONFIG.agent
     });
@@ -55,19 +55,19 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
     checkCreateDir(CONFIG.agentDir);
     checkCreateDir(CONFIG.agentDir + "/lexicons");
 
-    // The base directory for Flows
+    // The base directory for Lexicons
     const lexiconDir = CONFIG.agentDir + "/lexicons/" + lexiconName;
 
     // An increment counter for the progress bar
     const progressIncrement = Math.round(availableProgress / 10);
 
-    // query Cognigy.AI for all Flows in this agent
+    // query Cognigy.AI for all Lexicons in this agent
     const lexicons = await indexAll(CognigyClient.indexLexicons)({
         "projectId": CONFIG.agent
     });
     addToProgressBar(progressIncrement);
 
-    // check if flow with given name exists
+    // check if lexicon with given name exists
     const lexicon = lexicons.items.find((lexicon) => {
         if (lexicon.name === lexiconName)
             return lexicon;
@@ -81,22 +81,34 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
     await removeCreateDir(lexiconDir);
     addToProgressBar(progressIncrement);
 
-    // store lexicon data
+    // store lexicon config
     const lexiconConfig = {
         lexiconId: lexicon._id
     };
 
     fs.writeFileSync(lexiconDir + "/config.json", JSON.stringify(lexiconConfig, undefined, 4));
 
-    // pull lexicon data from Cognigy.AI
-    const csvData = await CognigyClient.exportFromLexicon({
+    // create pulling lexicon task from Cognigy.AI
+    let exportFromLexiconTask;
+
+    exportFromLexiconTask = await CognigyClient.exportFromLexicon({
         lexiconId: lexicon._id,
-        projectId: CONFIG.agent,
-        type: 'text/csv'
+        projectId: CONFIG.agent
     });
 
+    // check previous tasks is done.
+    await checkTask(exportFromLexiconTask._id, 0, 100000);
+
+    // create a downloadable link for the lexicon task data
+    const downloadLink = await CognigyClient.composeLexiconDownloadLink({
+        lexiconId: lexicon._id,
+    });
+
+    // download the lexicon dataFile
+    const lexiconFile = (await axios.get(downloadLink.downloadLink)).data;
+
     // write files to disk
-    fs.writeFileSync(lexiconDir + "/keyphrases.csv", csvData);
+    fs.writeFileSync(lexiconDir + "/keyphrases.csv", lexiconFile);
     addToProgressBar(70);
 
     return Promise.resolve();
@@ -191,7 +203,7 @@ export const diffLexicons = async (lexiconName: string, mode: string = 'full'): 
         const lexiconDir = CONFIG.agentDir + "/lexicons";
 
         // check whether Lexicon directory and config.json for the Lexicon exist
-        if (!fs.existsSync(lexiconDir + "/" + lexiconName) || !fs.existsSync(lexiconDir + "/" + lexiconName + "/config.json")  || !fs.existsSync(lexiconDir + "/" + lexiconName + "/keyphrases.csv")) {
+        if (!fs.existsSync(lexiconDir + "/" + lexiconName) || !fs.existsSync(lexiconDir + "/" + lexiconName + "/config.json") || !fs.existsSync(lexiconDir + "/" + lexiconName + "/keyphrases.csv")) {
             spinner.stop();
             console.log(`\nThe requested Lexicon resource (${lexiconName}) couldn't be found ${chalk.green('locally')}. Aborting...`);
             process.exit(0);
@@ -208,12 +220,11 @@ export const diffLexicons = async (lexiconName: string, mode: string = 'full'): 
 
         const remoteCsvData = await CognigyClient.exportFromLexicon({
             lexiconId: localConfig.lexiconId,
-            projectId: CONFIG.agent,
-            type: 'text/csv'
+            projectId: CONFIG.agent
         });
 
         const diff = Diff.diffChars(remoteCsvData, localCsvData);
- 
+
         // perform full comparison and output results
         let diffString = "";
         diff.forEach((part) => {
@@ -222,7 +233,7 @@ export const diffLexicons = async (lexiconName: string, mode: string = 'full'): 
             const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
             diffString += part.value[color];
         });
- 
+
         spinner.stop();
 
         if (diffString) console.log(`\n\n ${diffString}`);
