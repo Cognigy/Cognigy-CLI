@@ -1,3 +1,11 @@
+## [1.1.2](https://github.com/Cognigy/Cognigy-CLI/compare/v1.1.1...v1.1.2) (2022-06-17)
+
+
+### Bug Fixes
+
+* **clone agent:** cloning agent retrieved the task ([978994a](https://github.com/Cognigy/Cognigy-CLI/commit/978994a9a07f23f544f8c091117a018eb1f67495)), closes [#25972](https://github.com/Cognigy/Cognigy-CLI/issues/25972)
+* **lexicons:** clone agent lexicons ([ad43d61](https://github.com/Cognigy/Cognigy-CLI/commit/ad43d6146fd7316da6287a6d1ee899999c8a6dee)), closes [#25972](https://github.com/Cognigy/Cognigy-CLI/issues/25972)
+
 ## [1.1.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.1.0...v1.1.1) (2022-05-18)
 
 
