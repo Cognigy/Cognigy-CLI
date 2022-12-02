@@ -20,7 +20,7 @@ export const cloneEndpoints = async (availableProgress: number): Promise<void> =
     await removeCreateDir(endpointDir);
 
     // An increment counter for the progress bar
-    const progressIncrement = Math.round(availableProgress / 10);
+    const progressIncrement = Math.round(availableProgress / 3);
     addToProgressBar(progressIncrement);
 
     // query Cognigy.AI for all Flows in this agent
@@ -29,7 +29,7 @@ export const cloneEndpoints = async (availableProgress: number): Promise<void> =
     });
     addToProgressBar(progressIncrement);
 
-    const incrementPerEndpoint = 70 / endpoints.items.length;
+    const incrementPerEndpoint = (progressIncrement/3) / endpoints.items.length;
 
     // create a sub-folder, chart.json and config.json for each Flow
     for (let endpoint of endpoints.items) {

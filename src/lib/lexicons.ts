@@ -59,7 +59,7 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
     const lexiconDir = CONFIG.agentDir + "/lexicons/" + lexiconName;
 
     // An increment counter for the progress bar
-    const progressIncrement = Math.round(availableProgress / 10);
+    const progressIncrement = availableProgress / 3;
 
     // query Cognigy.AI for all Lexicons in this agent
     const lexicons = await indexAll(CognigyClient.indexLexicons)({
@@ -109,7 +109,7 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
 
     // write files to disk
     fs.writeFileSync(lexiconDir + "/keyphrases.csv", lexiconFile);
-    addToProgressBar(70);
+    addToProgressBar(progressIncrement);
 
     return Promise.resolve();
 };

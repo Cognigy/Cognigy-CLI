@@ -21,6 +21,7 @@ import { indexAll } from '../utils/indexAll';
 // Interfaces
 import { ILocaleIndexItem_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/locales/v2.0';
 import { IIntent } from '@cognigy/rest-api-client/build/shared/interfaces/resources/intent/IIntent';
+import { IIndexFlowsRestReturnValue_2_0 } from '@cognigy/rest-api-client';
 
 /**
  * Clones Cognigy Flows to disk
@@ -52,17 +53,21 @@ export const cloneFlows = async (availableProgress: number): Promise<void> => {
  * @param flowName The name of the Flow to pull
  * @param availableProgress How much of the progress bar can be filled by this process
  */
-export const pullFlow = async (flowName: string, availableProgress: number): Promise<void> => {
+export const pullFlow = async (flowName: string, availableProgress: number, _flows?: Pick<IIndexFlowsRestReturnValue_2_0, 'items' | 'total'>): Promise<void> => {
     // The base directory for Flows
     const flowsDir = CONFIG.agentDir + "/flows";
     const flowDir = flowsDir + "/" + flowName;
 
     await removeCreateDir(flowDir);
 
+    let flows: Pick<IIndexFlowsRestReturnValue_2_0, 'items' | 'total'> = _flows
+    
     // query Cognigy.AI for all Flows in this agent
-    const flows = await indexAll(CognigyClient.indexFlows)({
-        "projectId": CONFIG.agent
-    });
+    if (!flows) {
+        flows = await indexAll(CognigyClient.indexFlows)({
+            "projectId": CONFIG.agent
+        });
+    }
 
     // check if flow with given name exists
     const flow = flows.items.find((flow) => {
@@ -93,7 +98,10 @@ export const pullFlow = async (flowName: string, availableProgress: number): Pro
         });
 
         // half of the available progress bar space is allocated to Nodes, the other half to intents
-        const progressPerNode = progressPerLocale / 2 / chart.nodes.length;
+        const nodesProgressBar = progressPerLocale / 2
+        const intentsProgressBar = progressPerLocale / 2;
+
+        const progressPerNode = nodesProgressBar / chart.nodes.length;
 
         // iterate through all Nodes for this chart and add the information into the chart
         for (let node of chart.nodes) {
@@ -110,11 +118,18 @@ export const pullFlow = async (flowName: string, availableProgress: number): Pro
 
         fs.writeFileSync(localeDir + "/chart.json", JSON.stringify(chart, undefined, 4));
 
+        // console.log(`Fetching intents: ${JSON.stringify({
+        //     flowId: flow._id,
+        //     localeId: locale._id,
+        //     format: 'json'
+        // })}`);
+
         const flowIntents = await CognigyClient.exportIntents({
             flowId: flow._id,
             localeId: locale._id,
             format: 'json'
         });
+        addToProgressBar(intentsProgressBar);
 
         fs.writeFileSync(localeDir + "/intents.json", JSON.stringify(flowIntents, undefined, 4));
     }
@@ -472,17 +487,17 @@ export const translateFlow = async (flowName: string, options: ITranslateFlowOpt
                 try {
                     if (localeReference === targetLocale._id) {
                         if (['say', 'question', 'optionalQuestion'].indexOf(type) > -1) {
-                        const flowNode = await translateFlowNode(node, toLanguage, translator, apiKey);
-                        // update node in Cognigy.AI
-                        await CognigyClient.updateChartNode({
-                            nodeId: flowNode._id,
-                            config: flowNode.config,
-                            localeId: targetLocale._id,
-                            resourceId: flowConfig._id,
-                            resourceType: 'flow'
-                        })
+                            const flowNode = await translateFlowNode(node, toLanguage, translator, apiKey);
+                            // update node in Cognigy.AI
+                            await CognigyClient.updateChartNode({
+                                nodeId: flowNode._id,
+                                config: flowNode.config,
+                                localeId: targetLocale._id,
+                                resourceId: flowConfig._id,
+                                resourceType: 'flow'
+                            })
+                        }
                     }
-                }
                 } catch (err) {
                     console.error(err)
                     // if a localization throws an error, we skip

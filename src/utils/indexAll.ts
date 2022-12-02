@@ -15,9 +15,8 @@ export const indexAll = <Query, Entity>(indexFn: TIndexFn<Query, Entity>) => {
 
 		const firstResponse = await indexFn({
 			...query,
-			skip: 0
+			skip: 0,
 		});
-
 		const result: TResponseWithoutPagination = {
 			items: [...firstResponse.items],
 			total: firstResponse.total
@@ -29,12 +28,10 @@ export const indexAll = <Query, Entity>(indexFn: TIndexFn<Query, Entity>) => {
 			const newPage = await (indexFn({
 				...query,
 				limit: MAX_LIMIT,
-				skip: MAX_LIMIT * page
+				skip: result.items.length
 			}));
-
 			result.items = result.items.concat(newPage.items);
 		}
-
 		return result;
 	}
 
