@@ -40,9 +40,12 @@ export const cloneFlows = async (availableProgress: number): Promise<void> => {
     const progressPerFlow = availableProgress / flows.items.length;
 
     // create a sub-folder, chart.json and config.json for each Flow
+    const flowsPromiseArr = []
     for (let flow of flows.items) {
-        await pullFlow(flow.name, progressPerFlow);
+        flowsPromiseArr.push(pullFlow(flow.name, progressPerFlow));
     }
+
+    await Promise.all(flowsPromiseArr);
 
     return Promise.resolve();
 };
