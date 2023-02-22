@@ -47,7 +47,7 @@ export const createSnapshot = async (name: string, description: string, timeout:
             });
 
             spinner.setSpinnerTitle(`Downloading Snapshot ... %s`);
-            const snapshotFile = (await axios.get(downloadLink.downloadLink)).data;
+            const snapshotFile = (await axios.get(downloadLink.downloadLink, {responseType: 'arraybuffer'})).data;
 
             fs.writeFileSync(snapshotDir + '/' + snap.name + '.csnap', snapshotFile);
         }
