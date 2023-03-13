@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import './utils/checkConfig';
-
 import { program, setStdIn } from './program'
 
 // enables piping of information into the CLI through stdin
