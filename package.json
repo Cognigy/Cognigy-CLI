@@ -46,7 +46,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@cognigy/rest-api-client": "^0.12.0",
+    "@cognigy/rest-api-client": "0.14.0",
     "@google-cloud/translate": "^6.3.1",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
     "axios": "^0.26.1",
@@ -58,7 +58,7 @@
     "csv-writer": "^1.6.0",
     "del": "^6.0.0",
     "diff": "^5.0.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "form-data": "^3.0.0",
     "inquirer": "^7.1.0",
     "json-diff": "^0.7.4",

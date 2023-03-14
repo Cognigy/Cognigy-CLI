@@ -1,7 +1,6 @@
 node_modules
 build
 agent
-.vscode
 .history
 coverage/
 .nyc_output
