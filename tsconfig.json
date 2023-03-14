@@ -1,6 +1,11 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
+      "types": [
+        "node",
+        "mocha",
+      ],
+      "typeRoots": [ "../node_modules/@types" ],
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "target": "es2017", 
