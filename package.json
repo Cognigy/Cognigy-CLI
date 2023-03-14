@@ -25,12 +25,12 @@
     "@types/cli-spinner": "^0.2.0",
     "@types/commander": "^2.12.2",
     "@types/del": "^4.0.0",
-    "@types/express": "^4.17.7",
+    "@types/express": "^4.17.17",
     "@types/inquirer": "^6.5.0",
     "@types/mocha": "9.0.0",
     "@types/mongodb": "^3.5.26",
     "@types/mongoose": "^5.7.36",
-    "@types/node": "^13.13.0",
+    "@types/node": "18.7.6",
     "@types/sinon": "7.5.2",
     "chai": "^4.3.4",
     "chai-autoload-plugins": "0.1.0",
@@ -43,13 +43,13 @@
     "sinon": "8.1.1",
     "ts-mocha": "10.0.0",
     "tslint": "^6.1.1",
-    "typescript": "^3.8.3"
+    "typescript": "3.8.3"
   },
   "dependencies": {
     "@cognigy/rest-api-client": "0.14.0",
     "@google-cloud/translate": "^6.3.1",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
-    "axios": "^0.26.1",
+    "axios": "0.26.1",
     "chalk": "^4.1.2",
     "cli-progress": "^3.10.0",
     "cli-spinner": "^0.2.10",
@@ -74,5 +74,9 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "engines": {
+		"node": ">=18.15.0",
+		"npm": ">=9.5.0"
+	}
 }
