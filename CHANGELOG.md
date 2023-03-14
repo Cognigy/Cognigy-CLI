@@ -7,6 +7,15 @@
 * receive snapshot as ArrayBuffer ([a672133](https://github.com/Cognigy/Cognigy-CLI/commit/a672133c639f834625b2d37d1b4b72765c14423e))
 * **snyk vulnerabilities:** snyk vulnerability ([3e48f41](https://github.com/Cognigy/Cognigy-CLI/commit/3e48f41d41bd502afb20bb041d66b4cacdad063b))
 
+## [1.2.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.2.0...v1.2.1) (2023-03-14)
+
+
+### Bug Fixes
+
+* package.json & package-lock.json to reduce vulnerabilities ([c23fe7e](https://github.com/Cognigy/Cognigy-CLI/commit/c23fe7e036f18802437bf4ec347e5286a7e2d160))
+* receive snapshot as ArrayBuffer ([a672133](https://github.com/Cognigy/Cognigy-CLI/commit/a672133c639f834625b2d37d1b4b72765c14423e))
+* **snyk vulnerabilities:** snyk vulnerability ([3e48f41](https://github.com/Cognigy/Cognigy-CLI/commit/3e48f41d41bd502afb20bb041d66b4cacdad063b))
+
 # [1.2.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.1.2...v1.2.0) (2022-12-02)
 
 
