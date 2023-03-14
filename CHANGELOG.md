@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.1.2...v1.2.0) (2022-12-02)
+
+
+### Bug Fixes
+
+* **clone:** fix pulling flows with pagination ([3798e1f](https://github.com/Cognigy/Cognigy-CLI/commit/3798e1fd4882c6aa60601cd07c8c25d45d20b1ae)), closes [#29849](https://github.com/Cognigy/Cognigy-CLI/issues/29849)
+
+
+### Features
+
+* **clone flows:** increase speed of clonning flows ([44a3973](https://github.com/Cognigy/Cognigy-CLI/commit/44a3973b9a39bd3fc305dd941156b5b4fef14e6e))
+
 ## [1.1.2](https://github.com/Cognigy/Cognigy-CLI/compare/v1.1.1...v1.1.2) (2022-06-17)
 
 
