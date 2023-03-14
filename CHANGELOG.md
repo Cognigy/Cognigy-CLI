@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/Cognigy/Cognigy-CLI/compare/v1.2.1...v1.2.2) (2023-03-14)
+
+
+### Bug Fixes
+
+* **project:** triggering a new release ([9e81c80](https://github.com/Cognigy/Cognigy-CLI/commit/9e81c800c5f00ce05ce446f1205791ea4e9ff9d3))
+
 ## [1.2.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.2.0...v1.2.1) (2023-03-14)
 
 
