@@ -7,6 +7,7 @@ interface ICLIConfig {
     agent: string;
     baseUrl: string;
     agentDir: string;
+    playbookTimeoutSeconds: number;
 }
 
 const getConfig = (): ICLIConfig => {
@@ -14,7 +15,8 @@ const getConfig = (): ICLIConfig => {
         apiKey: process.env.CAI_APIKEY,
         agent: process.env.CAI_AGENT,
         baseUrl: process.env.CAI_BASEURL,
-        agentDir: process.env.CAI_AGENTDIR
+        agentDir: process.env.CAI_AGENTDIR,
+        playbookTimeoutSeconds: Number(process.env.CAI_PLAYBOOK_TIMEOUT_SECONDS)
     };
 
     if (process.argv[2] === "init" || process.argv.length < 3) return config;
@@ -28,8 +30,9 @@ const getConfig = (): ICLIConfig => {
             config.agent = (config.agent) ? config.agent : fileConfig.agent;
             config.baseUrl = (config.baseUrl) ? config.baseUrl : fileConfig.baseUrl;
             config.agentDir = (config.agentDir) ? config.agentDir : fileConfig.agentDir;
+            config.playbookTimeoutSeconds = (config.playbookTimeoutSeconds) ? config.playbookTimeoutSeconds : fileConfig.playbookTimeoutSeconds;
 
-            if (!config.apiKey || !config.agent || !config.baseUrl || !config.agentDir)
+            if (!config.apiKey || !config.agent || !config.baseUrl || !config.agentDir || !config.playbookTimeoutSeconds)
                 throw("incomplete config");
         } catch (err) {
             console.log('Missing configuration in environment variables or config.json');
