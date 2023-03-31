@@ -4,3 +4,5 @@ agent
 .vscode
 
 config.json
+playbooks.json
+playbookRunResults.json

@@ -53,6 +53,7 @@ The Cognigy.AI CLI needs the following configuration:
 | apiKey   | The Cognigy.AI API Key to use                        | CAI_APIKEY      |
 | agent    | The ID of your agent project                         | CAI_AGENT       |
 | agentDir | The folder where you want to store the agent locally | CAI_AGENTDIR    |
+| playbookTimeoutSeconds | Timeout for checking playbook runs | CAI_PLAYBOOK_TIMEOUT_SECONDS |
 
 Both environment configuration and file-based configuration can be used together. Environment configuration takes priority.
 
@@ -213,3 +214,36 @@ This command uses the `baseUrl` and `apiKey` parameters of your configuration.
 | <nobr>--list</nobr>      | -l    | -  | -  | Lists all available commands |
 | <nobr>--data</nobr> | -d    | string | -   | Injects a data payload (must be in JSON format)                                           |
 
+### Command: run
+`cognigy run playbooks <playbookFile>`
+
+Schedules runs of one or more playbooks and checks their status.
+
+Will either use a `./playbooks.json` file or any other file you point it to. Format:
+
+```
+[
+    {
+        "playbookId": "",
+        "entrypoint": "",
+        "flowId": "",
+        "localeId": ""
+    },
+    {
+        "playbookId": "",
+        "entrypoint": "",
+        "flowId": "",
+        "localeId": ""
+    }
+]
+```
+
+The run command outputs the status of the playbook runs and exits:
+
+| Output | Exit Code |
+|--------|-----------|
+| SUCCESS | 0 |
+| FAILURE | 1 |
+| TIMEOUT | 2 |
+
+All details are written to `./playbookRunResults.json`

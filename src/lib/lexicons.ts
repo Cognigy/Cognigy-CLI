@@ -91,8 +91,7 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
     // pull lexicon data from Cognigy.AI
     const csvData = await CognigyClient.exportFromLexicon({
         lexiconId: lexicon._id,
-        projectId: CONFIG.agent,
-        type: 'text/csv'
+        projectId: CONFIG.agent
     });
 
     // write files to disk
@@ -208,8 +207,7 @@ export const diffLexicons = async (lexiconName: string, mode: string = 'full'): 
 
         const remoteCsvData = await CognigyClient.exportFromLexicon({
             lexiconId: localConfig.lexiconId,
-            projectId: CONFIG.agent,
-            type: 'text/csv'
+            projectId: CONFIG.agent
         });
 
         const diff = Diff.diffChars(remoteCsvData, localCsvData);

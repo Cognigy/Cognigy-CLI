@@ -6,3 +6,5 @@ agent2
 
 config.json
 config.bak.json
+playbooks.json
+playbookRunResults.json
