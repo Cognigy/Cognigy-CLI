@@ -243,9 +243,9 @@ Will either use a `./playbooks.json` file or any other file you point it to. For
 [
     {
         "playbookId": "",
-        "entrypoint": "",
-        "flowId": "",
-        "localeId": ""
+        "entrypoint": "", // snapshot ID or agent ID (if no snapshot is used)
+        "flowId": "", // this is the flow reference ID
+        "localeId": "" // this is the locale reference ID
     },
     {
         "playbookId": "",
