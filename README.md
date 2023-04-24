@@ -233,6 +233,7 @@ This command uses the `baseUrl` and `apiKey` parameters of your configuration.
 | <nobr>--data</nobr> | -d    | string | -   | Injects a data payload (must be in JSON format)                                           |
 
 ### Command: run
+
 `cognigy run playbooks <playbookFile>`
 
 Schedules runs of one or more playbooks and checks their status.
@@ -265,7 +266,6 @@ The run command outputs the status of the playbook runs and exits:
 | TIMEOUT | 2 |
 
 All details are written to `./playbookRunResults.json`
-
 
 ## Contributing
 
