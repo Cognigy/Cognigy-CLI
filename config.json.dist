@@ -2,5 +2,7 @@
     "apiKey": "",
     "agent": "",
     "baseUrl": "",
-    "agentDir": ""
+    "agentDir": "",
+    "openAIApiKey": "",
+    "playbookTimeoutSeconds": 10
 }

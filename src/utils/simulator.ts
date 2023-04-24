@@ -12,19 +12,19 @@ console.log("\n");
                 type: 'input',
                 name: 'command',
                 message: `What is the command?`,
-                default: `translate`
+                default: `run`
             },
             {
                 type: 'input',
                 name: 'resourceType',
                 message: `what is the resource type?`,
-                default: 'flow'
+                default: 'playbooks'
             },
             {
                 type: 'input',
                 name: 'resourceId',
                 message: `What is the resource ID?`,
-                default: `Test`
+                default: ``
             },
             {
                 type: 'input',
