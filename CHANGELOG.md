@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.2.2...v1.3.0) (2023-04-24)
+
+
+### Features
+
+* **playbooks:** run playbooks ([04986be](https://github.com/Cognigy/Cognigy-CLI/commit/04986bea068721ccc49a6e7b21875f595631ccd3))
+* **playbooks:** updated readme ([51847fc](https://github.com/Cognigy/Cognigy-CLI/commit/51847fcd27eaa3f828178655212441425789a546))
+
 ## [1.2.2](https://github.com/Cognigy/Cognigy-CLI/compare/v1.2.1...v1.2.2) (2023-03-14)
 
 
