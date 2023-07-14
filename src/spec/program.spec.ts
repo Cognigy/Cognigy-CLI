@@ -3,7 +3,7 @@ import { expect } from "chai";
 import * as sinon from "sinon";
 
 /* Custom Modules */
-import { program, setStdIn, getStdIn } from '../program';
+import { program, setStdIn, getStdIn } from '../program/program';
 import * as  init from '../commands/init';
 import * as  restore from '../commands/restore';
 import * as  diff from '../commands/diff';

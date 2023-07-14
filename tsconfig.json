@@ -8,7 +8,7 @@
       "typeRoots": [ "../node_modules/@types" ],
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
-      "target": "es2017", 
+      "target": "es2019", 
       "module": "commonjs",
       "rootDir": "src", 
       "outDir": "build",

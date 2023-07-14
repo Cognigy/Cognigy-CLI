@@ -1,21 +1,23 @@
-#!/usr/bin/env node
-import './utils/checkConfig';
-
+/** Node Modules*/
 import { Command } from 'commander';
-import { clone } from './commands/clone';
-import { restore } from './commands/restore';
-import { diff } from './commands/diff';
-import { push } from './commands/push';
-import { pull } from './commands/pull';
-import { init } from './commands/init';
-import { train } from './commands/train';
-import { create } from './commands/create';
-import { exportcsv } from './commands/exportcsv';
-import { importcsv } from './commands/importcsv';
-import { execute } from './commands/execute';
-import { translate } from './commands/translate';
-import { localize } from './commands/localize';
-import { run } from './commands/run';
+
+/** Custom Modules */
+import '../utils/checkConfig';
+import { clone } from '../commands/clone';
+import { restore } from '../commands/restore';
+import { diff } from '../commands/diff';
+import { push } from '../commands/push';
+import { pull } from '../commands/pull';
+import { init } from '../commands/init';
+import { train } from '../commands/train';
+import { create } from '../commands/create';
+import { exportcsv } from '../commands/exportcsv';
+import { importcsv } from '../commands/importcsv';
+import { execute } from '../commands/execute';
+import { translate } from '../commands/translate';
+import { localize } from '../commands/localize';
+import { run } from '../commands/run';
+import { makeKnowledgeAIProgram } from './knowledgeAIProgram';
 
 let stdin = '';
 
@@ -148,3 +150,5 @@ program
     .action(async (resourceType, playbookFile, cmdObj) => {
         await run({ resourceType, playbookFile, options: cmdObj });
     });
+
+program.addCommand(makeKnowledgeAIProgram());
