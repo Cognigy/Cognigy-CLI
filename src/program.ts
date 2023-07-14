@@ -15,6 +15,7 @@ import { importcsv } from './commands/importcsv';
 import { execute } from './commands/execute';
 import { translate } from './commands/translate';
 import { localize } from './commands/localize';
+import { run } from './commands/run';
 
 let stdin = '';
 
@@ -25,7 +26,7 @@ export const setStdIn = (input: string) => {
 export const getStdIn = (): string => stdin;
 
 export const program = new Command();
-program.version('0.6.3');
+program.version('1.4.0');
 
 program
     .command('init')
@@ -136,4 +137,14 @@ program
     .description('Executes a command of the Cognigy API client')
     .action(async (command, cmdObj) => {
         await execute({ command, options: cmdObj, stdin });
+    });
+
+
+program
+    .command('run <resourceType> [playbookFile]')
+    .option('-c, --config <configFile>', 'force the use of a specific config file')
+    .option('-l, --list', 'lists all available commands')
+    .description('Schedules one or more playbooks to run')
+    .action(async (resourceType, playbookFile, cmdObj) => {
+        await run({ resourceType, playbookFile, options: cmdObj });
     });

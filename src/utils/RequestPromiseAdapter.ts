@@ -12,6 +12,11 @@ import {
 	IRestAPIClientConfig,
 } from "@cognigy/rest-api-client";
 
+/**
+ * @deprecated This is not used anymore and it will be removed in the near future.
+ * Please use RestAdapter instead.
+ * @see RestAdapter
+ */
 export class RequestPromiseAdapter implements IHttpAdapter {
 	private config: IRestAPIClientConfig;
 
