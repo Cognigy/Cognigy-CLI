@@ -1,4 +1,4 @@
-import CognigyClient from '../../utils/cognigyClient';
+import CognigyClient from '../../../utils/cognigyClient';
 
 export const createKnowledgeStore = async (	
     projectId: string,

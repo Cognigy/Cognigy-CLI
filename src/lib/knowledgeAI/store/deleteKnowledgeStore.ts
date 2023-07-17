@@ -1,5 +1,5 @@
 /* Custom Modules*/
-import CognigyClient from "../../utils/cognigyClient";
+import CognigyClient from "../../../utils/cognigyClient";
 
 export const deleteKnowledgeStore = async (
     knowledgeStoreId: string

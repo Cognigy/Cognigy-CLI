@@ -2,12 +2,15 @@
 import { Command } from 'commander';
 import {
     createKnowledgeStoreCMD,
-    deleteDocumentCMD,
+    indexKnowledgeStoresCMD,
     deleteKnowledgeStoreCMD,
+    deleteDocumentCMD,
     ingestCMD,
     deleteAllDocumentsCMD,
     handleSizeCMD,
-    IExtractOptions
+    IExtractOptions,
+    readKnowledgeStoreCMD,
+    updateKnowledgeStoreCMD
 } from '../commands/knowledgeAI';
 
 export const makeKnowledgeAIProgram = () => {
@@ -54,6 +57,52 @@ Examples:
                 await createKnowledgeStoreCMD(
                     options.projectId,
                     options.language,
+                    options.name,
+                    options.description,
+                );
+            } catch (e) {
+                console.log(e.message);
+            }
+        });
+
+    knowledgeAI
+        .command("index-stores")
+        .description(`List all the knowledge stores for a project`)
+        .option("-p, --projectId <string>", "Project ID")
+        .action(async (options) => {
+            try {
+                await indexKnowledgeStoresCMD(
+                    options.projectId,
+                );
+            } catch (e) {
+                console.log(e.message);
+            }
+        });
+
+    knowledgeAI
+        .command("read-store")
+        .description(`Get a store given its store id`)
+        .requiredOption("-k, --knowledgeStoreId <string>", "Knowledge Store ID")
+        .action(async (options) => {
+            try {
+                await readKnowledgeStoreCMD(
+                    options.knowledgeStoreId,
+                );
+            } catch (e) {
+                console.log(e.message);
+            }
+        });
+
+    knowledgeAI
+        .command("update-store")
+        .description(`Get a store given its store id`)
+        .requiredOption("-k, --knowledgeStoreId <string>", "Knowledge Store ID.")
+        .option("-n --name <string>", "Name of the knowledge store.")
+        .option("-d --description <string>", "Description of the knowledge store.")
+        .action(async (options) => {
+            try {
+                await updateKnowledgeStoreCMD(
+                    options.knowledgeStoreId,
                     options.name,
                     options.description,
                 );
