@@ -1,12 +1,12 @@
 /** Node Modules*/
 import { Command } from 'commander';
 import {
-    createKnowledgeStore,
-    deleteDocument,
-    deleteKnowledgeStore,
-    ingest,
-    deleteAllDocuments,
-    handleSize,
+    createKnowledgeStoreCMD,
+    deleteDocumentCMD,
+    deleteKnowledgeStoreCMD,
+    ingestCMD,
+    deleteAllDocumentsCMD,
+    handleSizeCMD,
     IExtractOptions
 } from '../commands/knowledgeAI';
 
@@ -51,7 +51,7 @@ Examples:
         .requiredOption("-d, --description <string>", "Description")
         .action(async (options) => {
             try {
-                await createKnowledgeStore(
+                await createKnowledgeStoreCMD(
                     options.projectId,
                     options.language,
                     options.name,
@@ -77,7 +77,7 @@ Examples:
         .option("-v, --verbose", "Print detailed logs", false)
         .action(async (options) => {
             try {
-                await ingest(
+                await ingestCMD(
                     options.projectId,
                     options.language,
                     options.knowledgeStoreId,
@@ -99,7 +99,7 @@ Examples:
         .option("-v, --verbose", "Print detailed logs", false)
         .action(async (options) => {
             try {
-                await deleteDocument(options.knowledgeStoreId, options.documentUrl, options.verbose);
+                await deleteDocumentCMD(options.knowledgeStoreId, options.documentUrl, options.verbose);
             } catch (e) {
                 console.log(e.message);
             }
@@ -109,10 +109,9 @@ Examples:
         .command("delete-store")
         .description(`Deletes a knowledge store and all paragraphs assigned to it.`)
         .requiredOption("-k, --knowledgeStoreId <string>", "Knowledge Store ID")
-        .option("-v, --verbose", "Print detailed logs", false)
         .action(async (options) => {
             try {
-                await deleteKnowledgeStore(options.knowledgeStoreId, options.verbose);
+                await deleteKnowledgeStoreCMD(options.knowledgeStoreId);
             } catch (e) {
                 console.log(e.message);
             }
@@ -126,7 +125,7 @@ Examples:
         .option("-v, --verbose", "Print detailed logs", false)
         .action(async (options) => {
             try {
-                await deleteAllDocuments(options.projectId, options.language, options.verbose);
+                await deleteAllDocumentsCMD(options.projectId, options.language, options.verbose);
             } catch (e) {
                 console.log(e.message);
             }
@@ -138,7 +137,7 @@ Examples:
         .option("-i, --inputFile <string>", "Input File Path")
         .action(async (options: IExtractOptions) => {
             try {
-                await handleSize(options.inputFile);
+                await handleSizeCMD(options.inputFile);
             } catch (e) {
                 console.log(e.message);
             }

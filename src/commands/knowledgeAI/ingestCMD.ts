@@ -1,4 +1,4 @@
-export const ingest = (
+export const ingestCMD = (
     projectId: string,
 	language: string,
 	knowledgeStoreId: string,
