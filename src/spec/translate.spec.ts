@@ -1,7 +1,6 @@
 import * as translators from "../utils/translators";
-import * as nock from "nock";
+import nock from "nock";
 import { expect } from "chai";
-
 
 describe('translation cli tests', () => {
     it('should handle umlaut correctly for DeepL', async () => {

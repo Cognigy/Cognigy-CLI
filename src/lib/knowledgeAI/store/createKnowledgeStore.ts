@@ -1,3 +1,4 @@
+/* Custom  Modules */
 import CognigyClient from '../../../utils/cognigyClient';
 
 export const createKnowledgeStore = async (	
@@ -13,4 +14,4 @@ export const createKnowledgeStore = async (
         });
 
 		console.log(`\n\nKnowledgeAI Store with name: ${name} has been created!\n store: ${JSON.stringify(store, null, 2)}`);
-	};
+};

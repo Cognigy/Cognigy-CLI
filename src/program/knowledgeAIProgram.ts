@@ -10,7 +10,8 @@ import {
     handleSizeCMD,
     IExtractOptions,
     readKnowledgeStoreCMD,
-    updateKnowledgeStoreCMD
+    updateKnowledgeStoreCMD,
+    extractCMD
 } from '../commands/knowledgeAI';
 
 export const makeKnowledgeAIProgram = () => {
@@ -39,10 +40,7 @@ Examples:
     $ knowledge-ai delete-document --knowledgeStoreId 12389fb81236ff450744321 --documentUrl "/absolute/path/to/my/file.txt"
 
     Delete a knowledge store:
-    $ knowledge-ai delete-store --knowledgeStoreId 12389fb81236ff450744321
-
-    Delete all paragraphs of a project and language:
-    $ knowledge-ai delete-all --projectId 643689fb81236ff450744d51 --language en-US`
+    $ knowledge-ai delete-store --knowledgeStoreId 12389fb81236ff450744321`
     );
 
     knowledgeAI
@@ -192,25 +190,25 @@ Examples:
             }
         });
 
-    // knowledgeAI
-    //     .command("extract <type>")
-    //     .description(`Converts "diffbot" output into text files parsing the output as paragraphs as expected as input for the "ingest" command.`)
-    //     .option("-i, --inputFile <string>", "Input File Path")
-    //     .option("-o, --outputFile <string>", "Output File Path")
-    //     .option("-u --url <string>", "Target URL (for web based extraction)")
-    //     .option("-e, --excludeString <string>", "Resulting paragraphs will be excluded if they contain this string")
-    //     .option("-s, --splitter <string>", "Name of the splitter to use, leave empty for default")
-    //     .option("-cs, --chunkSize <number>", "Chunksize to use, default 2000")
-    //     .option("-co, --chunkOverlap <number>", "Chunk overlap to use, default 200")
-    //     .option("-ap --additionalParameters <string>", "Additional parameters to send to the extractor")
-    //     .option("-fl, --forceLocal", "Forces local processing of files")
-    //     .option("-v, --verbose", "Print detailed logs", false)
-    //     .action(async (type: string, options: IExtractOptions) => {
-    //         try {
-    //             await handleExtract(type, options);
-    //         } catch (e: any) {
-    //             console.log(e.message);
-    //         }
-    //     });
+    knowledgeAI
+        .command("extract <type>")
+        .description(`Converts "diffbot" output into text files parsing the output as paragraphs as expected as input for the "ingest" command.`)
+        .option("-i, --inputFile <string>", "Input File Path")
+        .option("-o, --outputFile <string>", "Output File Path")
+        .option("-u --url <string>", "Target URL (for web based extraction)")
+        .option("-e, --excludeString <string>", "Resulting paragraphs will be excluded if they contain this string")
+        .option("-s, --splitter <string>", "Name of the splitter to use, leave empty for default")
+        .option("-cs, --chunkSize <number>", "Chunksize to use, default 2000")
+        .option("-co, --chunkOverlap <number>", "Chunk overlap to use, default 200")
+        .option("-ap --additionalParameters <string>", "Additional parameters to send to the extractor")
+        .option("-fl, --forceLocal", "Forces local processing of files")
+        .option("-v, --verbose", "Print detailed logs", false)
+        .action(async (type: string, options: IExtractOptions) => {
+            try {
+                await extractCMD(type, options);
+            } catch (e: any) {
+                console.log(e.message);
+            }
+        });
     return knowledgeAI;
 }
