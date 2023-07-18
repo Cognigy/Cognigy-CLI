@@ -1,18 +1,15 @@
 /** Node Modules*/
 import { Command } from 'commander';
 import {
-    indexKnowledgeStoresCMD,
-    deleteKnowledgeStoreCMD,
-    deleteDocumentCMD,
     ingestCMD,
-    deleteAllDocumentsCMD,
     handleSizeCMD,
     IExtractOptions,
-    readKnowledgeStoreCMD,
     updateKnowledgeStoreCMD,
     extractCMD,
     createKnowledgeAIResourceCMD,
-    deleteKnowledgeAIResourceCMD
+    deleteKnowledgeAIResourceCMD,
+    indexKnowledgeAIResourcesCMD,
+    readKnowledgeAIResourceCMD
 } from '../commands/knowledgeAI';
 
 export const makeKnowledgeAIProgram = () => {
@@ -26,19 +23,19 @@ export const makeKnowledgeAIProgram = () => {
         .addHelpText('after', `
 Examples:
     Print more information about a specific command:
-    $ knowledge-ai ingest --help
+    $ cognigy knowledge-ai ingest --help
 
     Ingest a single ".txt" file:
-    $ knowledge-ai ingest --projectId 643689fb81236ff450744d51 --language en-US --knowledgeStoreId 12389fb81236ff450744321 --input "~/path/to/my/file.txt"
+    $ cognigy knowledge-ai ingest --projectId 643689fb81236ff450744d51 --language en-US --knowledgeStoreId 12389fb81236ff450744321 --input "~/path/to/my/file.txt"
 
     Ingest all ".txt" files within a directory:
-    $ knowledge-ai ingest --projectId 643689fb81236ff450744d51 --language en-US --knowledgeStoreId 12389fb81236ff450744321 --input "~/path/to/my/directory"
+    $ cognigy knowledge-ai ingest --projectId 643689fb81236ff450744d51 --language en-US --knowledgeStoreId 12389fb81236ff450744321 --input "~/path/to/my/directory"
 
     Delete all paragraphs of a single file:
-    $ knowledge-ai delete-document --knowledgeStoreId 12389fb81236ff450744321 --documentUrl "/absolute/path/to/my/file.txt"
+    $ cognigy knowledge-ai delete-document --knowledgeStoreId 12389fb81236ff450744321 --documentUrl "/absolute/path/to/my/file.txt"
 
     Delete a knowledge store:
-    $ knowledge-ai delete-store --knowledgeStoreId 12389fb81236ff450744321`
+    $ cognigy knowledge-ai delete-store --knowledgeStoreId 12389fb81236ff450744321`
         );
 
     knowledgeAI
@@ -79,7 +76,7 @@ Examples:
     knowledgeAI
         .command("delete <resourceType>")
         .description(`Deletes knowledgeAI resource type [store, source].`)
-        .option("-s, --sourceId <string>", "Project ID")
+        .option("-s, --sourceId <string>", "Source ID")
         .option("-k, --knowledgeStoreId <string>", "Knowledge Store ID")
         .action(async (resourceType, options) => {
             try {
@@ -103,32 +100,56 @@ Examples:
           });
 
     knowledgeAI
-        .command("index-stores")
-        .description(`List all the knowledge stores for a project`)
-        .option("-p, --projectId <string>", "Project ID")
-        .action(async (options) => {
-            try {
-                await indexKnowledgeStoresCMD(
-                    options.projectId,
-                );
-            } catch (e) {
-                console.log(e.message);
-            }
-        });
+          .command("index <resourceType>")
+          .description(`List all the knowledge stores for a project.`)
+          .option("-p, --projectId <string>", "Project ID")
+          .option("-k, --knowledgeStoreId <string>", "Knowledge Store ID")
+          .action(async (resourceType, options) => {
+              try {
+                  await indexKnowledgeAIResourcesCMD({
+                      resourceType,
+                      knowledgeStoreId: options.knowledgeStoreId,
+                      projectId: options.projectId
+                  });
+              } catch (e) {
+                  console.log(e.message);
+              }
+          })
+          .on('--help', () => {
+              console.log(`
+Examples:
+    Index a knowledge store:
+    $ cognigy knowledge-ai index store --projectId 643689fb81236ff450744d51"
+    Index a knowledge source:
+    $ cognigy knowledge-ai index source --knowledgeStoreId 643689fb81236ff450744d51`
+              )
+            });
 
     knowledgeAI
-        .command("read-store")
-        .description(`Get a store given its store id`)
-        .requiredOption("-k, --knowledgeStoreId <string>", "Knowledge Store ID")
-        .action(async (options) => {
-            try {
-                await readKnowledgeStoreCMD(
-                    options.knowledgeStoreId,
-                );
-            } catch (e) {
-                console.log(e.message);
-            }
-        });
+            .command("read <resourceType>")
+            .description(`Get a knowledgeAI store/source.`)
+            .option("-s, --sourceId <string>", "Source ID")
+            .option("-k, --knowledgeStoreId <string>", "Knowledge Store ID")
+            .action(async (resourceType, options) => {
+                try {
+                    await readKnowledgeAIResourceCMD({
+                        resourceType,
+                        knowledgeStoreId: options.knowledgeStoreId,
+                        sourceId: options.sourceId
+                    });
+                } catch (e) {
+                    console.log(e.message);
+                }
+            })
+            .on('--help', () => {
+                console.log(`
+Examples:
+    Read a knowledge store:
+    $ cognigy knowledge-ai read store --sourceId 643689fb81236ff450744d51"
+    Read a knowledge source:
+    $ cognigy knowledge-ai read source --knowledgeStoreId 643689fb81236ff450744d51`
+                )
+              });
 
     knowledgeAI
         .command("update-store")
@@ -172,46 +193,6 @@ Examples:
                     options.collectErroredParagraphs,
                     options.verbose
                 );
-            } catch (e) {
-                console.log(e.message);
-            }
-        });
-
-    knowledgeAI
-        .command("delete-document")
-        .description(`Deletes all paragraphs of a previously ingested document from a knowledge store.`)
-        .requiredOption("-k, --knowledgeStoreId <string>", "Knowledge Store ID")
-        .requiredOption("-d, --documentUrl <string>", "Absolute document URL, i.e. the full path to the file that was ingested.")
-        .option("-v, --verbose", "Print detailed logs", false)
-        .action(async (options) => {
-            try {
-                await deleteDocumentCMD(options.knowledgeStoreId, options.documentUrl, options.verbose);
-            } catch (e) {
-                console.log(e.message);
-            }
-        });
-
-    knowledgeAI
-        .command("delete-store")
-        .description(`Deletes a knowledge store and all paragraphs assigned to it.`)
-        .requiredOption("-k, --knowledgeStoreId <string>", "Knowledge Store ID")
-        .action(async (options) => {
-            try {
-                await deleteKnowledgeStoreCMD(options.knowledgeStoreId);
-            } catch (e) {
-                console.log(e.message);
-            }
-        });
-
-    knowledgeAI
-        .command("delete-all")
-        .description(`Deletes all paragraphs from all knowledge stores of a project. Also deletes knowledge stores that had paragraphs assigned.`)
-        .requiredOption("-p, --projectId <string>", "Project ID")
-        .requiredOption("-l, --language <string>", "Language")
-        .option("-v, --verbose", "Print detailed logs", false)
-        .action(async (options) => {
-            try {
-                await deleteAllDocumentsCMD(options.projectId, options.language, options.verbose);
             } catch (e) {
                 console.log(e.message);
             }
