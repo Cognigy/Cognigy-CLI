@@ -11,10 +11,8 @@ export { deleteKnowledgeSource } from "./source/deleteKnowledgeSource";
 export { indexKnowledgeSources } from "./source/indexKnowledgeSources";
 export { readKnowledgeSource } from "./source/readKnowledgeSource";
 
-export { ingest } from "./ingest";
+export { ingestFile } from "./ingestFile";
 export { extract } from "./extract";
 
-export { deleteDocument } from "./deleteDocument";
-export { deleteSource as deleteAllDocuments } from "./deleteSource";
 export { handleSize } from "./handleSize";
 export { IExtractOptions } from "./IExtractOptions";

@@ -8,6 +8,7 @@ import { unstructuredExtractor } from './extractionProvider/unstructuredExtracto
 
 /** Interfaces */
 import { IExtractOptions } from './extractionProvider/IExtractorOptions';
+import { Spinner } from "cli-spinner";
 
 /**
  * Write result to file
@@ -33,6 +34,9 @@ function writeResultsToFile(
 
 export const extract = async (type: string, options: IExtractOptions) => {
 
+    const spinner = new Spinner(`Extracting chunks into file... %s`);
+	spinner.setSpinnerString('|/-\\');
+
     if (options.additionalParameters) {
         try {
             options.additionalParameters = JSON.parse(options.additionalParameters);
@@ -41,6 +45,7 @@ export const extract = async (type: string, options: IExtractOptions) => {
         }
     }
 
+    spinner.start();
     let content;
     switch (type) {
         case 'diffbot': 
@@ -57,11 +62,13 @@ export const extract = async (type: string, options: IExtractOptions) => {
         case 'md':
         case 'docx':
             if (!options.inputFile) {
+                spinner.stop();
                 console.error("Missing required parameter --inputFile");
                 process.exit(1);
             }
 
             if (!options.outputFile) {
+                spinner.stop();
                 console.error("Missing required parameter --outputFile");
                 process.exit(1);
             }
@@ -89,6 +96,7 @@ export const extract = async (type: string, options: IExtractOptions) => {
         case 'cheerio':
         case 'playwright':
             if (!options.url && !options.inputFile) {
+                spinner.stop();
                 console.error("Missing required parameter --url");
                 process.exit(1);
             }
@@ -96,10 +104,12 @@ export const extract = async (type: string, options: IExtractOptions) => {
             break;
         
         default:
+            spinner.stop();
             console.error(`Invalid extraction type '${type}'. Please refer to the documentation.'`);
             process.exit(1);
     }    
 
+    spinner.stop();
     if (content) {
         await writeResultsToFile(options.outputFile, content);
         if (options.verbose) {
@@ -108,4 +118,5 @@ export const extract = async (type: string, options: IExtractOptions) => {
     } else {
         console.error("Content couldn't be extracted, no output file written.")
     }
+    
 };

@@ -151,23 +151,23 @@ Examples:
                 )
               });
 
-    knowledgeAI
-        .command("update-store")
-        .description(`Get a store given its store id`)
-        .requiredOption("-k, --knowledgeStoreId <string>", "Knowledge Store ID.")
-        .option("-n --name <string>", "Name of the knowledge store.")
-        .option("-d --description <string>", "Description of the knowledge store.")
-        .action(async (options) => {
-            try {
-                await updateKnowledgeStoreCMD(
-                    options.knowledgeStoreId,
-                    options.name,
-                    options.description,
-                );
-            } catch (e) {
-                console.log(e.message);
-            }
-        });
+    // knowledgeAI
+    //     .command("update-store")
+    //     .description(`Get a store given its store id`)
+    //     .requiredOption("-k, --knowledgeStoreId <string>", "Knowledge Store ID.")
+    //     .option("-n --name <string>", "Name of the knowledge store.")
+    //     .option("-d --description <string>", "Description of the knowledge store.")
+    //     .action(async (options) => {
+    //         try {
+    //             await updateKnowledgeStoreCMD(
+    //                 options.knowledgeStoreId,
+    //                 options.name,
+    //                 options.description,
+    //             );
+    //         } catch (e) {
+    //             console.log(e.message);
+    //         }
+    //     });
 
     knowledgeAI
         .command("ingest")

@@ -1,4 +1,6 @@
-export const ingestCMD = (
+import { ingestFile } from "../../lib/knowledgeAI";
+
+export const ingestCMD = async (
     projectId: string,
 	language: string,
 	knowledgeStoreId: string,
@@ -6,4 +8,6 @@ export const ingestCMD = (
 	name?: string,
 	shouldCreateFilesForFailedIngestions: boolean = false,
 	verbose: boolean = false
-) => {}
+) => {
+	await ingestFile(knowledgeStoreId, input);
+}
