@@ -1,7 +1,6 @@
 /** Node Modules*/
 import { Command } from 'commander';
 import {
-    createKnowledgeStoreCMD,
     indexKnowledgeStoresCMD,
     deleteKnowledgeStoreCMD,
     deleteDocumentCMD,
@@ -11,7 +10,8 @@ import {
     IExtractOptions,
     readKnowledgeStoreCMD,
     updateKnowledgeStoreCMD,
-    extractCMD
+    extractCMD,
+    createKnowledgeAIResourceCMD
 } from '../commands/knowledgeAI';
 
 export const makeKnowledgeAIProgram = () => {
@@ -28,8 +28,11 @@ Examples:
     $ knowledge-ai ingest --help
 
     Create a knowledge store:
-    $ knowledge-ai create-store --projectId 643689fb81236ff450744d51 --language en-US --name "General Information" --description "General information about my business"
+    $ cognigy knowledge-ai create source --projectId 643689fb81236ff450744d51 --language en-US --name "General Information" --description "General information about my business"
     
+    Create a knowledgeAI source:
+    $ cognigy knowledge-ai create source test-cli-source -k 64b66622b8641100718bcf06 -t manual
+
     Ingest a single ".txt" file:
     $ knowledge-ai ingest --projectId 643689fb81236ff450744d51 --language en-US --knowledgeStoreId 12389fb81236ff450744321 --input "~/path/to/my/file.txt"
 
@@ -41,23 +44,28 @@ Examples:
 
     Delete a knowledge store:
     $ knowledge-ai delete-store --knowledgeStoreId 12389fb81236ff450744321`
-    );
+        );
 
     knowledgeAI
-        .command("create-store")
-        .description(`Creates a knowledge store for a project with the specified name and description. Knowledge store names must be unique.`)
-        .requiredOption("-p, --projectId <string>", "Project ID")
-        .requiredOption("-l, --language <string>", "Language")
-        .requiredOption("-n, --name <string>", "Name")
-        .requiredOption("-d, --description <string>", "Description")
-        .action(async (options) => {
+        .command("create <resourceType> <resourceName> [resourceDescription]")
+        .description(`Creates knowledgeAI resources type [store, source] for a project with the specified name and description. Names must be unique.`)
+        .option("-p, --projectId <string>", "Project ID")
+        .option("-k, --knowledgeStoreId <string>", "Knowledge Store ID")
+        .option("-l, --language <string>", "Language")
+        .option("-u, --url <string>", "Url")
+        .option("-t, --type <string>", "Source type e.g. manual, website")
+        .action(async (resourceType, resourceName, resourceDescription = 'Cognigy.AI CLI', options) => {
             try {
-                await createKnowledgeStoreCMD(
-                    options.projectId,
-                    options.language,
-                    options.name,
-                    options.description,
-                );
+                await createKnowledgeAIResourceCMD({
+                    resourceType,
+                    name: resourceName,
+                    description: resourceDescription,
+                    projectId: options.projectId,
+                    language: options.language,
+                    knowledgeStoreId: options.knowledgeStoreId,
+                    type: options.type,
+                    url: options.url
+            });
             } catch (e) {
                 console.log(e.message);
             }

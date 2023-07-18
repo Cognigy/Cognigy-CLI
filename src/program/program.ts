@@ -87,8 +87,8 @@ program
     .option('-s, --skipDownload', 'skip downloading the snapshot')
     .option('-lf, --fallbackLocale <localeId>', 'fallback locale ID')
     .option('-lnlu, --nluLanguage <languageCode>', 'NLU to use')
-    .action(async (resourceType, resourceName, resourceDescription = 'Cognigy.AI CLI', cmdObj) => { 
-        await create({ resourceType, resourceName, description: resourceDescription, timeout: cmdObj.timeout, skipDownload: cmdObj.skipDownload, fallbackLocale: cmdObj.fallbackLocale, nluLanguage: cmdObj.nluLanguage }); 
+    .action(async (resourceType, resourceName, resourceDescription = 'Cognigy.AI CLI', cmdObj) => {
+        await create({ resourceType, resourceName, description: resourceDescription, timeout: cmdObj.timeout, skipDownload: cmdObj.skipDownload, fallbackLocale: cmdObj.fallbackLocale, nluLanguage: cmdObj.nluLanguage });
     });
 
 program
@@ -140,7 +140,6 @@ program
     .action(async (command, cmdObj) => {
         await execute({ command, options: cmdObj, stdin });
     });
-
 
 program
     .command('run <resourceType> [playbookFile]')

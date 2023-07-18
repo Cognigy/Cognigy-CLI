@@ -267,6 +267,14 @@ The run command outputs the status of the playbook runs and exits:
 
 All details are written to `./playbookRunResults.json`
 
+### Command: knowledge-ai
+
+[Cognigy Knowledge AI Documentation](KNOWLEDGE-AI-README.md)
+
+## FAQ
+
+[Frequently asked questions (FAQ)](FAQ.md)
+
 ## Contributing
 
 ### Commiting
