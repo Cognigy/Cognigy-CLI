@@ -2,8 +2,11 @@
 import { createKnowledgeSourceCMD } from "./source/createKnowledgeSourceCMD";
 import { createKnowledgeStoreCMD } from "./store/createKnowledgeStoreCMD";
 
+/** Types */
+import { TResourceType } from "./IResourceType";
+
 export const createKnowledgeAIResourceCMD = (data: {
-	resourceType: "store" | "source",	
+	resourceType: TResourceType,	
 	name: string,
 	description: string,
     projectId?: string,

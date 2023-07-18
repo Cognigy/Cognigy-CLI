@@ -10,6 +10,7 @@ export { indexKnowledgeSourcesCMD } from "./source/indexKnowledgeSourcesCMD";
 export { readKnowledgeSourceCMD } from "./source/readKnowledgeSourceCMD";
 
 export { createKnowledgeAIResourceCMD } from "./createKnowledgeAIResourceCMD";
+export { deleteKnowledgeAIResourceCMD } from "./deleteKnowledgeAIResourceCMD";
 export { ingestCMD } from "./ingestCMD";
 export { extractCMD } from "./extractCMD";
 

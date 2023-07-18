@@ -11,7 +11,8 @@ import {
     readKnowledgeStoreCMD,
     updateKnowledgeStoreCMD,
     extractCMD,
-    createKnowledgeAIResourceCMD
+    createKnowledgeAIResourceCMD,
+    deleteKnowledgeAIResourceCMD
 } from '../commands/knowledgeAI';
 
 export const makeKnowledgeAIProgram = () => {
@@ -26,12 +27,6 @@ export const makeKnowledgeAIProgram = () => {
 Examples:
     Print more information about a specific command:
     $ knowledge-ai ingest --help
-
-    Create a knowledge store:
-    $ cognigy knowledge-ai create source --projectId 643689fb81236ff450744d51 --language en-US --name "General Information" --description "General information about my business"
-    
-    Create a knowledgeAI source:
-    $ cognigy knowledge-ai create source test-cli-source -k 64b66622b8641100718bcf06 -t manual
 
     Ingest a single ".txt" file:
     $ knowledge-ai ingest --projectId 643689fb81236ff450744d51 --language en-US --knowledgeStoreId 12389fb81236ff450744321 --input "~/path/to/my/file.txt"
@@ -65,11 +60,47 @@ Examples:
                     knowledgeStoreId: options.knowledgeStoreId,
                     type: options.type,
                     url: options.url
-            });
+                });
             } catch (e) {
                 console.log(e.message);
             }
-        });
+        })        
+        .on('--help', () => {
+            console.log(`
+Examples:
+    Create a knowledge store:
+    $ cognigy knowledge-ai create source --projectId 643689fb81236ff450744d51 --language en-US --name "General Information" --description "General information about my business"
+    
+    Create a knowledgeAI source:
+    $ cognigy knowledge-ai create source test-cli-source -k 64b66622b8641100718bcf06 -t manual`
+            )
+          });
+
+    knowledgeAI
+        .command("delete <resourceType>")
+        .description(`Deletes knowledgeAI resource type [store, source].`)
+        .option("-s, --sourceId <string>", "Project ID")
+        .option("-k, --knowledgeStoreId <string>", "Knowledge Store ID")
+        .action(async (resourceType, options) => {
+            try {
+                await deleteKnowledgeAIResourceCMD({
+                    resourceType,
+                    knowledgeStoreId: options.knowledgeStoreId,
+                    sourceId: options.sourceId
+                });
+            } catch (e) {
+                console.log(e.message);
+            }
+        })
+        .on('--help', () => {
+            console.log(`
+Examples:
+    Delte a knowledge store:
+    $ cognigy knowledge-ai delete store --knowledgeStoreId 643689fb81236ff450744d51"
+    Delte a knowledge source:
+    $ cognigy knowledge-ai delete source --knowledgeStoreId 643689fb81236ff450744d51 --sourceId 643689fb81236ff450744d52`
+            )
+          });
 
     knowledgeAI
         .command("index-stores")
