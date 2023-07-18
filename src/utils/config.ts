@@ -7,6 +7,7 @@ interface ICLIConfig {
     agent: string;
     baseUrl: string;
     agentDir: string;
+    knowledgeAIStoreDir: string;
     playbookTimeoutSeconds: number;
     maxNumberOfTokens: number;
 }
@@ -17,6 +18,7 @@ const getConfig = (): ICLIConfig => {
         agent: process.env.CAI_AGENT,
         baseUrl: process.env.CAI_BASEURL,
         agentDir: process.env.CAI_AGENTDIR,
+        knowledgeAIStoreDir: process.env.KNOWLEDGE_AI_STORE_DIR,
         playbookTimeoutSeconds: Number(process.env.CAI_PLAYBOOK_TIMEOUT_SECONDS),
         maxNumberOfTokens: process.env.MAX_NUMBER_OF_TOKENS ? parseInt(process.env.MAX_NUMBER_OF_TOKENS, 10) : 2048
     };
@@ -32,6 +34,7 @@ const getConfig = (): ICLIConfig => {
             config.agent = (config.agent) ? config.agent : fileConfig.agent;
             config.baseUrl = (config.baseUrl) ? config.baseUrl : fileConfig.baseUrl;
             config.agentDir = (config.agentDir) ? config.agentDir : fileConfig.agentDir;
+            config.knowledgeAIStoreDir = (config.knowledgeAIStoreDir) ? config.knowledgeAIStoreDir : fileConfig.knowledgeAIStoreDir;
             config.playbookTimeoutSeconds = (config.playbookTimeoutSeconds) ? config.playbookTimeoutSeconds : fileConfig.playbookTimeoutSeconds;
             config.maxNumberOfTokens = (config.maxNumberOfTokens) ? config.maxNumberOfTokens : fileConfig.maxNumberOfTokens;
 

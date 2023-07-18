@@ -20,6 +20,7 @@ export const createKnowledgeSource = async (
 		console.log(`\n\nKnowledgeAI Source with name: ${name} has been created!\n source: ${JSON.stringify(source, null, 2)}`);
 	} catch (err) {
 		console.error(`Error creating the KnowledgeAI Source, err: ${err}`);
+		throw err;
 	}
 
 };

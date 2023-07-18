@@ -4,5 +4,7 @@
     "baseUrl": "",
     "agentDir": "",
     "openAIApiKey": "",
-    "playbookTimeoutSeconds": 10
+    "playbookTimeoutSeconds": 10,
+    "maxNumberOfTokens": 2048,
+    "knowledgeAIStoreDir": ""
 }

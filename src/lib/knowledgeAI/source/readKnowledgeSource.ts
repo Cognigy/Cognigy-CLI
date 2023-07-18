@@ -14,5 +14,6 @@ export const readKnowledgeSource = async (
 		console.log(`\n\nKnowledgeAI store(${knowledgeStoreId}) source: ${JSON.stringify(source, null, 2)}`);
 	} catch (err) {
 		console.error(`Error getting the the source for KnowledgeAI store(${knowledgeStoreId})/source(${sourceId}),\nerr: ${err}`);
+		throw err;
 	}
 };

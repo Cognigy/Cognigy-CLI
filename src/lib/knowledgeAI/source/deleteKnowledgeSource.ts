@@ -14,5 +14,6 @@ export const deleteKnowledgeSource = async (
 		console.log(`\n\nKnowledgeAI Source with id: ${knowledgeStoreId} has been deleted!\n`);
 	} catch (err) {
 		console.error(`Error deleting the KnowledgeAI store(${knowledgeStoreId})/source(${sourceId}), err: ${err}`);
+		throw err;
 	}
 };
