@@ -277,6 +277,9 @@ All details are written to `./playbookRunResults.json`
 
 ## Contributing
 
+Make sure you pull origin from the develop branch 
+```git pull develop``````
+
 ### Commiting
 
 Commit using the commitizen hook with semantic naming convetion promt 
