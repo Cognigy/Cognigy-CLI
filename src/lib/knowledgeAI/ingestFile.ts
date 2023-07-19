@@ -13,7 +13,7 @@ export const ingestFile = async (
 	knowledgeStoreId: string,
 	filePath: string
 ) => {
-	const spinner = new Spinner(`Uploading file ${filePath} into the knowledgeStore(${knowledgeStoreId}... %s`);
+	const spinner = new Spinner(`Uploading file ${filePath} into the knowledgeStore(${knowledgeStoreId})... %s`);
 	spinner.setSpinnerString('|/-\\');
 
 	try {

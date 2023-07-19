@@ -54,8 +54,9 @@ export const handleIngest = async (
 		bar.increment();
 		bar.stop();
 	} else if (stats.isDirectory()) {
-		const files = fs.readdirSync(input);
-		
+		let files = fs.readdirSync(input);
+		files = files.filter((f) => f.endsWith(".txt"))
+
 		const numFiles = files.length;
 		let index = 0;
 		bar.start(numFiles, 0);
