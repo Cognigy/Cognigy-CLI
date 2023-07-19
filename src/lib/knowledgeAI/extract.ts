@@ -1,5 +1,6 @@
 /** Node Modules */
 import * as fs from "fs";
+import { Spinner } from "cli-spinner";
 
 /** Custom Modules */
 import { diffbotExtractor } from './extractionProvider/diffbotExtractor';
@@ -8,7 +9,6 @@ import { unstructuredExtractor } from './extractionProvider/unstructuredExtracto
 
 /** Interfaces */
 import { IExtractOptions } from './extractionProvider/IExtractorOptions';
-import { Spinner } from "cli-spinner";
 
 /**
  * Write result to file
