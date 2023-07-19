@@ -1,13 +1,14 @@
-import { ingestFile } from "../../lib/knowledgeAI";
+/** Custom Modules */
+import { handleIngest } from "../../lib/knowledgeAI/handleIngest";
 
 export const ingestCMD = async (
-    projectId: string,
-	language: string,
 	knowledgeStoreId: string,
 	input: string,
 	name?: string,
-	shouldCreateFilesForFailedIngestions: boolean = false,
-	verbose: boolean = false
 ) => {
-	await ingestFile(knowledgeStoreId, input);
+	await handleIngest(
+		knowledgeStoreId,
+		input,
+		name,
+	);
 }

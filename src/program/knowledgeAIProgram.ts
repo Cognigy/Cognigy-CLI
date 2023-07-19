@@ -61,7 +61,7 @@ Examples:
             } catch (e) {
                 console.log(e.message);
             }
-        })        
+        })
         .on('--help', () => {
             console.log(`
 Examples:
@@ -71,7 +71,7 @@ Examples:
     Create a knowledgeAI source:
     $ cognigy knowledge-ai create source test-cli-source -k 64b66622b8641100718bcf06 -t manual`
             )
-          });
+        });
 
     knowledgeAI
         .command("delete <resourceType>")
@@ -97,59 +97,59 @@ Examples:
     Delte a knowledge source:
     $ cognigy knowledge-ai delete source --knowledgeStoreId 643689fb81236ff450744d51 --sourceId 643689fb81236ff450744d52`
             )
-          });
+        });
 
     knowledgeAI
-          .command("index <resourceType>")
-          .description(`List all the knowledge stores for a project.`)
-          .option("-p, --projectId <string>", "Project ID")
-          .option("-k, --knowledgeStoreId <string>", "Knowledge Store ID")
-          .action(async (resourceType, options) => {
-              try {
-                  await indexKnowledgeAIResourcesCMD({
-                      resourceType,
-                      knowledgeStoreId: options.knowledgeStoreId,
-                      projectId: options.projectId
-                  });
-              } catch (e) {
-                  console.log(e.message);
-              }
-          })
-          .on('--help', () => {
-              console.log(`
+        .command("index <resourceType>")
+        .description(`List all the knowledge stores for a project.`)
+        .option("-p, --projectId <string>", "Project ID")
+        .option("-k, --knowledgeStoreId <string>", "Knowledge Store ID")
+        .action(async (resourceType, options) => {
+            try {
+                await indexKnowledgeAIResourcesCMD({
+                    resourceType,
+                    knowledgeStoreId: options.knowledgeStoreId,
+                    projectId: options.projectId
+                });
+            } catch (e) {
+                console.log(e.message);
+            }
+        })
+        .on('--help', () => {
+            console.log(`
 Examples:
     Index a knowledge store:
     $ cognigy knowledge-ai index store --projectId 643689fb81236ff450744d51"
     Index a knowledge source:
     $ cognigy knowledge-ai index source --knowledgeStoreId 643689fb81236ff450744d51`
-              )
-            });
+            )
+        });
 
     knowledgeAI
-            .command("read <resourceType>")
-            .description(`Get a knowledgeAI store/source.`)
-            .option("-s, --sourceId <string>", "Source ID")
-            .option("-k, --knowledgeStoreId <string>", "Knowledge Store ID")
-            .action(async (resourceType, options) => {
-                try {
-                    await readKnowledgeAIResourceCMD({
-                        resourceType,
-                        knowledgeStoreId: options.knowledgeStoreId,
-                        sourceId: options.sourceId
-                    });
-                } catch (e) {
-                    console.log(e.message);
-                }
-            })
-            .on('--help', () => {
-                console.log(`
+        .command("read <resourceType>")
+        .description(`Get a knowledgeAI store/source.`)
+        .option("-s, --sourceId <string>", "Source ID")
+        .option("-k, --knowledgeStoreId <string>", "Knowledge Store ID")
+        .action(async (resourceType, options) => {
+            try {
+                await readKnowledgeAIResourceCMD({
+                    resourceType,
+                    knowledgeStoreId: options.knowledgeStoreId,
+                    sourceId: options.sourceId
+                });
+            } catch (e) {
+                console.log(e.message);
+            }
+        })
+        .on('--help', () => {
+            console.log(`
 Examples:
     Read a knowledge store:
     $ cognigy knowledge-ai read store --sourceId 643689fb81236ff450744d51"
     Read a knowledge source:
     $ cognigy knowledge-ai read source --knowledgeStoreId 643689fb81236ff450744d51`
-                )
-              });
+            )
+        });
 
     // knowledgeAI
     //     .command("update-store")
@@ -176,26 +176,27 @@ Examples:
             expected to be separated by two newline characters. Each paragraph will be ingested into the referenced
             knowledge store of the specified project and language.`)
         .option("-n --name <string>", "Name of the knowledge store for file retrieval")
-        .option("-p, --projectId <string>", "Project ID")
-        .option("-l, --language <string>", "Language")
         .option("-k, --knowledgeStoreId <string>", "Knowledge Store ID")
         .requiredOption("-i, --input <path>", "Path to file or directory")
-        .option("-e, --collectErroredParagraphs", "Path to file or directory", false)
-        .option("-v, --verbose", "Print detailed logs", false)
         .action(async (options) => {
             try {
                 await ingestCMD(
-                    options.projectId,
-                    options.language,
                     options.knowledgeStoreId,
                     options.input,
                     options.name,
-                    options.collectErroredParagraphs,
-                    options.verbose
                 );
             } catch (e) {
                 console.log(e.message);
             }
+        })
+        .on('--help', () => {
+            console.log(`
+Examples:
+    Ingest a File:
+    $ cognigy knowledge-ai ingest --knowledgeStoreId 643689fb81236ff450744d51 -i /home/Downloads/file.txt
+    Ingest all files in a directory:
+    $ cognigy knowledge-ai ingest  --knowledgeStoreId 643689fb81236ff450744d51 -i /home/Downloads`
+            )
         });
 
     knowledgeAI
