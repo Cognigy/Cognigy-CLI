@@ -39,6 +39,8 @@ async function postData(fileName: string): Promise<IUnstructuredResponseElement[
             'Content-Type': `multipart/form-data; boundary=${form.getBoundary()}`,
             ...form.getHeaders(),
         },
+        maxContentLength: Infinity,
+        maxBodyLength: Infinity,
     };
 
     try {
