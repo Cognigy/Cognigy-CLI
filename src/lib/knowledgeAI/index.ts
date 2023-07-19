@@ -15,4 +15,4 @@ export { ingestFile } from "./ingestFile";
 export { extract } from "./extract";
 
 export { handleSize } from "./handleSize";
-export { IExtractOptions } from "./IExtractOptions";
+export { IExtractOptions } from "./extractionProvider/IExtractorOptions";
