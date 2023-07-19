@@ -4,7 +4,6 @@ import {
     ingestCMD,
     handleSizeCMD,
     IExtractOptions,
-    updateKnowledgeStoreCMD,
     extractCMD,
     createKnowledgeAIResourceCMD,
     deleteKnowledgeAIResourceCMD,
@@ -31,11 +30,8 @@ Examples:
     Ingest all ".txt" files within a directory:
     $ cognigy knowledge-ai ingest --projectId 643689fb81236ff450744d51 --language en-US --knowledgeStoreId 12389fb81236ff450744321 --input "~/path/to/my/directory"
 
-    Delete all paragraphs of a single file:
-    $ cognigy knowledge-ai delete-document --knowledgeStoreId 12389fb81236ff450744321 --documentUrl "/absolute/path/to/my/file.txt"
-
-    Delete a knowledge store:
-    $ cognigy knowledge-ai delete-store --knowledgeStoreId 12389fb81236ff450744321`
+    Extract data chunks from a pdf file into a .txt file
+    $ cognigy knowledge-ai extract pdf -i "/path/to/your/file/tutorial.pdf" -o "/path/to/your/output/tutorial.txt"`
         );
 
     knowledgeAI
@@ -212,6 +208,13 @@ Examples:
             } catch (e: any) {
                 console.log(e.message);
             }
+        })
+        .on('--help', () => {
+            console.log(`
+Examples:
+    Extract data chunks from a pdf file into a .txt file
+    $ cognigy knowledge-ai extract pdf -i "/path/to/your/file/tutorial.pdf" -o "/path/to/your/output/tutorial.txt"`
+            )
         });
     return knowledgeAI;
 }
