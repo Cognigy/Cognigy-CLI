@@ -1,3 +1,27 @@
+# [1.3.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.2.2...v1.3.0) (2023-04-24)
+
+
+### Features
+
+* **playbooks:** run playbooks ([04986be](https://github.com/Cognigy/Cognigy-CLI/commit/04986bea068721ccc49a6e7b21875f595631ccd3))
+* **playbooks:** updated readme ([51847fc](https://github.com/Cognigy/Cognigy-CLI/commit/51847fcd27eaa3f828178655212441425789a546))
+
+## [1.2.2](https://github.com/Cognigy/Cognigy-CLI/compare/v1.2.1...v1.2.2) (2023-03-14)
+
+
+### Bug Fixes
+
+* **project:** triggering a new release ([9e81c80](https://github.com/Cognigy/Cognigy-CLI/commit/9e81c800c5f00ce05ce446f1205791ea4e9ff9d3))
+
+## [1.2.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.2.0...v1.2.1) (2023-03-14)
+
+
+### Bug Fixes
+
+* package.json & package-lock.json to reduce vulnerabilities ([c23fe7e](https://github.com/Cognigy/Cognigy-CLI/commit/c23fe7e036f18802437bf4ec347e5286a7e2d160))
+* receive snapshot as ArrayBuffer ([a672133](https://github.com/Cognigy/Cognigy-CLI/commit/a672133c639f834625b2d37d1b4b72765c14423e))
+* **snyk vulnerabilities:** snyk vulnerability ([3e48f41](https://github.com/Cognigy/Cognigy-CLI/commit/3e48f41d41bd502afb20bb041d66b4cacdad063b))
+
 ## [1.2.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.2.0...v1.2.1) (2023-03-14)
 
 
