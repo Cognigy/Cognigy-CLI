@@ -9,7 +9,7 @@ export const init = async (): Promise<void> => {
 
     // collect all necessary data from user
     const answers = await inquirer
-    	.prompt([
+        .prompt([
             {
                 type: 'input',
                 name: 'name',
@@ -43,6 +43,12 @@ export const init = async (): Promise<void> => {
                 name: 'filePath',
                 message: `The path where your configuration will be stored (if it exists, it will be overwritten)?`,
                 default: `./config.json`
+            },
+            {
+                type: 'input',
+                name: 'playbookTimeoutSeconds',
+                message: `Timeout for checking playbook runs`,
+                default: `10`
             }
         ]);
 
