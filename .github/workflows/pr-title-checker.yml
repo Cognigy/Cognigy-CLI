@@ -11,7 +11,7 @@ on:
       - unlabeled
 
 jobs:
-  pull_request:
+  check:
     name: PR Title Checker-v1.4.0
     runs-on: ubuntu-latest
     steps:
