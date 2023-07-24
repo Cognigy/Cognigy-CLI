@@ -1,4 +1,4 @@
-name: PR Title Checker
+name: PR Title Checker-v1.4.0
 on:
   pull_request_target:
     branches:
@@ -11,12 +11,12 @@ on:
       - unlabeled
 
 jobs:
-  pull_request:
-    name: PR Title Checker
+  check:
+    name: PR Title Checker-v1.4.0
     runs-on: ubuntu-latest
     steps:
-      - uses: thehanimo/pr-title-checker@v1.3.4
+      - uses: thehanimo/pr-title-checker@v1.4.0
         with:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           pass_on_octokit_error: false
-          configuration_path: '.github/pr-title-checker-config.json'
+          configuration_path: .github/pr-title-checker-config.json
