@@ -48,7 +48,7 @@
   "dependencies": {
     "-": "^0.0.1",
     "@cognigy/rest-api-client": "0.15.0",
-    "@google-cloud/translate": "7.0.1",
+    "@google-cloud/translate": "7.2.2",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
     "@types/inquirer": "^7.1.0",
     "axios": "0.27.2",
