@@ -62,7 +62,7 @@ Examples:
             console.log(`
 Examples:
     Create a knowledge store:
-    $ cognigy knowledge-ai create store --projectId 643689fb81236ff450744d51 --language en-US --name "General Information" --description "General information about my business"
+    $ cognigy knowledge-ai create store "General Information" "General information about my business" --projectId 643689fb81236ff450744d51 --language en-US
     
     Create a knowledgeAI source:
     $ cognigy knowledge-ai create source test-cli-source -k 64b66622b8641100718bcf06 -t manual`
