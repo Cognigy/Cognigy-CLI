@@ -1,6 +1,7 @@
 node_modules
 build
 agent
+knowledgeAIStore
 .history
 coverage/
 .nyc_output

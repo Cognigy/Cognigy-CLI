@@ -3,8 +3,8 @@ import * as jsonDiff from 'json-diff';
 import { Spinner } from 'cli-spinner';
 import * as chalk from 'chalk';
 import { createArrayCsvWriter } from 'csv-writer';
-import * as csv from 'csv-parser';
-import * as FormData from 'form-data';
+import csv from 'csv-parser';
+import FormData from 'form-data';
 
 import { checkTask } from '../utils/checks';
 

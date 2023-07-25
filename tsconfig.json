@@ -5,16 +5,18 @@
         "node",
         "mocha",
       ],
-      "typeRoots": [ "../node_modules/@types" ],
+      "typeRoots": ["node_modules/@types"],
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
-      "target": "es2017", 
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "target": "es2020", 
       "module": "commonjs",
       "rootDir": "src", 
       "outDir": "build",
       "sourceMap": true,
       "moduleResolution": "node",
-      "watch": false,
+      "skipLibCheck": true,
       "resolveJsonModule": true
     },
     "exclude": [
@@ -23,5 +25,8 @@
       "build",
       "./vscode",
       "agent"
+    ],
+    "include": [
+      "src/**/*"
     ]
-  }
+}

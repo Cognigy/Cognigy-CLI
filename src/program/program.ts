@@ -1,20 +1,23 @@
-#!/usr/bin/env node
-import './utils/checkConfig';
-
+/** Node Modules*/
 import { Command } from 'commander';
-import { clone } from './commands/clone';
-import { restore } from './commands/restore';
-import { diff } from './commands/diff';
-import { push } from './commands/push';
-import { pull } from './commands/pull';
-import { init } from './commands/init';
-import { train } from './commands/train';
-import { create } from './commands/create';
-import { exportcsv } from './commands/exportcsv';
-import { importcsv } from './commands/importcsv';
-import { execute } from './commands/execute';
-import { translate } from './commands/translate';
-import { localize } from './commands/localize';
+
+/** Custom Modules */
+import '../utils/checkConfig';
+import { clone } from '../commands/clone';
+import { restore } from '../commands/restore';
+import { diff } from '../commands/diff';
+import { push } from '../commands/push';
+import { pull } from '../commands/pull';
+import { init } from '../commands/init';
+import { train } from '../commands/train';
+import { create } from '../commands/create';
+import { exportcsv } from '../commands/exportcsv';
+import { importcsv } from '../commands/importcsv';
+import { execute } from '../commands/execute';
+import { translate } from '../commands/translate';
+import { localize } from '../commands/localize';
+import { run } from '../commands/run';
+import { makeKnowledgeAIProgram } from './knowledgeAIProgram';
 
 let stdin = '';
 
@@ -25,7 +28,7 @@ export const setStdIn = (input: string) => {
 export const getStdIn = (): string => stdin;
 
 export const program = new Command();
-program.version('0.6.3');
+program.version('1.4.0');
 
 program
     .command('init')
@@ -84,8 +87,8 @@ program
     .option('-s, --skipDownload', 'skip downloading the snapshot')
     .option('-lf, --fallbackLocale <localeId>', 'fallback locale ID')
     .option('-lnlu, --nluLanguage <languageCode>', 'NLU to use')
-    .action(async (resourceType, resourceName, resourceDescription = 'Cognigy.AI CLI', cmdObj) => { 
-        await create({ resourceType, resourceName, description: resourceDescription, timeout: cmdObj.timeout, skipDownload: cmdObj.skipDownload, fallbackLocale: cmdObj.fallbackLocale, nluLanguage: cmdObj.nluLanguage }); 
+    .action(async (resourceType, resourceName, resourceDescription = 'Cognigy.AI CLI', cmdObj) => {
+        await create({ resourceType, resourceName, description: resourceDescription, timeout: cmdObj.timeout, skipDownload: cmdObj.skipDownload, fallbackLocale: cmdObj.fallbackLocale, nluLanguage: cmdObj.nluLanguage });
     });
 
 program
@@ -137,3 +140,14 @@ program
     .action(async (command, cmdObj) => {
         await execute({ command, options: cmdObj, stdin });
     });
+
+program
+    .command('run <resourceType> [playbookFile]')
+    .option('-c, --config <configFile>', 'force the use of a specific config file')
+    .option('-l, --list', 'lists all available commands')
+    .description('Schedules one or more playbooks to run')
+    .action(async (resourceType, playbookFile, cmdObj) => {
+        await run({ resourceType, playbookFile, options: cmdObj });
+    });
+
+program.addCommand(makeKnowledgeAIProgram());
