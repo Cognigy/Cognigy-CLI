@@ -213,7 +213,7 @@ Examples:
             console.log(`
 Examples:
     Extract data chunks from a pdf file into a .txt file
-    $ cognigy knowledge-ai extract pdf -i "/path/to/your/file/tutorial.pdf" -o "/path/to/your/output/tutorial.txt"`
+    $ cognigy knowledge-ai extract pdf -i "/path/to/your/file/tutorial.pdf" -o "/path/to/your/output/tutorial.ctxt"`
             )
         });
     return knowledgeAI;

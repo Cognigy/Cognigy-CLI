@@ -12,7 +12,7 @@ In the backend we use the term `knowledgeAI store` to refer to an entity `Knowle
 
 The term `KnowledgeAI source` references the actual file which contains one or more `chunks`. Each chunk within a document will be ingested as a separate object into the database, but the document's URL will be used as a reference in a knowledge store.
 
-Currently we only support ingesting plain text `.txt` files, where the paragraphs are separated by a blank line as in the following example:
+Currently we only support ingesting cognigy ctext `.ctxt` files, where the paragraphs are separated by a blank line as in the following example:
 
 ```
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -46,7 +46,7 @@ To ingest documents into your project, you have to follow these steps for each p
     cognigy knowledge-ai ingest --projectId <projectId> --language <languageCode> --knowledgeStoreId 64467681d8170fe52ead079d --input <pathToFileOrDirectory>
    ```
 
-   where you have to replace the value of `--knowledgeStoreId` with the `_id` field returned by the previous command. As `--input` you can give a path pointing to a single `.txt` file or to a directory. In the latter case, the CLI tool ingests each and every `.txt` file from that directory. Currently, it does not read files located within nested sub-directories.
+   where you have to replace the value of `--knowledgeStoreId` with the `_id` field returned by the previous command. As `--input` you can give a path pointing to a single `.ctxt` file or to a directory. In the latter case, the CLI tool ingests each and every `.ctxt` file from that directory. Currently, it does not read files located within nested sub-directories.
 
    Alternatively you can use the written `./knowledgeStore_<nameOfYourKnowledgeStore>.json` file by specifying it in the command. You then no longer have to provide the projectId, language and knowledgeStoreId parameters.
 
