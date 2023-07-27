@@ -12,7 +12,7 @@
     "test:tsmocha": "ts-mocha -p tsconfig.json --experimental-worker --recursive './src/spec/**/*.ts' --timeout 120000 --preserve-symlinks",
     "install-from-npm": "npm --registry=https://registry.npmjs.com/ i",
     "tsc:production": "tsc -p tsconfig.production.json",
-    "cp-config": "cp ./config-test.json ./config.json",
+    "cp-config": "cp ./config-dist.json ./config.json",
     "prepare": "husky install"
   },
   "author": "Cognigy GmbH",
