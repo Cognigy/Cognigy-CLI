@@ -13,11 +13,10 @@ export async function splitDocs(
 
 	const splitterToUse = options.splitter || defaultSplitter;
 
-	const chunkSize = options.chunkSize || 2000;
+	const chunkSize = options.chunkSize || 1000;
 
 	// We check if chunkOverlap was defined, because when chunkOverlap is 0, we do not want to default to 200.
-	const chunkOverlap =
-		typeof options.chunkOverlap !== "undefined" ? options.chunkOverlap : 200;
+	const chunkOverlap = 0;
 
 	switch (splitterToUse) {
 		case "CharacterTextSplitter":

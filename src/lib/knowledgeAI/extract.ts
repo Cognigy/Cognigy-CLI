@@ -1,5 +1,6 @@
 /** Node Modules */
 import * as fs from "fs";
+import * as os from "os";
 import { Spinner } from "cli-spinner";
 
 /** Custom Modules */
@@ -21,6 +22,7 @@ function writeResultsToFile(
 	content: string
 ): Promise<void> {
 	content = content.replace(/\n\n\n/gi, "\n\n");
+
 	return new Promise((resolve, reject) => {
 		fs.writeFile(outputFilePath, content, "utf8", (error) => {
 			if (error) {
@@ -33,6 +35,10 @@ function writeResultsToFile(
 }
 
 export const extract = async (type: string, options: IExtractOptions) => {
+
+    if (type === "ctxt") {
+        throw new Error("Can not extract from ctxt to ctxt!")
+    }
 
     const spinner = new Spinner(`Extracting chunks into file... %s`);
 	spinner.setSpinnerString('|/-\\');
@@ -111,12 +117,21 @@ export const extract = async (type: string, options: IExtractOptions) => {
 
     spinner.stop();
     if (content) {
-        await writeResultsToFile(options.outputFile, content);
+
+        // prepend ctxt version number
+        const cContent = "`version: 1`\n\n" + content;
+
+        let outputFilePath = options.outputFile;
+        // make sure that whatever the user passes in, we always write a .ctxt file
+        if (outputFilePath.split(".").pop() !== "ctxt") {
+            outputFilePath = outputFilePath + ".ctxt";
+        }
+    
+        await writeResultsToFile(outputFilePath, cContent);
         if (options.verbose) {
-            console.log('Paragraphs written to file: ', options.outputFile);
+            console.log('Paragraphs written to file: ', outputFilePath);
         }
     } else {
         console.error("Content couldn't be extracted, no output file written.")
     }
-    
 };

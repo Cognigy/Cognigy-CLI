@@ -46,7 +46,7 @@ export const handleIngest = async (
 	}
 
 	const stats = fs.statSync(input);
-	if (stats.isFile() && path.extname(input) === ".txt") {
+	if (stats.isFile() && path.extname(input) === ".ctxt") {
 		console.log(`Processing file: ${input}`);
 		bar.start(1, 0);
 
@@ -55,7 +55,7 @@ export const handleIngest = async (
 		bar.stop();
 	} else if (stats.isDirectory()) {
 		let files = fs.readdirSync(input);
-		files = files.filter((f) => f.endsWith(".txt"))
+		files = files.filter((f) => f.endsWith(".ctxt"))
 
 		const numFiles = files.length;
 		let index = 0;
@@ -68,7 +68,7 @@ export const handleIngest = async (
 
 			console.log(`\nProcessing file ${index} of ${numFiles}: ${filePath}`);
 
-			if (fileStats.isFile() && fileExtension === ".txt") {
+			if (fileStats.isFile() && fileExtension === ".ctxt") {
 				await ingestFile(knowledgeStoreId, filePath);
 				console.clear();
 			} else {

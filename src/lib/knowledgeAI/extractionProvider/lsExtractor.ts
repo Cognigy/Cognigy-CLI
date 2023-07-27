@@ -134,7 +134,7 @@ export const lsExtractor = async (type: LSDocumentLoaderTypes, options: IExtract
 
     // split document into paragraphs according to specified or default splitter
     const splitDocuments = (await splitDocs(docs, options, DefaultSplitters[type] || "RecursiveCharacterTextSplitter")).map((doc) => doc.pageContent);
-
+    
     // join the paragraphs into the format we want
     const textParagraphs = splitDocuments.join('\n\n');
 

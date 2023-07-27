@@ -8,5 +8,6 @@ export const extractCMD = async (
 	type: string,
     options: IExtractOptions
 ) => {
+
 	return extract(type, options);
 };
