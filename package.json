@@ -76,7 +76,7 @@
     "os": "^0.1.2",
     "pdf-parse": "^1.1.1",
     "pdfjs": "^2.5.0",
-    "playwright": "^1.33.0",
+    "playwright": "^1.36.2",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "srt-parser-2": "^1.2.3",
