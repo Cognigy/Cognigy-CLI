@@ -12,7 +12,7 @@
     "test:tsmocha": "ts-mocha -p tsconfig.json --experimental-worker --recursive './src/spec/**/*.ts' --timeout 120000 --preserve-symlinks",
     "install-from-npm": "npm --registry=https://registry.npmjs.com/ i",
     "tsc:production": "tsc -p tsconfig.production.json",
-    "cp-config": "cp ./config-test.json ./config.json",
+    "cp-config": "cp ./config-dist.json ./config.json",
     "prepare": "husky install"
   },
   "author": "Cognigy GmbH",
@@ -27,7 +27,7 @@
     "@types/del": "^4.0.0",
     "@types/express": "^4.17.17",
     "@types/inquirer": "^6.5.0",
-    "@types/mocha": "9.0.0",
+    "@types/mocha": "^9.0.0",
     "@types/mongodb": "^3.5.26",
     "@types/mongoose": "^5.7.36",
     "@types/node": "18.7.6",
@@ -43,28 +43,43 @@
     "sinon": "8.1.1",
     "ts-mocha": "10.0.0",
     "tslint": "^6.1.1",
-    "typescript": "3.8.3"
+    "typescript": "5.0.4"
   },
   "dependencies": {
-    "@cognigy/rest-api-client": "0.14.0",
-    "@google-cloud/translate": "^6.3.1",
+    "-": "^0.0.1",
+    "@cognigy/rest-api-client": "0.15.0",
+    "@google-cloud/translate": "7.2.2",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
-    "axios": "0.26.1",
+    "@types/inquirer": "^7.1.0",
+    "axios": "0.27.2",
     "chalk": "^4.1.2",
-    "cli-progress": "^3.10.0",
+    "cheerio": "^1.0.0-rc.12",
+    "cli-progress": "^3.12.0",
     "cli-spinner": "^0.2.10",
-    "commander": "^5.0.0",
+    "commander": "^11.0.0",
     "csv-parser": "^2.3.3",
     "csv-writer": "^1.6.0",
+    "d3-dsv": "^2.0.0",
     "del": "^6.0.0",
     "diff": "^5.0.0",
+    "epub2": "^3.0.1",
     "express": "^4.17.3",
     "form-data": "^3.0.0",
+    "gpt-3-encoder": "^1.1.4",
+    "html-to-text": "^9.0.5",
     "inquirer": "^7.1.0",
+    "js-yaml": "^4.1.0",
     "json-diff": "^0.7.4",
-    "mongodb": "^3.7.3",
+    "jsonpointer": "^5.0.1",
+    "langchain": "^0.0.67",
+    "mammoth": "^1.5.1",
+    "os": "^0.1.2",
+    "pdf-parse": "^1.1.1",
+    "pdfjs": "^2.5.0",
+    "playwright": "^1.33.0",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
+    "srt-parser-2": "^1.2.3",
     "uuid": "^8.3.1"
   },
   "bin": {
@@ -76,7 +91,7 @@
     }
   },
   "engines": {
-		"node": ">=18.15.0",
-		"npm": ">=9.5.0"
-	}
+    "node": ">=18.15.0",
+    "npm": ">=9.5.0"
+  }
 }

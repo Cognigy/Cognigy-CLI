@@ -1,11 +1,10 @@
 /* Node modules */
 import * as fs from 'fs';
-import * as jsonDiff from 'json-diff';
 import axios from 'axios';
 import * as Diff from 'diff';
 import { Spinner } from 'cli-spinner';
 import * as chalk from 'chalk';
-import * as FormData from 'form-data';
+import FormData from 'form-data';
 
 /* Custom modules */
 import { addToProgressBar } from '../utils/progressBar';

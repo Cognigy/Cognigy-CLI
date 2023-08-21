@@ -31,6 +31,8 @@ export const makeAxiosRequest = async (options: IMakeAxiosRequestOptions): Promi
         },
         method,
         url,
+        maxContentLength: Infinity,
+        maxBodyLength: Infinity,
         data: form || data
     };
 

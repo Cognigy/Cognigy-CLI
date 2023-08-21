@@ -1,10 +1,12 @@
 node_modules
 build
 agent
+knowledgeAIStore
 .history
 coverage/
 .nyc_output
-config.json
 .env
 playbooks.json
 playbookRunResults.json
+config.**.json
+config.json

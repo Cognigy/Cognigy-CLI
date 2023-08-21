@@ -267,7 +267,18 @@ The run command outputs the status of the playbook runs and exits:
 
 All details are written to `./playbookRunResults.json`
 
+### Command: knowledge-ai
+
+[Cognigy Knowledge AI Documentation](KNOWLEDGE-AI-README.md)
+
+## FAQ
+
+[Frequently asked questions (FAQ)](FAQ.md)
+
 ## Contributing
+
+Make sure you pull origin from the develop branch 
+```git pull develop``````
 
 ### Commiting
 
@@ -287,3 +298,4 @@ Any PRs to develop needs to be merged as squash merges.
 
 Create a PR from develop to main and do a merge commit. This will automatically trigger a new release.
 To make the release publish a new minor version to the npm registry, the commit message needs to follow the [semantic message format] and having at least one of the commits to main from the last release with a fix.
+

@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import * as del from 'del';
+import del from 'del';
 
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';

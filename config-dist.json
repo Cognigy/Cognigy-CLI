@@ -2,5 +2,6 @@
     "apiKey": "some-key",
     "agent": "some-agent-id",
     "baseUrl": "http://some-url",
-    "agentDir": "./agent"
+    "agentDir": "./agent",
+    "playbookTimeoutSeconds": 10
 }

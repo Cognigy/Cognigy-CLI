@@ -2,7 +2,6 @@ import Cognigy from '@cognigy/rest-api-client';
 import CONFIG from './config';
 import { RestAdapter } from './RestAdapter';
 
-
 const CognigyClient = new Cognigy({
     httpAdapter: new RestAdapter({}, { retries: 10 }),
     baseUrl: CONFIG.baseUrl,
