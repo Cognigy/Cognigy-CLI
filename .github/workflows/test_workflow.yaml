@@ -1,0 +1,16 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: 
+      - develop
+jobs:
+  release:
+    name: test-Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: release action
+        run: |
+         echo Starting the CLI release
