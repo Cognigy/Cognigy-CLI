@@ -298,4 +298,3 @@ Any PRs to develop needs to be merged as squash merges.
 
 Create a PR from develop to main and do a merge commit. This will automatically trigger a new release.
 To make the release publish a new minor version to the npm registry, the commit message needs to follow the [semantic message format] and having at least one of the commits to main from the last release with a fix.
-
