@@ -460,7 +460,8 @@ export const translateFlow = async (flowName: string, options: ITranslateFlowOpt
         const targetLocale = (await pullLocales()).find((locale) => locale.name === localeName);
         const flowIntents = (await CognigyClient.indexIntents({
             flowId: flowConfig._id,
-            preferredLocaleId: targetLocale._id
+            preferredLocaleId: targetLocale._id,
+            includeChildren: true
         })).items;
 
         // localize intents
