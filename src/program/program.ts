@@ -128,6 +128,7 @@ program
     .option('-ti, --translateIntents', 'adds localization to Flow Intents')
     .option('-tn, --translateNodes', 'adds localization to Flow Nodes')
     .option('-k, --apiKey <apiKey>', 'the translator api key')
+    .option('-r, --region <region>', 'the translator api region; required by microsoft translator')
     .option('-y, --forceYes', 'skips warnings and overwrites all content')
     .action(async (resourceType, resourceName, cmdObj) => { await translate({ resourceType, resourceName, options: cmdObj }); });
 
