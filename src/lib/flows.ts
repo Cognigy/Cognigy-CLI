@@ -235,7 +235,7 @@ export const pushFlow = async (flowName: string, availableProgress: number, opti
                         form: form
                     });
 
-                    await checkTask(result?.data?._id, 0, options?.timeout || 10000);
+                    await checkTask(result?.data?._id, options?.timeout || 10000);
                 }
                 addToProgressBar(availableProgress / 2);
 
@@ -411,7 +411,7 @@ export const trainFlow = async (flowName: string, timeout: number = 1000 * 60 * 
         });
 
         try {
-            await checkTask(result._id, 0, timeout);
+            await checkTask(result._id, timeout);
             console.log(`\n[${chalk.green("success")}] Intents trained for locale ${chalk.yellow(locale.name)}`);
         } catch (err) {
             console.log(`\n[${chalk.red("error")}] Intents in ${chalk.yellow(locale)} couldn't be trained within timeout period (${5 * timeout} ms)`);

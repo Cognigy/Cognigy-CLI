@@ -96,7 +96,7 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
     });
 
     // check previous tasks is done.
-    await checkTask(exportFromLexiconTask._id, 0, 100000);
+    await checkTask(exportFromLexiconTask._id, 100000);
 
     // create a downloadable link for the lexicon task data
     const downloadLink = await CognigyClient.composeLexiconDownloadLink({
@@ -167,7 +167,7 @@ export const pushLexicon = async (lexiconName: string, availableProgress: number
                 form: form
             });
 
-            await checkTask(result?.data?._id, 0, options?.timeout || 10000);
+            await checkTask(result?.data?._id, options?.timeout || 10000);
             spinner.stop()
         } catch (err) {
             console.error(`\n${chalk.red('error:')} Error when updating Lexicon ${lexiconName} on Cognigy.AI: ${err.message}.\nAborting...`);

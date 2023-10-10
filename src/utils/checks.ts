@@ -76,11 +76,10 @@ export const checkProject = async () => {
 /**
  * Check if a task is running
  * @param taskId The ID of the task to check
- * @param calls How many calls were made?
  * @param locale Which locale to cehck
  * @param timeout Timeout before task times out
  */
-export const checkTask = async (taskId: string, calls: number = 0, timeout): Promise<any> => {
+export const checkTask = async (taskId: string, timeout): Promise<any> => {
     const POOLING_INTERVAL = 1000 * 5;
 
     const task = await CognigyClient.readTask({
@@ -99,7 +98,7 @@ export const checkTask = async (taskId: string, calls: number = 0, timeout): Pro
         return new Promise((resolve, reject) => setTimeout(
             async () => { 
                 try {
-                    await checkTask(taskId, ++calls, timeout -= POOLING_INTERVAL); 
+                    await checkTask(taskId, timeout -= POOLING_INTERVAL); 
                     resolve("ok"); 
                 } catch(e) {
                     reject(e);

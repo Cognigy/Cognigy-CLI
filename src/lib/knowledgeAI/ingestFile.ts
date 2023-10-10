@@ -35,7 +35,7 @@ export const ingestFile = async (
 			form: formData
 		});
 
-		await checkTask(result?.data?._id, 0, 100000);
+		await checkTask(result?.data?._id, 100000);
 		spinner.stop();
 
 		console.log('\nFile uploaded successfully!');
