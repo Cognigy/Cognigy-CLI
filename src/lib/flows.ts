@@ -386,7 +386,7 @@ export const diffFlows = async (flowName: string, mode: string = 'full'): Promis
  * Trains a Flow
  * @param flowName The name of the Flow
  */
-export const trainFlow = async (flowName: string, timeout: number = 10000): Promise<void> => {
+export const trainFlow = async (flowName: string, timeout: number = 1000 * 60 * 5): Promise<void> => {
     const flowsDir = CONFIG.agentDir + "/flows";
     const flowDir = flowsDir + "/" + flowName;
 
