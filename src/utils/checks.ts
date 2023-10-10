@@ -81,12 +81,14 @@ export const checkProject = async () => {
  * @param timeout Timeout before task times out
  */
 export const checkTask = async (taskId: string, calls: number = 0, timeout): Promise<any> => {
+    const POOLING_INTERVAL = 1000 * 5;
+
     const task = await CognigyClient.readTask({
         taskId: taskId,
         projectId: CONFIG.agent
     });
 
-    if (calls === 5) {
+    if (timeout <= 0) {
         return Promise.reject("Timeout");
     }
 
@@ -97,13 +99,13 @@ export const checkTask = async (taskId: string, calls: number = 0, timeout): Pro
         return new Promise((resolve, reject) => setTimeout(
             async () => { 
                 try {
-                    await checkTask(taskId, ++calls, timeout); 
+                    await checkTask(taskId, ++calls, timeout -= POOLING_INTERVAL); 
                     resolve("ok"); 
                 } catch(e) {
                     reject(e);
                 }
             }, 
-            timeout / 5
+            POOLING_INTERVAL
         ));
     } else {
         return Promise.resolve(task);
