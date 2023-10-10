@@ -94,7 +94,17 @@ export const checkTask = async (taskId: string, calls: number = 0, timeout): Pro
         return Promise.reject(new Error(task.failReason));
 
     if (task.status === "queued" || task.status === "active") {
-        return new Promise((resolve) => setTimeout(async () => { await checkTask(taskId, ++calls, timeout); resolve("ok"); }, timeout / 5));
+        return new Promise((resolve, reject) => setTimeout(
+            async () => { 
+                try {
+                    await checkTask(taskId, ++calls, timeout); 
+                    resolve("ok"); 
+                } catch(e) {
+                    reject(e);
+                }
+            }, 
+            timeout / 5
+        ));
     } else {
         return Promise.resolve(task);
     }
