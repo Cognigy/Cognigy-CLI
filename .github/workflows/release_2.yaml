@@ -1,18 +1,23 @@
-name: Release
+name: ReleaseV2
 
 on:
+  workflow_dispatch:
   push:
-    branches: [main]
+    branches: 
+      - main
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
 
     steps:
+      - name: release action
+        run: |
+         echo Starting the CLI release
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.COGNIGY_CLI_RELEASE_TOKEN }}
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
@@ -25,6 +30,6 @@ jobs:
         run: npm --save-dev i @semantic-release/changelog @semantic-release/git
       - name: Release
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN_CI }}
+          GITHUB_TOKEN: ${{ secrets.COGNIGY_CLI_RELEASE_TOKEN }}
         run: npx semantic-release
