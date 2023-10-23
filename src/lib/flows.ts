@@ -121,12 +121,6 @@ export const pullFlow = async (flowName: string, availableProgress: number, _flo
 
         fs.writeFileSync(localeDir + "/chart.json", JSON.stringify(chart, undefined, 4));
 
-        // console.log(`Fetching intents: ${JSON.stringify({
-        //     flowId: flow._id,
-        //     localeId: locale._id,
-        //     format: 'json'
-        // })}`);
-
         const flowIntents = await CognigyClient.exportIntents({
             flowId: flow._id,
             localeId: locale._id,
@@ -458,7 +452,8 @@ export const translateFlow = async (flowName: string, options: ITranslateFlowOpt
             flowChart = JSON.parse(fs.readFileSync(flowDir + "/" + localeName + "/chart.json").toString());
 
         const targetLocale = (await pullLocales()).find((locale) => locale.name === localeName);
-        const flowIntents = (await CognigyClient.indexIntents({
+       
+        const flowIntents = (await indexAll(CognigyClient.indexIntents)({
             flowId: flowConfig._id,
             preferredLocaleId: targetLocale._id
         })).items;
