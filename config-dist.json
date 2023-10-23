@@ -3,5 +3,7 @@
     "agent": "some-agent-id",
     "baseUrl": "http://some-url",
     "agentDir": "./agent",
-    "playbookTimeoutSeconds": 10
+    "playbookTimeoutSeconds": 10,
+    "maxNumberOfTokens": 2048,
+    "knowledgeAIStoreDir": "./knowledgeAIStore"
 }
