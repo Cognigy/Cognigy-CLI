@@ -1,3 +1,17 @@
+## [1.4.2](https://github.com/Cognigy/Cognigy-CLI/compare/v1.4.1...v1.4.2) (2023-10-24)
+
+
+### Bug Fixes
+
+* **bugs:** fix bugs packages ([#137](https://github.com/Cognigy/Cognigy-CLI/issues/137)) ([db06b06](https://github.com/Cognigy/Cognigy-CLI/commit/db06b065919bca7057483c51d7976d0c6ffaa972)), closes [#96](https://github.com/Cognigy/Cognigy-CLI/issues/96) [#100](https://github.com/Cognigy/Cognigy-CLI/issues/100)
+
+# [1.4.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.3.0...v1.4.0) (2023-08-21)
+
+
+### Features
+
+* **knowledge AI:** Knowledge AI feature and bug fixes ([#104](https://github.com/Cognigy/Cognigy-CLI/issues/104)) ([2738a42](https://github.com/Cognigy/Cognigy-CLI/commit/2738a42d05a752dec29ba478d722d64924eda0e6)), closes [#96](https://github.com/Cognigy/Cognigy-CLI/issues/96) [#100](https://github.com/Cognigy/Cognigy-CLI/issues/100)
+
 # [1.3.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.2.2...v1.3.0) (2023-04-24)
 
 
