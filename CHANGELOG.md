@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.4.0...v1.4.1) (2023-10-24)
+
+
+### Bug Fixes
+
+* **bugs:**  bug fixes ([#135](https://github.com/Cognigy/Cognigy-CLI/issues/135)) ([31bbb0a](https://github.com/Cognigy/Cognigy-CLI/commit/31bbb0ae597ea8a02ccaf55661692e439a5f6a95)), closes [#96](https://github.com/Cognigy/Cognigy-CLI/issues/96) [#100](https://github.com/Cognigy/Cognigy-CLI/issues/100)
+
 # [1.4.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.3.0...v1.4.0) (2023-08-21)
 
 
