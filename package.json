@@ -73,7 +73,7 @@
     "mammoth": "1.5.1",
     "os": "0.1.2",
     "pdf-parse": "1.1.1",
-    "pdfjs": "2.5.0",
+    "pdfjs": "2.5.2",
     "playwright": "1.33.0",
     "srt-parser-2": "1.2.3",
     "uuid": "8.3.1"
