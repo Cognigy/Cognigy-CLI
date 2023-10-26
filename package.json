@@ -65,7 +65,7 @@
     "form-data": "3.0.0",
     "gpt-3-encoder": "1.1.4",
     "html-to-text": "9.0.5",
-    "inquirer": "7.1.0",
+    "inquirer": "7.3.3",
     "js-yaml": "4.1.0",
     "json-diff": "0.7.4",
     "jsonpointer": "5.0.1",
