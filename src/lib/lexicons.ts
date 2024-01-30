@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import axios from 'axios';
 import * as Diff from 'diff';
 import { Spinner } from 'cli-spinner';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import FormData from 'form-data';
 
 /* Custom modules */

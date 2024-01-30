@@ -3,7 +3,7 @@ import { createSnapshot } from '../lib/snapshots';
 import { checkProject } from '../utils/checks';
 import { upperFirst } from '../utils/stringUtils';
 
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import { createLocale } from '../lib/locales';
 
 /**
