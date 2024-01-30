@@ -96,7 +96,7 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
     });
 
     // check previous tasks is done.
-    await checkTask(exportFromLexiconTask._id, 0, 100000);
+    await checkTask(exportFromLexiconTask._id);
 
     // create a downloadable link for the lexicon task data
     const downloadLink = await CognigyClient.composeLexiconDownloadLink({
@@ -131,7 +131,7 @@ export const restoreLexicons = async (availableProgress: number): Promise<void> 
 
     // iterate through lexicons and push all to Cognigy.AI
     for (let lexicon of lexiconDirectories) {
-        await pushLexicon(lexicon, incrementPerLexicon, { "timeout": 10000 });
+        await pushLexicon(lexicon, incrementPerLexicon);
     }
     return Promise.resolve();
 };
@@ -141,7 +141,7 @@ export const restoreLexicons = async (availableProgress: number): Promise<void> 
  * @param lexiconName Name of the Lexicon to push to Cognigy.aI
  * @param availableProgress How much of the progress bar can be filled by this process
  */
-export const pushLexicon = async (lexiconName: string, availableProgress: number, options: any): Promise<void> => {
+export const pushLexicon = async (lexiconName: string, availableProgress: number): Promise<void> => {
     const lexiconDir = CONFIG.agentDir + "/lexicons/" + lexiconName;
 
     if (fs.existsSync(lexiconDir + "/config.json")) {
@@ -167,7 +167,7 @@ export const pushLexicon = async (lexiconName: string, availableProgress: number
                 form: form
             });
 
-            await checkTask(result?.data?._id, 0, options?.timeout || 10000);
+            await checkTask(result?.data?._id);
             spinner.stop()
         } catch (err) {
             console.error(`\n${chalk.red('error:')} Error when updating Lexicon ${lexiconName} on Cognigy.AI: ${err.message}.\nAborting...`);

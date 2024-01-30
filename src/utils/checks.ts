@@ -1,9 +1,10 @@
 import * as fs from 'fs';
 import del from 'del';
-
+import chalk from 'chalk';
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
 import { pullLocales } from '../lib/locales';
+import { delay } from './delay';
 
 /**
  * Checks whether the agent directory exists
@@ -76,28 +77,36 @@ export const checkProject = async () => {
 /**
  * Check if a task is running
  * @param taskId The ID of the task to check
- * @param calls How many calls were made?
- * @param locale Which locale to cehck
  * @param timeout Timeout before task times out
  */
-export const checkTask = async (taskId: string, calls: number = 0, timeout): Promise<any> => {
+export const checkTask = async (taskId: string, timeout?: number): Promise<any> => {
+    const POOLING_INTERVAL = 1000 * 2; // TODO: define seconds in config.json
+    const DEFAULT_TIMEOUT = 1000 * 60 * 5; // TODO: define minutes in config.json
+
+    let restTimeout = typeof timeout === 'number' ? timeout : DEFAULT_TIMEOUT;
+
     const task = await CognigyClient.readTask({
         taskId: taskId,
-        projectId: CONFIG.agent
+        projectId: CONFIG.agent,
     });
 
-    if (calls === 5) {
-        return Promise.reject("Timeout");
+    if (task.status === "done") {
+        return Promise.resolve();
     }
 
-    if (task.status === "error")
+    if (task.status === "error") {
         return Promise.reject(new Error(task.failReason));
-
-    if (task.status === "queued" || task.status === "active") {
-        return new Promise((resolve) => setTimeout(async () => { await checkTask(taskId, ++calls, timeout); resolve("ok"); }, timeout / 5));
-    } else {
-        return Promise.resolve(task);
     }
+
+    if (restTimeout < 0) {
+        return Promise.reject(new Error(`Timeout on checkTask ID: ${taskId}`));
+    }
+
+    await delay(POOLING_INTERVAL);
+    return await checkTask(taskId, restTimeout -= POOLING_INTERVAL).catch((err) => {
+        console.error(`\n${chalk.red("error:")} ${err.message}.\nAborting...`);
+        process.exit();
+    });
 };
 
 /**

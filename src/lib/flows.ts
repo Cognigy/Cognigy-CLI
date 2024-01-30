@@ -152,7 +152,7 @@ export const restoreFlows = async (availableProgress: number): Promise<void> => 
 
     // Go through all Flows and try to push them to Cognigy.AI
     for (let flow of flowDirectories) {
-        await pushFlow(flow, progressPerFlow, { "timeout": 10000 });
+        await pushFlow(flow, progressPerFlow);
     }
     return Promise.resolve();
 };
@@ -162,7 +162,7 @@ export const restoreFlows = async (availableProgress: number): Promise<void> => 
  * @param flowName The name of the Flow to push
  * @param availableProgress How much of the progress bar can be filled by this process
  */
-export const pushFlow = async (flowName: string, availableProgress: number, options?: any): Promise<void> => {
+export const pushFlow = async (flowName: string, availableProgress: number): Promise<void> => {
     const flowsDir = CONFIG.agentDir + "/flows";
     const flowDir = flowsDir + "/" + flowName;
 
@@ -229,7 +229,7 @@ export const pushFlow = async (flowName: string, availableProgress: number, opti
                         form: form
                     });
 
-                    await checkTask(result?.data?._id, 0, options?.timeout || 10000);
+                    await checkTask(result?.data?._id);
                 }
                 addToProgressBar(availableProgress / 2);
 
@@ -405,7 +405,7 @@ export const trainFlow = async (flowName: string, timeout: number = 10000): Prom
         });
 
         try {
-            await checkTask(result._id, 0, timeout);
+            await checkTask(result._id, timeout);
             console.log(`\n[${chalk.green("success")}] Intents trained for locale ${chalk.yellow(locale.name)}`);
         } catch (err) {
             console.log(`\n[${chalk.red("error")}] Intents in ${chalk.yellow(locale)} couldn't be trained within timeout period (${5 * timeout} ms)`);
