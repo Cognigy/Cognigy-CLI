@@ -80,10 +80,14 @@ export const checkProject = async () => {
  * @param timeout Timeout before task times out
  */
 export const checkTask = async (taskId: string, timeout?: number): Promise<any> => {
-    const POOLING_INTERVAL = 1000 * 2; // TODO: define seconds in config.json
-    const DEFAULT_TIMEOUT = 1000 * 60 * 5; // TODO: define minutes in config.json
+    const POOLING_INTERVAL = 2000;
+    const DEFAULT_TIMEOUT = 100000;
 
-    let restTimeout = typeof timeout === 'number' ? timeout : DEFAULT_TIMEOUT;
+    let restTimeout = Number(timeout ?? DEFAULT_TIMEOUT);
+
+    if (isNaN(restTimeout)) {
+        return Promise.reject(new Error("option --timeout must be a numeric value"));
+    }
 
     const task = await CognigyClient.readTask({
         taskId: taskId,
@@ -105,7 +109,7 @@ export const checkTask = async (taskId: string, timeout?: number): Promise<any> 
     await delay(POOLING_INTERVAL);
     return await checkTask(taskId, restTimeout -= POOLING_INTERVAL).catch((err) => {
         console.error(`\n${chalk.red("error:")} ${err.message}.\nAborting...`);
-        process.exit();
+        process.exit(0);
     });
 };
 

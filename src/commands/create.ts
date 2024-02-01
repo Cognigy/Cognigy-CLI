@@ -10,7 +10,7 @@ import { createLocale } from '../lib/locales';
  * Pushes a single resource from disk to Cognigy.AI
  * @param resourceType the type of resources to restore
  */
-export const create = async ({ resourceType, resourceName, description, timeout = 100000, skipDownload = false, fallbackLocale, nluLanguage }): Promise<void> => {
+export const create = async ({ resourceType, resourceName, description, timeout, skipDownload = false, fallbackLocale, nluLanguage }): Promise<void> => {
     // check if project exists on Cognigy.AI and the APIKey can retrieve it
     await checkProject();
 
