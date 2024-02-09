@@ -80,7 +80,7 @@ export const checkProject = async () => {
  * @param timeout Timeout before task times out
  */
 export const checkTask = async (taskId: string, timeout?: number): Promise<any> => {
-    const POOLING_INTERVAL = 2000;
+    const POLLING_INTERVAL = 2000;
     const DEFAULT_TIMEOUT = 100000;
 
     let restTimeout = Number(timeout ?? DEFAULT_TIMEOUT);
@@ -106,8 +106,8 @@ export const checkTask = async (taskId: string, timeout?: number): Promise<any> 
         return Promise.reject(new Error(`Timeout on checkTask ID: ${taskId}`));
     }
 
-    await delay(POOLING_INTERVAL);
-    return await checkTask(taskId, restTimeout -= POOLING_INTERVAL).catch((err) => {
+    await delay(POLLING_INTERVAL);
+    return await checkTask(taskId, restTimeout -= POLLING_INTERVAL).catch((err) => {
         console.error(`\n${chalk.red("error:")} ${err.message}.\nAborting...`);
         process.exit(0);
     });
