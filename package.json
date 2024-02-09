@@ -46,10 +46,10 @@
   "dependencies": {
     "-": "0.0.1",
     "@cognigy/cognigy-cli": "1.4.2",
-    "@cognigy/rest-api-client": "0.15.0",
+    "@cognigy/rest-api-client": "0.17.0",
     "@google-cloud/translate": "8.0.2",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
-    "axios": "0.27.2",
+    "axios": "1.6.4",
     "chalk": "4.1.2",
     "cheerio": "1.0.0-rc.12",
     "cli-progress": "3.12.0",

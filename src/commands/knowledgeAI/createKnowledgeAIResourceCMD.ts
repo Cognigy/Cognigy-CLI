@@ -4,6 +4,7 @@ import { createKnowledgeStoreCMD } from "./store/createKnowledgeStoreCMD";
 
 /** Types */
 import { TResourceType } from "./IResourceType";
+import { TKnowledgeSourceType } from "@cognigy/rest-api-client";
 
 export const createKnowledgeAIResourceCMD = (data: {
 	resourceType: TResourceType,	
@@ -12,7 +13,7 @@ export const createKnowledgeAIResourceCMD = (data: {
     projectId?: string,
 	language?: string,
 	knowledgeStoreId?: string,
-    type?: "file" | "manual" | "website",
+    type?: TKnowledgeSourceType,
     url?: string
 }): Promise<void> => {
 
