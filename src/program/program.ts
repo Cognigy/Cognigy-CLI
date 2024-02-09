@@ -62,6 +62,7 @@ program
     .command('push <resourceType> <resourceName>')
     .option('-c, --config <configFile>', 'force the use of a specific config file')
     .option('-y, --forceYes', 'skips warnings and overwrites all content')
+    .option('-t, --timeout <ms>', 'timeout for training')
     .description('Pushes a resource from disk to Cognigy.AI')
     .action(async (resourceType, resourceName, cmdObj) => { await push({ resourceType, resourceName, options: cmdObj }); });
 
@@ -75,7 +76,8 @@ program
 program
     .command('train <resourceType> <resourceName>')
     .description('Trains the intent models of a Flow')
-    .action(async (resourceType, resourceName, cmdObj) => { await train({ resourceName }); });
+    .option('-t, --timeout <ms>', 'timeout for training')
+    .action(async (resourceType, resourceName, cmdObj) => { await train({ resourceName, timeout: cmdObj.timeout }); });
 
 program
     .command('create <resourceType> <resourceName> [resourceDescription]')

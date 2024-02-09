@@ -141,7 +141,7 @@ export const restoreLexicons = async (availableProgress: number): Promise<void> 
  * @param lexiconName Name of the Lexicon to push to Cognigy.aI
  * @param availableProgress How much of the progress bar can be filled by this process
  */
-export const pushLexicon = async (lexiconName: string, availableProgress: number): Promise<void> => {
+export const pushLexicon = async (lexiconName: string, availableProgress: number, options?: any): Promise<void> => {
     const lexiconDir = CONFIG.agentDir + "/lexicons/" + lexiconName;
 
     if (fs.existsSync(lexiconDir + "/config.json")) {
@@ -167,7 +167,7 @@ export const pushLexicon = async (lexiconName: string, availableProgress: number
                 form: form
             });
 
-            await checkTask(result?.data?._id);
+            await checkTask(result?.data?._id, options?.timeout);
             spinner.stop()
         } catch (err) {
             console.error(`\n${chalk.red('error:')} Error when updating Lexicon ${lexiconName} on Cognigy.AI: ${err.message}.\nAborting...`);

@@ -142,6 +142,10 @@ Compares a local resource to a remote resource
 
 Trains the NLU model of a specified Flow on Cognigy.AI
 
+| Option    | Alias | Type   | Default | Description                                                                                        |
+| --------- | ----- | ------ | ------- | -------------------------------------------------------------------------------------------------- |
+| <nobr>--timeout</nobr> | -t    | Number | 10000   | Timeout in ms before training progress is no longer checked (training will continue on Cognigy.AI) |
+
 ### Command: create
 
 `cognigy create snapshot <resourceName> [resourceDescription]`

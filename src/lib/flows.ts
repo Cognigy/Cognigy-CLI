@@ -380,7 +380,7 @@ export const diffFlows = async (flowName: string, mode: string = 'full'): Promis
  * Trains a Flow
  * @param flowName The name of the Flow
  */
-export const trainFlow = async (flowName: string): Promise<void> => {
+export const trainFlow = async (flowName: string, timeout: number): Promise<void> => {
     const flowsDir = CONFIG.agentDir + "/flows";
     const flowDir = flowsDir + "/" + flowName;
 
@@ -405,7 +405,7 @@ export const trainFlow = async (flowName: string): Promise<void> => {
         });
 
         try {
-            await checkTask(result._id);
+            await checkTask(result._id, timeout);
             console.log(`\n[${chalk.green("success")}] Intents trained for locale ${chalk.yellow(locale.name)}`);
         } catch (err) {
             console.log(`\n[${chalk.red("error")}] Intents in ${chalk.yellow(locale)} couldn't be trained)`);

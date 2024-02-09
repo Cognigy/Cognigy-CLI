@@ -52,7 +52,7 @@ export const push = async ({ resourceType, resourceName, options }): Promise<voi
             break;
 
         case "lexicon":
-            await pushLexicon(resourceName, 100);
+            await pushLexicon(resourceName, 100, options?.timeout);
             break;
 
         default:
