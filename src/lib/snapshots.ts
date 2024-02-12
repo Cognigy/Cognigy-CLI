@@ -24,7 +24,7 @@ export const createSnapshot = async (name: string, description: string, timeout:
             name: name
         });
 
-        await checkTask(createSnapshotTask._id, 0, timeout);
+        await checkTask(createSnapshotTask._id, timeout);
 
         const allSnapshots = await CognigyClient.indexSnapshots({
             projectId: CONFIG.agent
@@ -40,7 +40,7 @@ export const createSnapshot = async (name: string, description: string, timeout:
 
             spinner.setSpinnerTitle(`Packaging Snapshot for download... %s`);
 
-            await checkTask(prepareSnapshotTask._id, 0, timeout);
+            await checkTask(prepareSnapshotTask._id, timeout);
 
             const downloadLink = await CognigyClient.composeSnapshotDownloadLink({
                 snapshotId: snap._id

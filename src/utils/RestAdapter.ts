@@ -44,7 +44,7 @@ export class RestAdapter implements IHttpAdapter {
         } catch (err) {
 
             if (this.options.retries && retries < this.options.retries) {
-                console.log(`Retrying API request. Error was: ${err.message}\n, Request: ${JSON.stringify(httpRequest, null, 2)}`);
+                // console.log(`Retrying API request. Error was: ${err.message}\n, Request: ${JSON.stringify(httpRequest, null, 2)}`);
 
                 return this.request(httpRequest, client, retries + 1);
             } else {
@@ -54,7 +54,7 @@ export class RestAdapter implements IHttpAdapter {
 
         if (axiosResponse.status >= 400) {
             if (this.options.retries && retries < this.options.retries && axiosResponse.status >= 500) {
-                console.log(`Retrying API request. Status code was: ${axiosResponse.status}`);
+                // console.log(`Retrying API request. Status code was: ${axiosResponse.status}`);
                 return this.request(httpRequest, client, retries + 1);
             } else {
                 this.handleError(axiosResponse);

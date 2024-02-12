@@ -1,11 +1,12 @@
 /* Custom  Modules */
+import { TKnowledgeSourceType } from '@cognigy/rest-api-client';
 import CognigyClient from '../../../utils/cognigyClient';
 
 export const createKnowledgeSource = async (
 	knowledgeStoreId: string,
 	name: string,
 	description: string,
-	type: "file" | "manual" | "website",
+	type: TKnowledgeSourceType,
 	url?: string
 ): Promise<void> => {
 	try {
