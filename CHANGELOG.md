@@ -1,3 +1,34 @@
+# [1.5.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.4.2...v1.5.0) (2024-02-26)
+
+
+### Bug Fixes
+
+* **84:** added playbookTimeoutSeconds to config init ([#96](https://github.com/Cognigy/Cognigy-CLI/issues/96)) ([d001a89](https://github.com/Cognigy/Cognigy-CLI/commit/d001a891ddb9bd1d63564bb0651426d46bf5aa17))
+* **bug:**  improve promise all on pullFlow iteration ([45d4d39](https://github.com/Cognigy/Cognigy-CLI/commit/45d4d39b03d2c6e2c3542442a9688dd39040d924))
+* **bug:**  remove promise all on clone agent ([0ead2c7](https://github.com/Cognigy/Cognigy-CLI/commit/0ead2c7680e0e10adbd98607571d93e2d860735d))
+* **bug:** chalk import errors ([2679b1e](https://github.com/Cognigy/Cognigy-CLI/commit/2679b1e98776baed322dc3210617ccc3ec7dc144))
+* **bug:** clean-up code on utils chunk ([43d6b9e](https://github.com/Cognigy/Cognigy-CLI/commit/43d6b9edca6875b1b403756a3ec0f3be5ed9e481))
+* **bug:** speed up clone agent on lexicons ([1189ddc](https://github.com/Cognigy/Cognigy-CLI/commit/1189ddc352e773bf58727c2f571a3f4ca9b28bcf))
+* **checkTask:** improve pooling logic on checkTask ([9974df2](https://github.com/Cognigy/Cognigy-CLI/commit/9974df25c5e2dfa206c95c0aab0a758f80b81c00))
+* **debug:** removing debug logs ([473b706](https://github.com/Cognigy/Cognigy-CLI/commit/473b7064683be6659acc58787b23502964c44dfa))
+* **security vulnerabilities:** Bug/55178 babel vulnerability ([#134](https://github.com/Cognigy/Cognigy-CLI/issues/134)) ([d40b11b](https://github.com/Cognigy/Cognigy-CLI/commit/d40b11b4b008a5eac94315b3e07011b06466e89d)), closes [#121](https://github.com/Cognigy/Cognigy-CLI/issues/121) [#96](https://github.com/Cognigy/Cognigy-CLI/issues/96) [#100](https://github.com/Cognigy/Cognigy-CLI/issues/100)
+* **security vulnerabilities:** upgrading axios and rest-api-client ([b5059c3](https://github.com/Cognigy/Cognigy-CLI/commit/b5059c36abb78a249586f4e02071a78d4e6c0664))
+* **timeout:** reverting timeout option ([fb816fe](https://github.com/Cognigy/Cognigy-CLI/commit/fb816feb48f32842f0a27d3f950f12a50184c219))
+* **translateFlow:** Bug/translate flow should translate all intents ([#133](https://github.com/Cognigy/Cognigy-CLI/issues/133)) ([22347bd](https://github.com/Cognigy/Cognigy-CLI/commit/22347bdcebcf876691a777d9643680fc34edd2e6)), closes [#121](https://github.com/Cognigy/Cognigy-CLI/issues/121) [#96](https://github.com/Cognigy/Cognigy-CLI/issues/96) [#100](https://github.com/Cognigy/Cognigy-CLI/issues/100)
+* upgrade playwright from 1.33.0 to 1.38.1 ([#138](https://github.com/Cognigy/Cognigy-CLI/issues/138)) ([39b8608](https://github.com/Cognigy/Cognigy-CLI/commit/39b860802201e474c146461f48993e6bbf69ade1))
+* upgrade playwright from 1.36.1 to 1.36.2 ([#103](https://github.com/Cognigy/Cognigy-CLI/issues/103)) ([32d3d8e](https://github.com/Cognigy/Cognigy-CLI/commit/32d3d8ed0eeeb752265d45170483242c00520865))
+
+
+### Features
+
+* **chunk:** improve chunk util function ([31c770f](https://github.com/Cognigy/Cognigy-CLI/commit/31c770f9798c46d73c7d303714d507bc22eb6212))
+* **ctext:** Feature/47523 ctext metadata support cognigy ([#101](https://github.com/Cognigy/Cognigy-CLI/issues/101)) ([83226da](https://github.com/Cognigy/Cognigy-CLI/commit/83226dae140bb08d258c0ac20114d50d9cf6ea53))
+* **knowledgeAI:** Feature/47885 knowledgeAI to the cli ([#95](https://github.com/Cognigy/Cognigy-CLI/issues/95)) ([b5ba2ef](https://github.com/Cognigy/Cognigy-CLI/commit/b5ba2ef386ad9fee10946b71206c539c067ab68c))
+* **log:** improving log message on retry request ([8e75da2](https://github.com/Cognigy/Cognigy-CLI/commit/8e75da2e43e113b15a5c1e30c56f03cbc0374cf6))
+* **timeout:** removing timeout on train and push commands ([9fb5753](https://github.com/Cognigy/Cognigy-CLI/commit/9fb5753f4ae192b01df19e3eec16abea9887a321))
+* **timeout:** removing timeout on trainFlow ([0774cdf](https://github.com/Cognigy/Cognigy-CLI/commit/0774cdf0f02795465d8ab07e958370859866bfa0))
+* **workflow:** update token ([#100](https://github.com/Cognigy/Cognigy-CLI/issues/100)) ([88da054](https://github.com/Cognigy/Cognigy-CLI/commit/88da054bdd00c7e55109dfddf3b5aab298ec0dff))
+
 ## [1.4.2](https://github.com/Cognigy/Cognigy-CLI/compare/v1.4.1...v1.4.2) (2023-10-24)
 
 
