@@ -83,6 +83,8 @@ You can force these checks to be skipped with the `-y` flag.
 
 Example: `cognigy clone -y` or `cognigy clone --forceYes`
 
+**Some environments may have rate limits. This means that when executing commands that require a high number of API requests (e.g. clone), the env rate limit may be reached, and the process stops by throwing an error.**
+
 ### Command: init
 
 `cognigy init`

@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as jsonDiff from 'json-diff';
 import { Spinner } from 'cli-spinner';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import { createArrayCsvWriter } from 'csv-writer';
 import csv from 'csv-parser';
 import FormData from 'form-data';
@@ -22,6 +22,7 @@ import { indexAll } from '../utils/indexAll';
 import { ILocaleIndexItem_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/locales/v2.0';
 import { IIntent } from '@cognigy/rest-api-client/build/shared/interfaces/resources/intent/IIntent';
 import { IIndexFlowsRestReturnValue_2_0 } from '@cognigy/rest-api-client';
+import { chunkArray } from '../utils/chunk';
 
 /**
  * Clones Cognigy Flows to disk
@@ -34,18 +35,22 @@ export const cloneFlows = async (availableProgress: number): Promise<void> => {
 
     // query Cognigy.AI for all Flows in this agent
     const flows = await indexAll(CognigyClient.indexFlows)({
-        "projectId": CONFIG.agent
+        projectId: CONFIG.agent,
     });
 
     const progressPerFlow = availableProgress / flows.items.length;
 
-    // create a sub-folder, chart.json and config.json for each Flow
-    const flowsPromiseArr = []
+    const flowsPromiseArr: Array<() => Promise<void>> = [];
     for (let flow of flows.items) {
-        flowsPromiseArr.push(pullFlow(flow.name, progressPerFlow));
+        flowsPromiseArr.push(() => pullFlow(flow.name, progressPerFlow));
     }
 
-    await Promise.all(flowsPromiseArr);
+    // create chunks of x pullFlow functions and promise all, in order to speed up the process
+    const chunkedFlowsPromiseArr = chunkArray(flowsPromiseArr, 5);
+
+    for (let chunk of chunkedFlowsPromiseArr) {
+        await Promise.all(chunk.map((func) => func()));
+    }
 
     return Promise.resolve();
 };
@@ -152,7 +157,7 @@ export const restoreFlows = async (availableProgress: number): Promise<void> => 
 
     // Go through all Flows and try to push them to Cognigy.AI
     for (let flow of flowDirectories) {
-        await pushFlow(flow, progressPerFlow, { "timeout": 10000 });
+        await pushFlow(flow, progressPerFlow);
     }
     return Promise.resolve();
 };
@@ -162,7 +167,7 @@ export const restoreFlows = async (availableProgress: number): Promise<void> => 
  * @param flowName The name of the Flow to push
  * @param availableProgress How much of the progress bar can be filled by this process
  */
-export const pushFlow = async (flowName: string, availableProgress: number, options?: any): Promise<void> => {
+export const pushFlow = async (flowName: string, availableProgress: number): Promise<void> => {
     const flowsDir = CONFIG.agentDir + "/flows";
     const flowDir = flowsDir + "/" + flowName;
 
@@ -229,7 +234,7 @@ export const pushFlow = async (flowName: string, availableProgress: number, opti
                         form: form
                     });
 
-                    await checkTask(result?.data?._id, 0, options?.timeout || 10000);
+                    await checkTask(result?.data?._id);
                 }
                 addToProgressBar(availableProgress / 2);
 
@@ -380,7 +385,7 @@ export const diffFlows = async (flowName: string, mode: string = 'full'): Promis
  * Trains a Flow
  * @param flowName The name of the Flow
  */
-export const trainFlow = async (flowName: string, timeout: number = 10000): Promise<void> => {
+export const trainFlow = async (flowName: string, timeout?: number): Promise<void> => {
     const flowsDir = CONFIG.agentDir + "/flows";
     const flowDir = flowsDir + "/" + flowName;
 
@@ -405,10 +410,10 @@ export const trainFlow = async (flowName: string, timeout: number = 10000): Prom
         });
 
         try {
-            await checkTask(result._id, 0, timeout);
+            await checkTask(result._id, timeout);
             console.log(`\n[${chalk.green("success")}] Intents trained for locale ${chalk.yellow(locale.name)}`);
         } catch (err) {
-            console.log(`\n[${chalk.red("error")}] Intents in ${chalk.yellow(locale)} couldn't be trained within timeout period (${5 * timeout} ms)`);
+            console.log(`\n[${chalk.red("error")}] Intents in ${chalk.yellow(locale)} couldn't be trained)`);
         }
         spinner.stop();
     }

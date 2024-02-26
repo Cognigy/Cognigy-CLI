@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as jsonDiff from 'json-diff';
 import { Spinner }  from 'cli-spinner';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 
 import { addToProgressBar } from '../utils/progressBar';
 import CONFIG from '../utils/config';

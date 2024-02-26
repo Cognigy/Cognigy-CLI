@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import axios from 'axios';
 import * as Diff from 'diff';
 import { Spinner } from 'cli-spinner';
-import * as chalk from 'chalk';
+import chalk from 'chalk';
 import FormData from 'form-data';
 
 /* Custom modules */
@@ -13,6 +13,7 @@ import CognigyClient from '../utils/cognigyClient';
 import { makeAxiosRequest } from '../utils/axiosClient';
 import { checkCreateDir, checkTask, removeCreateDir } from '../utils/checks';
 import { indexAll } from '../utils/indexAll';
+import { chunkArray } from '../utils/chunk';
 
 /**
  * Clones Cognigy Lexicons to disk
@@ -36,9 +37,15 @@ export const cloneLexicons = async (availableProgress: number): Promise<void> =>
 
     const incrementPerLexicon = availableProgress / lexicons.items.length;
 
-    // create a sub-folder, chart.json and config.json for each Flow
+    const lexiconsPromiseArr: Array<() => Promise<void>> = [];
     for (let lexicon of lexicons.items) {
-        await pullLexicon(lexicon.name, incrementPerLexicon);
+        lexiconsPromiseArr.push(() => pullLexicon(lexicon.name, incrementPerLexicon));
+    }
+
+    const chunkedLexiconssPromiseArr = chunkArray(lexiconsPromiseArr, 5);
+
+    for (let chunk of chunkedLexiconssPromiseArr) {
+        await Promise.all(chunk.map((func) => func()));
     }
 
     return Promise.resolve();
@@ -96,7 +103,7 @@ export const pullLexicon = async (lexiconName: string, availableProgress: number
     });
 
     // check previous tasks is done.
-    await checkTask(exportFromLexiconTask._id, 0, 100000);
+    await checkTask(exportFromLexiconTask._id);
 
     // create a downloadable link for the lexicon task data
     const downloadLink = await CognigyClient.composeLexiconDownloadLink({
@@ -131,7 +138,7 @@ export const restoreLexicons = async (availableProgress: number): Promise<void> 
 
     // iterate through lexicons and push all to Cognigy.AI
     for (let lexicon of lexiconDirectories) {
-        await pushLexicon(lexicon, incrementPerLexicon, { "timeout": 10000 });
+        await pushLexicon(lexicon, incrementPerLexicon);
     }
     return Promise.resolve();
 };
@@ -141,7 +148,7 @@ export const restoreLexicons = async (availableProgress: number): Promise<void> 
  * @param lexiconName Name of the Lexicon to push to Cognigy.aI
  * @param availableProgress How much of the progress bar can be filled by this process
  */
-export const pushLexicon = async (lexiconName: string, availableProgress: number, options: any): Promise<void> => {
+export const pushLexicon = async (lexiconName: string, availableProgress: number, options?: any): Promise<void> => {
     const lexiconDir = CONFIG.agentDir + "/lexicons/" + lexiconName;
 
     if (fs.existsSync(lexiconDir + "/config.json")) {
@@ -167,7 +174,7 @@ export const pushLexicon = async (lexiconName: string, availableProgress: number
                 form: form
             });
 
-            await checkTask(result?.data?._id, 0, options?.timeout || 10000);
+            await checkTask(result?.data?._id, options?.timeout);
             spinner.stop()
         } catch (err) {
             console.error(`\n${chalk.red('error:')} Error when updating Lexicon ${lexiconName} on Cognigy.AI: ${err.message}.\nAborting...`);
