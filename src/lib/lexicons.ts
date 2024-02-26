@@ -13,6 +13,7 @@ import CognigyClient from '../utils/cognigyClient';
 import { makeAxiosRequest } from '../utils/axiosClient';
 import { checkCreateDir, checkTask, removeCreateDir } from '../utils/checks';
 import { indexAll } from '../utils/indexAll';
+import { chunkArray } from '../utils/chunk';
 
 /**
  * Clones Cognigy Lexicons to disk
@@ -36,9 +37,15 @@ export const cloneLexicons = async (availableProgress: number): Promise<void> =>
 
     const incrementPerLexicon = availableProgress / lexicons.items.length;
 
-    // create a sub-folder, chart.json and config.json for each Flow
+    const lexiconsPromiseArr: Array<() => Promise<void>> = [];
     for (let lexicon of lexicons.items) {
-        await pullLexicon(lexicon.name, incrementPerLexicon);
+        lexiconsPromiseArr.push(() => pullLexicon(lexicon.name, incrementPerLexicon));
+    }
+
+    const chunkedLexiconssPromiseArr = chunkArray(lexiconsPromiseArr, 5);
+
+    for (let chunk of chunkedLexiconssPromiseArr) {
+        await Promise.all(chunk.map((func) => func()));
     }
 
     return Promise.resolve();
