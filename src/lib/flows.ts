@@ -22,6 +22,7 @@ import { indexAll } from '../utils/indexAll';
 import { ILocaleIndexItem_2_0 } from '@cognigy/rest-api-client/build/shared/interfaces/restAPI/resources/locales/v2.0';
 import { IIntent } from '@cognigy/rest-api-client/build/shared/interfaces/resources/intent/IIntent';
 import { IIndexFlowsRestReturnValue_2_0 } from '@cognigy/rest-api-client';
+import { chunkArray } from '../utils/chunk';
 
 /**
  * Clones Cognigy Flows to disk
@@ -34,18 +35,22 @@ export const cloneFlows = async (availableProgress: number): Promise<void> => {
 
     // query Cognigy.AI for all Flows in this agent
     const flows = await indexAll(CognigyClient.indexFlows)({
-        "projectId": CONFIG.agent
+        projectId: CONFIG.agent,
     });
 
     const progressPerFlow = availableProgress / flows.items.length;
 
-    // create a sub-folder, chart.json and config.json for each Flow
-    const flowsPromiseArr = []
+    const flowsPromiseArr: Array<() => Promise<void>> = [];
     for (let flow of flows.items) {
-        flowsPromiseArr.push(pullFlow(flow.name, progressPerFlow));
+        flowsPromiseArr.push(() => pullFlow(flow.name, progressPerFlow));
     }
 
-    await Promise.all(flowsPromiseArr);
+    // create chunks of x pullFlow functions and promise all, in order to speed up the process
+    const chunkedFlowsPromiseArr = chunkArray(flowsPromiseArr, 5);
+
+    for (let chunk of chunkedFlowsPromiseArr) {
+        await Promise.all(chunk.map((func) => func()));
+    }
 
     return Promise.resolve();
 };
