@@ -40,11 +40,9 @@ export const clone = async ({ resourceType = 'agent', forceYes = false }): Promi
 
     switch (resourceType) {
         case "agent":
-            await Promise.all([
-                cloneFlows(33),
-                cloneEndpoints(33),
-                cloneLexicons(33)
-            ]);
+            await cloneFlows(33);
+            await cloneEndpoints(33);
+            await cloneLexicons(33);
             break;
 
         case "flows":
