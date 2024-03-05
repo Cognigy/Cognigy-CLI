@@ -28,7 +28,10 @@ export const setStdIn = (input: string) => {
 export const getStdIn = (): string => stdin;
 
 export const program = new Command();
-program.version('1.4.0');
+const packageJson = require('./../../package.json');
+
+const appVersion = packageJson.version;
+program.version(appVersion);
 
 program
     .command('init')
