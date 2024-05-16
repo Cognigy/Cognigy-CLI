@@ -32,34 +32,34 @@ interface ISentence {
 	feedbackReport: any
 }
 
-export const translateIntentExampleSentence = async (sentence: ISentence, language: string, translator: 'google' | 'microsoft' | 'deepl', apikey: string, fromLanguage?: string) => {
+export const translateIntentExampleSentence = async (sentence: ISentence, language: string, translator: 'google' | 'microsoft' | 'deepl', apikey: string, apiRegion?: string) => {
 
-	sentence.text = await translate(sentence.text, language, translator, apikey);
+	sentence.text = await translate(sentence.text, language, translator, apikey, apiRegion);
 	// Return the translated example sentence
 	return sentence;
 }
 
-const translateFlowNode = async (flowNode: IFlowNode, targetLanguage: string, translator: 'google' | 'microsoft' | 'deepl', apiKey: string): Promise<IFlowNode> => {
+const translateFlowNode = async (flowNode: IFlowNode, targetLanguage: string, translator: 'google' | 'microsoft' | 'deepl', apiKey: string, apiRegion?: string): Promise<IFlowNode> => {
 	const { type, config } = flowNode;
 
 	try {
 		// Check type of node
 		switch (type) {
 			case 'optionalQuestion':
-				flowNode.config.say = await translateSayNode(config.say, targetLanguage, translator, apiKey);
+				flowNode.config.say = await translateSayNode(config.say, targetLanguage, translator, apiKey, apiRegion);
 				break;
 
 			case 'question':
-				flowNode.config.say = await translateSayNode(config.say, targetLanguage, translator, apiKey);
-				if (flowNode.config.validationMessage) flowNode.config.validationMessage = await translate(flowNode.config.validationMessage, targetLanguage, translator, apiKey);
-				if (flowNode.config.datepicker_eventName) flowNode.config.datepicker_eventName = await translate(flowNode.config.datepicker_eventName, targetLanguage, translator, apiKey);
-				if (flowNode.config.datepicker_openPickerButtonText) flowNode.config.datepicker_openPickerButtonText = await translate(flowNode.config.datepicker_openPickerButtonText, targetLanguage, translator, apiKey);
-				if (flowNode.config.datepicker_cancelButtonText) flowNode.config.datepicker_cancelButtonText = await translate(flowNode.config.datepicker_cancelButtonText, targetLanguage, translator, apiKey);
-				if (flowNode.config.datepicker_submitButtonText) flowNode.config.datepicker_submitButtonText = await translate(flowNode.config.datepicker_submitButtonText, targetLanguage, translator, apiKey);
+				flowNode.config.say = await translateSayNode(config.say, targetLanguage, translator, apiKey, apiRegion);
+				if (flowNode.config.validationMessage) flowNode.config.validationMessage = await translate(flowNode.config.validationMessage, targetLanguage, translator, apiKey, apiRegion);
+				if (flowNode.config.datepicker_eventName) flowNode.config.datepicker_eventName = await translate(flowNode.config.datepicker_eventName, targetLanguage, translator, apiKey, apiRegion);
+				if (flowNode.config.datepicker_openPickerButtonText) flowNode.config.datepicker_openPickerButtonText = await translate(flowNode.config.datepicker_openPickerButtonText, targetLanguage, translator, apiKey, apiRegion);
+				if (flowNode.config.datepicker_cancelButtonText) flowNode.config.datepicker_cancelButtonText = await translate(flowNode.config.datepicker_cancelButtonText, targetLanguage, translator, apiKey, apiRegion);
+				if (flowNode.config.datepicker_submitButtonText) flowNode.config.datepicker_submitButtonText = await translate(flowNode.config.datepicker_submitButtonText, targetLanguage, translator, apiKey, apiRegion);
 				break;
 
 			case 'say':
-				flowNode.config.say = await translateSayNode(config.say, targetLanguage, translator, apiKey);
+				flowNode.config.say = await translateSayNode(config.say, targetLanguage, translator, apiKey, apiRegion);
 				break;
 
 			// Skip all other nodes
@@ -73,7 +73,7 @@ const translateFlowNode = async (flowNode: IFlowNode, targetLanguage: string, tr
 	}
 }
 
-export async function translateSayNode(data, language, translator, apikey) {
+export async function translateSayNode(data, language, translator, apikey, apiRegion?) {
 
 	// Check if type is text
 	if (data.text) {
@@ -83,7 +83,7 @@ export async function translateSayNode(data, language, translator, apikey) {
 			// Get the index of the current sentence in the list of sentences called 'text'
 			let index = data.text.indexOf(sentence);
 			// Translate the text
-			data.text[index] = await translate(data.text[index], language, translator, apikey);
+			data.text[index] = await translate(data.text[index], language, translator, apikey, apiRegion);
 
 		}
 
@@ -93,7 +93,7 @@ export async function translateSayNode(data, language, translator, apikey) {
 	if (data?._cognigy?._default?._list?.items) {
 		/** Translate fallback message */
 		if (data._cognigy._default._list.fallbackText) {
-			data._cognigy._default._list.fallbackText = await translate(data._cognigy._default._list.fallbackText, language, translator, apikey);
+			data._cognigy._default._list.fallbackText = await translate(data._cognigy._default._list.fallbackText, language, translator, apikey, apiRegion);
 		}
 
 		// Loop through the list items
@@ -102,8 +102,8 @@ export async function translateSayNode(data, language, translator, apikey) {
 			// Get the index of the current sentence in the list of sentences called 'text'
 			let index = data._cognigy._default._list.items.indexOf(item);
 
-			data._cognigy._default._list.items[index].title = await translate(data._cognigy._default._list.items[index].title, language, translator, apikey);
-			data._cognigy._default._list.items[index].subtitle = await translate(data._cognigy._default._list.items[index].subtitle, language, translator, apikey);
+			data._cognigy._default._list.items[index].title = await translate(data._cognigy._default._list.items[index].title, language, translator, apikey, apiRegion);
+			data._cognigy._default._list.items[index].subtitle = await translate(data._cognigy._default._list.items[index].subtitle, language, translator, apikey, apiRegion);
 
 			// Check if item has buttons
 			if (data?._cognigy?._default?._list?.items[index]?.buttons) {
@@ -114,12 +114,12 @@ export async function translateSayNode(data, language, translator, apikey) {
 					let buttonIndex = data._cognigy._default._list.items[index].buttons.indexOf(button);
 
 					// translate the button title
-					data._cognigy._default._list.items[index].buttons[buttonIndex].title = await translate(data._cognigy._default._list.items[index].buttons[buttonIndex].title, language, translator, apikey);
+					data._cognigy._default._list.items[index].buttons[buttonIndex].title = await translate(data._cognigy._default._list.items[index].buttons[buttonIndex].title, language, translator, apikey, apiRegion);
 
 					// Check type of button
 					if (button.type === 'postback') {
 						// Translate button title
-						data._cognigy._default._list.items[index].buttons[buttonIndex].payload = await translate(data._cognigy._default._list.items[index].buttons[buttonIndex].payload, language, translator, apikey);
+						data._cognigy._default._list.items[index].buttons[buttonIndex].payload = await translate(data._cognigy._default._list.items[index].buttons[buttonIndex].payload, language, translator, apikey, apiRegion);
 					}
 				}
 			}
@@ -128,12 +128,12 @@ export async function translateSayNode(data, language, translator, apikey) {
 		// Check if there is a button for this list
 		if (data._cognigy?._default?._list?.button) {
 
-			data._cognigy._default._list.button.title = await translate(data._cognigy?._default?._list?.button.title, language, translator, apikey);
+			data._cognigy._default._list.button.title = await translate(data._cognigy?._default?._list?.button.title, language, translator, apikey, apiRegion);
 
 			// Check type of button
 			if (data._cognigy?._default?._list?.button.type === 'postback') {
 				// Translate button title
-				data._cognigy._default._list.button.payload = await translate(data._cognigy._default._list.button.payload, language, translator, apikey);
+				data._cognigy._default._list.button.payload = await translate(data._cognigy._default._list.button.payload, language, translator, apikey, apiRegion);
 			}
 		}
 
@@ -146,8 +146,8 @@ export async function translateSayNode(data, language, translator, apikey) {
 			let index = data._data._cognigy._default._list.items.indexOf(item);
 
 
-			data._data._cognigy._default._list.items[index].title = await translate(data._data._cognigy._default._list.items[index].title, language, translator, apikey);
-			data._data._cognigy._default._list.items[index].subtitle = await translate(data._data._cognigy._default._list.items[index].subtitle, language, translator, apikey);
+			data._data._cognigy._default._list.items[index].title = await translate(data._data._cognigy._default._list.items[index].title, language, translator, apikey, apiRegion);
+			data._data._cognigy._default._list.items[index].subtitle = await translate(data._data._cognigy._default._list.items[index].subtitle, language, translator, apikey, apiRegion);
 
 			// Check if item has buttons
 			if (data?._data._cognigy?._default?._list?.items[index]?.buttons) {
@@ -158,12 +158,12 @@ export async function translateSayNode(data, language, translator, apikey) {
 					let buttonIndex = data._data._cognigy._default._list.items[index].buttons.indexOf(button);
 
 					// translate the button title
-					data._data._cognigy._default._list.items[index].buttons[buttonIndex].title = await translate(data._data._cognigy._default._list.items[index].buttons[buttonIndex].title, language, translator, apikey);
+					data._data._cognigy._default._list.items[index].buttons[buttonIndex].title = await translate(data._data._cognigy._default._list.items[index].buttons[buttonIndex].title, language, translator, apikey, apiRegion);
 
 					// Check type of button
 					if (button.type === 'postback') {
 						// Translate button title
-						data._data._cognigy._default._list.items[index].buttons[buttonIndex].payload = await translate(data._data._cognigy._default._list.items[index].buttons[buttonIndex].payload, language, translator, apikey);
+						data._data._cognigy._default._list.items[index].buttons[buttonIndex].payload = await translate(data._data._cognigy._default._list.items[index].buttons[buttonIndex].payload, language, translator, apikey, apiRegion);
 					}
 				}
 			}
@@ -172,12 +172,12 @@ export async function translateSayNode(data, language, translator, apikey) {
 		// Check if there is a button for this list
 		if (data._data._cognigy?._default?._list?.button) {
 
-			data._data._cognigy._default._list.button.title = await translate(data._data._cognigy?._default?._list?.button.title, language, translator, apikey);
+			data._data._cognigy._default._list.button.title = await translate(data._data._cognigy?._default?._list?.button.title, language, translator, apikey, apiRegion);
 
 			// Check type of button
 			if (data._data._cognigy?._default?._list?.button.type === 'postback') {
 				// Translate button title
-				data._data._cognigy._default._list.button.payload = await translate(data._data._cognigy._default._list.button.payload, language, translator, apikey);
+				data._data._cognigy._default._list.button.payload = await translate(data._data._cognigy._default._list.button.payload, language, translator, apikey, apiRegion);
 			}
 		}
 	}
@@ -186,7 +186,7 @@ export async function translateSayNode(data, language, translator, apikey) {
 	if (data?._cognigy?._default?._buttons?.buttons) {
 		/** Translate fallback message */
 		if (data._cognigy._default._buttons.fallbackText) {
-			data._cognigy._default._buttons.fallbackText = await translate(data._cognigy._default._buttons.fallbackText, language, translator, apikey);
+			data._cognigy._default._buttons.fallbackText = await translate(data._cognigy._default._buttons.fallbackText, language, translator, apikey, apiRegion);
 		}
 
 		// Loop through the buttons
@@ -198,11 +198,11 @@ export async function translateSayNode(data, language, translator, apikey) {
 			// Check type of button
 			if (button.type === 'postback') {
 				// Translate button title
-				data._cognigy._default._buttons.buttons[index].title = await translate(data._cognigy._default._buttons.buttons[index].title, language, translator, apikey);
+				data._cognigy._default._buttons.buttons[index].title = await translate(data._cognigy._default._buttons.buttons[index].title, language, translator, apikey, apiRegion);
 			}
 
 			// Translate the text of the button message
-			data._cognigy._default._buttons.text = await translate(data._cognigy._default._buttons.text, language, translator, apikey);
+			data._cognigy._default._buttons.text = await translate(data._cognigy._default._buttons.text, language, translator, apikey, apiRegion);
 
 		}
 
@@ -217,12 +217,12 @@ export async function translateSayNode(data, language, translator, apikey) {
 			// Check type of button
 			if (button.type === 'postback') {
 				// Translate button title
-				data._data._cognigy._default._buttons.buttons[index].title = await translate(data._data._cognigy._default._buttons.buttons[index].title, language, translator, apikey);
+				data._data._cognigy._default._buttons.buttons[index].title = await translate(data._data._cognigy._default._buttons.buttons[index].title, language, translator, apikey, apiRegion);
 
 			}
 
 			// Translate the text of the button message
-			data._data._cognigy._default._buttons.text = await translate(data._data._cognigy._default._buttons.text, language, translator, apikey);
+			data._data._cognigy._default._buttons.text = await translate(data._data._cognigy._default._buttons.text, language, translator, apikey, apiRegion);
 
 		}
 	}
@@ -232,7 +232,7 @@ export async function translateSayNode(data, language, translator, apikey) {
 
 		/** Translate message */
 		if (data._cognigy._default._quickReplies.fallbackText) {
-			data._cognigy._default._quickReplies.fallbackText = await translate(data._cognigy._default._quickReplies.fallbackText, language, translator, apikey);
+			data._cognigy._default._quickReplies.fallbackText = await translate(data._cognigy._default._quickReplies.fallbackText, language, translator, apikey, apiRegion);
 		}
 
 		// Loop through the quick replies
@@ -244,13 +244,13 @@ export async function translateSayNode(data, language, translator, apikey) {
 			// Check type of button
 			if (quickReply.contentType === 'postback') {
 				// Translate quick reply
-				data._cognigy._default._quickReplies.quickReplies[index].title = await translate(data._cognigy._default._quickReplies.quickReplies[index].title, language, translator, apikey);
-				data._cognigy._default._quickReplies.quickReplies[index].payload = await translate(data._cognigy._default._quickReplies.quickReplies[index].payload, language, translator, apikey);
+				data._cognigy._default._quickReplies.quickReplies[index].title = await translate(data._cognigy._default._quickReplies.quickReplies[index].title, language, translator, apikey, apiRegion);
+				data._cognigy._default._quickReplies.quickReplies[index].payload = await translate(data._cognigy._default._quickReplies.quickReplies[index].payload, language, translator, apikey, apiRegion);
 
 			}
 
 			// Translate the text of the quick reply text
-			data._cognigy._default._quickReplies.text = await translate(data._cognigy._default._quickReplies.text, language, translator, apikey)
+			data._cognigy._default._quickReplies.text = await translate(data._cognigy._default._quickReplies.text, language, translator, apikey, apiRegion)
 
 		}
 
@@ -265,13 +265,13 @@ export async function translateSayNode(data, language, translator, apikey) {
 			// Check type of quick reply
 			if (quickReply.contentType === 'postback') {
 				// Translate quick reply
-				data._data._cognigy._default._quickReplies.quickReplies[index].title = await translate(data._data._cognigy._default._quickReplies.quickReplies[index].title, language, translator, apikey);
-				data._data._cognigy._default._quickReplies.quickReplies[index].payload = await translate(data._data._cognigy._default._quickReplies.quickReplies[index].payload, language, translator, apikey);
+				data._data._cognigy._default._quickReplies.quickReplies[index].title = await translate(data._data._cognigy._default._quickReplies.quickReplies[index].title, language, translator, apikey, apiRegion);
+				data._data._cognigy._default._quickReplies.quickReplies[index].payload = await translate(data._data._cognigy._default._quickReplies.quickReplies[index].payload, language, translator, apikey, apiRegion);
 
 			}
 
 			// Translate the text of the quick reply text
-			data._data._cognigy._default._quickReplies.text = await translate(data._data._cognigy._default._quickReplies.text, language, translator, apikey)
+			data._data._cognigy._default._quickReplies.text = await translate(data._data._cognigy._default._quickReplies.text, language, translator, apikey, apiRegion)
 
 		}
 	}
@@ -279,27 +279,27 @@ export async function translateSayNode(data, language, translator, apikey) {
 	if (data?._cognigy?._default?._gallery) {
 		// Translate Fallback Text
 		if (data._cognigy._default._gallery.fallbackText && data._cognigy._default._gallery.fallbackText !== "") {
-			data._cognigy._default._gallery.fallbackText = await translate(data._cognigy._default._gallery.fallbackText, language, translator, apikey);
+			data._cognigy._default._gallery.fallbackText = await translate(data._cognigy._default._gallery.fallbackText, language, translator, apikey, apiRegion);
 		}
 
 		// Loop through gallery cards
 		for (let item of data._cognigy._default._gallery.items) {
 
 			// Translate title & subtitle
-			item.title = await translate(item.title, language, translator, apikey);
-			item.subtitle = await translate(item.subtitle, language, translator, apikey);
-			item.imageAltText = await translate(item.imageAltText, language, translator, apikey);
+			item.title = await translate(item.title, language, translator, apikey, apiRegion);
+			item.subtitle = await translate(item.subtitle, language, translator, apikey, apiRegion);
+			item.imageAltText = await translate(item.imageAltText, language, translator, apikey, apiRegion);
 
 
 			// Check for buttons and translate them
 			if (item.buttons && item.buttons.length > 0) {
 				for (let button of item.buttons) {
 
-					button.title = await translate(button.title, language, translator, apikey);
+					button.title = await translate(button.title, language, translator, apikey, apiRegion);
 
 					// Translate button title & payload
 					if (button.type === 'postback') {
-						button.payload = await translate(button.payload, language, translator, apikey);
+						button.payload = await translate(button.payload, language, translator, apikey, apiRegion);
 					}
 				}
 			}
@@ -309,7 +309,7 @@ export async function translateSayNode(data, language, translator, apikey) {
 
 		// Translate Fallback Text
 		if (data?._data?._cognigy?._default?._gallery?.fallbackText !== "") {
-			data._data._cognigy._default._gallery.fallbackText = await translate(data._data._cognigy._default._gallery.fallbackText, language, translator, apikey);
+			data._data._cognigy._default._gallery.fallbackText = await translate(data._data._cognigy._default._gallery.fallbackText, language, translator, apikey, apiRegion);
 
 		}
 
@@ -317,19 +317,19 @@ export async function translateSayNode(data, language, translator, apikey) {
 		for (let item of data._data._cognigy._default._gallery.items) {
 
 			// Translate title & subtitle
-			item.title = await translate(item.title, language, translator, apikey);
-			item.subtitle = await translate(item.subtitle, language, translator, apikey);
-			item.imageAltText = await translate(item.imageAltText, language, translator, apikey);
+			item.title = await translate(item.title, language, translator, apikey, apiRegion);
+			item.subtitle = await translate(item.subtitle, language, translator, apikey, apiRegion);
+			item.imageAltText = await translate(item.imageAltText, language, translator, apikey, apiRegion);
 
 			// Check for buttons and translate them
 			if (item.buttons && item.buttons.length > 0) {
 				for (let button of item.buttons) {
 
-					button.title = await translate(button.title, language, translator, apikey);
+					button.title = await translate(button.title, language, translator, apikey, apiRegion);
 
 					// Translate button title & payload
 					if (button.type === 'postback') {
-						button.payload = await translate(button.payload, language, translator, apikey);
+						button.payload = await translate(button.payload, language, translator, apikey, apiRegion);
 					}
 				}
 			}
@@ -338,17 +338,17 @@ export async function translateSayNode(data, language, translator, apikey) {
 
 	if (data?._cognigy?._default?._image) {
 		// Translate fallback text
-		data._cognigy._default._image.fallbackText = await translate(data._cognigy._default._image.fallbackText, language, translator, apikey);
+		data._cognigy._default._image.fallbackText = await translate(data._cognigy._default._image.fallbackText, language, translator, apikey, apiRegion);
 		// Translate alternative text
-		data._cognigy._default._image.imageAltText = await translate(data._cognigy._default._image.imageAltText, language, translator, apikey);
+		data._cognigy._default._image.imageAltText = await translate(data._cognigy._default._image.imageAltText, language, translator, apikey, apiRegion);
 	}
 
 	if (data?._data?._cognigy?._default?._image) {
 
 		// Translate fallback text
-		data._data._cognigy._default._image.fallbackText = await translate(data._data._cognigy._default._image.fallbackText, language, translator, apikey);
+		data._data._cognigy._default._image.fallbackText = await translate(data._data._cognigy._default._image.fallbackText, language, translator, apikey, apiRegion);
 		// Translate alternative text
-		data._data._cognigy._default._image.imageAltText = await translate(data._data._cognigy._default._image.imageAltText, language, translator, apikey);
+		data._data._cognigy._default._image.imageAltText = await translate(data._data._cognigy._default._image.imageAltText, language, translator, apikey, apiRegion);
 
 	}
 
@@ -371,18 +371,24 @@ function formatLocaleToTranslateLId(targetLanguage: string): string {
 	return targetLanguage;
 }
 
-async function microsoftTranslate(text: string, language: string, apiKey: string) {
+async function microsoftTranslate(text: string, language: string, apiKey: string, apiRegion?: string) {
+
+	const headers = {
+		'Ocp-Apim-Subscription-Key': apiKey,
+		'Content-type': 'application/json',
+		'Accept': 'application/json',
+		'X-ClientTraceId': uuid.v4().toString()
+	};
+
+	if(apiRegion) {
+		headers['Ocp-Apim-Subscription-Region'] = apiRegion;
+	}
 
 	try {
 		const response = await axios({
 			method: 'post',
 			url: `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${language}&textType=html`,
-			headers: {
-				'Ocp-Apim-Subscription-Key': apiKey,
-				'Content-type': 'application/json',
-				'Accept': 'application/json',
-				'X-ClientTraceId': uuid.v4().toString()
-			},
+			headers,
 			data: [
 				{
 					text
@@ -465,8 +471,9 @@ async function deepLTranslate(text: string, language: string, apiKey) {
  * @param language Language to translate
  * @param translator Translator to use
  * @param apiKey API Key to use
+ * @param apiRegion API Region needed by Microsoft Translator
  */
-const translate = async (text: string, language: string, translator: 'google' | 'microsoft' | 'deepl', apiKey: string) => {
+const translate = async (text: string, language: string, translator: 'google' | 'microsoft' | 'deepl', apiKey: string, apiRegion?: string) => {
 	if (typeof text !== "string") return text;
 
 	// Format the locale to a valid language id
@@ -482,7 +489,7 @@ const translate = async (text: string, language: string, translator: 'google' | 
 				newText = await googleTranslate(newText, language, apiKey);
 				break;
 			case 'microsoft':
-				newText = await microsoftTranslate(newText, language, apiKey);
+				newText = await microsoftTranslate(newText, language, apiKey, apiRegion);
 				break;
 			case 'deepl':
 				newText = await deepLTranslate(newText, language, apiKey);
