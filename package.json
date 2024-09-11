@@ -58,7 +58,7 @@
     "d3-dsv": "2.0.0",
     "diff": "5.0.0",
     "epub2": "3.0.2",
-    "express": "4.19.2",
+    "express": "4.20.0",
     "form-data": "3.0.0",
     "gpt-3-encoder": "1.1.4",
     "html-to-text": "9.0.5",
