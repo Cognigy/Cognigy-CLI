@@ -1,3 +1,10 @@
+## [1.5.2](https://github.com/Cognigy/Cognigy-CLI/compare/v1.5.1...v1.5.2) (2024-09-23)
+
+
+### Bug Fixes
+
+* upgrade @cognigy/rest-api-client from 0.18.0 to 0.19.0 ([27bb311](https://github.com/Cognigy/Cognigy-CLI/commit/27bb311f63a1edf4cde765706d5f0ef69b031426))
+
 ## [1.5.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.5.0...v1.5.1) (2024-09-17)
 
 
