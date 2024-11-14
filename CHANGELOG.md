@@ -1,3 +1,23 @@
+## [1.5.2](https://github.com/Cognigy/Cognigy-CLI/compare/v1.5.1...v1.5.2) (2024-09-23)
+
+
+### Bug Fixes
+
+* upgrade @cognigy/rest-api-client from 0.18.0 to 0.19.0 ([27bb311](https://github.com/Cognigy/Cognigy-CLI/commit/27bb311f63a1edf4cde765706d5f0ef69b031426))
+
+## [1.5.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.5.0...v1.5.1) (2024-09-17)
+
+
+### Bug Fixes
+
+* package.json & package-lock.json to reduce vulnerabilities ([49de584](https://github.com/Cognigy/Cognigy-CLI/commit/49de584a28639aa52e754d8924f757c2c99cfcf5))
+* package.json & package-lock.json to reduce vulnerabilities ([3308293](https://github.com/Cognigy/Cognigy-CLI/commit/330829360680d2999c83a1c2fffe66ff48ab939b))
+* **security vulnerabilities:** upgrade express to minor release ([0b7d85f](https://github.com/Cognigy/Cognigy-CLI/commit/0b7d85fb18eb7a7d36c65b010e7defe43710b8a1))
+* **security vulnerabilities:** upgrade express to minor release and braces ([#175](https://github.com/Cognigy/Cognigy-CLI/issues/175)) ([d3f97d2](https://github.com/Cognigy/Cognigy-CLI/commit/d3f97d2bea1541007f55d229971715073c259e35)), closes [#172](https://github.com/Cognigy/Cognigy-CLI/issues/172) [#162](https://github.com/Cognigy/Cognigy-CLI/issues/162) [#163](https://github.com/Cognigy/Cognigy-CLI/issues/163)
+* upgrade @cognigy/rest-api-client from 0.17.0 to 0.18.0 ([5881308](https://github.com/Cognigy/Cognigy-CLI/commit/58813088bb2fff552fc3e7e21dfd1479c4a476c6))
+* upgrade axios from 1.7.4 to 1.7.7 ([01b4a4b](https://github.com/Cognigy/Cognigy-CLI/commit/01b4a4baf56bac85665649fee41ba5433dc5c6e1))
+* upgrade mammoth from 1.5.1 to 1.7.1 ([#170](https://github.com/Cognigy/Cognigy-CLI/issues/170)) ([7055d97](https://github.com/Cognigy/Cognigy-CLI/commit/7055d97bd5fd8d0413582458015fb60c06493a2c))
+
 # [1.5.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.4.2...v1.5.0) (2024-02-26)
 
 
