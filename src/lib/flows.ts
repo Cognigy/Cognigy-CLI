@@ -427,6 +427,7 @@ export interface ITranslateFlowOptions {
     translateIntents: boolean;
     translateNodes: boolean;
     apiKey: string;
+    apiRegion?: string;
     forceYes: boolean;
     locale: string;
 }
@@ -434,14 +435,10 @@ export interface ITranslateFlowOptions {
 /**
  * 
  * @param flowName The name of the flow
- * @param fromLanguage  The locale in the flow that should be translated
- * @param targetLanguage The target langauge to translate to
- * @param translator Whether to use google, microsoft or deepl translate
- * @param apiKey The google, microsoft or deepl translate API Key
- * @param timeout The timeout for execution
+ * @param options
  */
 export const translateFlow = async (flowName: string, options: ITranslateFlowOptions): Promise<void> => {
-    const { toLanguage, translator, apiKey } = options;
+    const { toLanguage, translator, apiKey, apiRegion } = options;
 
     const flowsDir = CONFIG.agentDir + "/flows";
     const flowDir = flowsDir + "/" + flowName;
@@ -470,7 +467,7 @@ export const translateFlow = async (flowName: string, options: ITranslateFlowOpt
             for (let intent of flowIntents) {
                 try {
                     if (intent.localeReference === targetLocale._id) {
-                        await translateIntent(intent, flowConfig._id, targetLocale, toLanguage, translator, apiKey);
+                        await translateIntent(intent, flowConfig._id, targetLocale, toLanguage, translator, apiKey, apiRegion);
                     }
                 } catch (err) {
                     // if a localization throws an error, we skip
@@ -490,7 +487,7 @@ export const translateFlow = async (flowName: string, options: ITranslateFlowOpt
                 try {
                     if (localeReference === targetLocale._id) {
                         if (['say', 'question', 'optionalQuestion'].indexOf(type) > -1) {
-                            const flowNode = await translateFlowNode(node, toLanguage, translator, apiKey);
+                            const flowNode = await translateFlowNode(node, toLanguage, translator, apiKey, apiRegion);
                             // update node in Cognigy.AI
                             await CognigyClient.updateChartNode({
                                 nodeId: flowNode._id,
@@ -793,8 +790,9 @@ export const localizeFlow = async (flowName: string, availableProgress: number, 
  * @param toLanguage Language to translate to
  * @param translator Translator to use
  * @param apiKey apikey for the translator
+ * @param apiRegion API Region used by Microsoft Translator
  */
-export const translateIntent = async (intent: any, flowId, targetLocale, toLanguage, translator, apiKey): Promise<void> => {
+export const translateIntent = async (intent: any, flowId, targetLocale, toLanguage, translator, apiKey, apiRegion): Promise<void> => {
     const intentData = await CognigyClient.readIntent({
         intentId: intent._id,
         flowId,
@@ -804,7 +802,7 @@ export const translateIntent = async (intent: any, flowId, targetLocale, toLangu
     // translate default reply
     if (intentData.data) {
         try {
-            intentData.data = await translateSayNode(intentData.data, toLanguage, translator, apiKey);
+            intentData.data = await translateSayNode(intentData.data, toLanguage, translator, apiKey, apiRegion);
             await CognigyClient.updateIntent({
                 intentId: intent._id,
                 flowId,
@@ -838,7 +836,7 @@ export const translateIntent = async (intent: any, flowId, targetLocale, toLangu
     try {
         for (let sentence of intentSentences) {
             // translate the current example sentence of the current intent
-            sentence = await translateIntentExampleSentence(sentence, toLanguage, translator, apiKey)
+            sentence = await translateIntentExampleSentence(sentence, toLanguage, translator, apiKey, apiRegion);
 
             try {
                 // update example sentence in Cognigy.AI
