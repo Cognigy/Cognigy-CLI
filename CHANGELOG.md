@@ -1,3 +1,10 @@
+## [1.5.4](https://github.com/Cognigy/Cognigy-CLI/compare/v1.5.3...v1.5.4) (2024-12-16)
+
+
+### Bug Fixes
+
+* package.json & package-lock.json to reduce vulnerabilities ([5527c30](https://github.com/Cognigy/Cognigy-CLI/commit/5527c301c0e79781312df21b94d1cfb2804c43e7))
+
 ## [1.5.3](https://github.com/Cognigy/Cognigy-CLI/compare/v1.5.2...v1.5.3) (2024-11-15)
 
 
