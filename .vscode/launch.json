@@ -16,7 +16,7 @@
 				"ts-node/register/transpile-only",
 				"--preserve-symlinks"
 			],
-            "args":["./src/cognigy.ts","clone","--config", "./config.json", "--forceYes"],
+            "args":["./src/cognigy.ts","push", "aiAgent", "Neon", "--config", "./config.json", "--forceYes"],
             "console": "integratedTerminal"
         }
     ]

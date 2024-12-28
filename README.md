@@ -11,6 +11,7 @@ Currently supported resources (`<resourceType>`):
 - Endpoints (clone, restore, push, pull, diff)
 - Snapshots (create)
 - Extensions (pull)
+- AI Agents (clone, push, pull)
 
 For Endpoints, Transformers will be separately stores as TypeScript files
 
@@ -100,6 +101,13 @@ Clones a Virtual Agent from Cognigy.AI to disk
 | Option | Alias | Type   | Default | Description                                                           |
 | ------ | ----- | ------ | ------- | --------------------------------------------------------------------- |
 | <nobr>--type</nobr> | -t    | String | `agent` | Which type of resource to clone (`agent` stands for the full project) |
+
+Supported resource types for clone:
+- agent (default, clones everything including AI Agents)
+- flows
+- endpoints
+- lexicons
+- aiAgents
 
 ### Command: restore
 
@@ -289,7 +297,6 @@ Commit using the commitizen hook with semantic naming convetion promt
 ```bash
 npx cz
 ```
-
 ### Pull Requests
 
 Create PR with any kind of feature/bugfix folloving the [semantic message format](https://github.com/semantic-release/semantic-release#commit-message-format) to the develop branch.
@@ -300,4 +307,5 @@ Any PRs to develop needs to be merged as squash merges.
 
 Create a PR from develop to main and do a merge commit. This will automatically trigger a new release.
 To make the release publish a new minor version to the npm registry, the commit message needs to follow the [semantic message format] and having at least one of the commits to main from the last release with a fix.
+
 

@@ -8,6 +8,7 @@ import { upperFirst } from '../utils/stringUtils';
 import { cloneEndpoints } from '../lib/endpoints';
 import { cloneFlows } from '../lib/flows';
 import { cloneLexicons } from '../lib/lexicons';
+import { cloneAiAgents } from '../lib/aiagents';
 
 /**
  * Clones a full Virtual Agent project to disk
@@ -43,6 +44,7 @@ export const clone = async ({ resourceType = 'agent', forceYes = false }): Promi
             await cloneFlows(33);
             await cloneEndpoints(33);
             await cloneLexicons(33);
+            await cloneAiAgents();
             break;
 
         case "flows":
@@ -58,6 +60,11 @@ export const clone = async ({ resourceType = 'agent', forceYes = false }): Promi
         case "lexicons":
         case "lexicon":
             await cloneLexicons(100);
+            break;
+
+        case "aiAgents":
+        case "aiAgent":
+            await cloneAiAgents();
             break;
     }
 

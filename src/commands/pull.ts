@@ -9,6 +9,7 @@ import { upperFirst } from '../utils/stringUtils';
 import { pullLexicon } from '../lib/lexicons';
 import { pullLocales } from '../lib/locales';
 import { pullExtensions } from '../lib/extensions';
+import { pullAiAgent } from '../lib/aiagents';
 
 /**
  * Pushes a single resource from disk to Cognigy.AI
@@ -59,6 +60,11 @@ export const pull = async ({ resourceType, resourceName, forceYes = false }): Pr
         case "extensions":
             await pullExtensions();
             break;
+
+        case 'aiAgent':
+            await pullAiAgent(resourceName);
+            break;
+
         default:
             throw(new Error(`Resource type ${resourceType} can't be pulled.`));
     }

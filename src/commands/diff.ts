@@ -2,6 +2,7 @@ import { checkAgentDir, checkProject } from '../utils/checks';
 import { diffFlows } from '../lib/flows';
 import { diffEndpoints } from '../lib/endpoints';
 import { diffLexicons } from '../lib/lexicons';
+import { diffAiAgents } from '../lib/aiagents';
 
 /**
  * Provides a diff between a resource on disk and remote
@@ -29,8 +30,11 @@ export const diff = async (resourceType: string, resourceId: string, mode: strin
             await diffLexicons(resourceId, mode);
             break;
 
+        case "aiAgent":
+            await diffAiAgents(resourceId, mode);
+            break;
+
         default:
-            console.log(`\n\nInvalid diff resource type ${resourceType}.`);
-            return;
+            console.log(`Resource type ${resourceType} can't be compared.`);
     }
 };
