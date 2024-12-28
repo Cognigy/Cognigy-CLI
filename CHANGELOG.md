@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.5.5...v1.6.0) (2024-12-28)
+
+
+### Features
+
+* **cli:** added aiAgents ([501a321](https://github.com/Cognigy/Cognigy-CLI/commit/501a3216e18c8ed1ba05fc73c8107e3729678ead))
+
 ## [1.5.5](https://github.com/Cognigy/Cognigy-CLI/compare/v1.5.4...v1.5.5) (2024-12-16)
 
 
