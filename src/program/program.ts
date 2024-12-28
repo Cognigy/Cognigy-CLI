@@ -67,14 +67,18 @@ program
     .option('-y, --forceYes', 'skips warnings and overwrites all content')
     .option('-t, --timeout <ms>', 'timeout for training')
     .description('Pushes a resource from disk to Cognigy.AI')
-    .action(async (resourceType, resourceName, cmdObj) => { await push({ resourceType, resourceName, options: cmdObj }); });
+    .action(async (resourceType, resourceName, cmdObj) => { 
+        await push({ resourceType, resourceName, options: cmdObj }); 
+    });
 
 program
     .command('pull <resourceType> [resourceName]')
     .option('-c, --config <configFile>', 'force the use of a specific config file')
     .option('-y, --forceYes', 'skips warnings and overwrites all content')
     .description('Pulls a resource from Cognigy.AI to disk')
-    .action(async (resourceType, resourceName, cmdObj) => { await pull({ resourceType, resourceName, forceYes: cmdObj.forceYes }); });
+    .action(async (resourceType, resourceName, cmdObj) => { 
+        await pull({ resourceType, resourceName, forceYes: cmdObj.forceYes }); 
+    });
 
 program
     .command('train <resourceType> <resourceName>')

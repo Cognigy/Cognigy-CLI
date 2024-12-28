@@ -6,6 +6,7 @@ import { pushEndpoint } from '../lib/endpoints';
 import { checkAgentDir, checkResourceDir, checkProject } from '../utils/checks';
 import { upperFirst } from '../utils/stringUtils';
 import { pushLexicon } from '../lib/lexicons';
+import { pushAiAgent } from '../lib/aiagents';
 
 /**
  * Pushes a single resource from disk to Cognigy.AI
@@ -53,6 +54,12 @@ export const push = async ({ resourceType, resourceName, options }): Promise<voi
 
         case "lexicon":
             await pushLexicon(resourceName, 100, options.timeout);
+            break;
+
+        case 'aiAgent':
+            startProgressBar(100);
+            await pushAiAgent(resourceName, 100);
+            endProgressBar();
             break;
 
         default:

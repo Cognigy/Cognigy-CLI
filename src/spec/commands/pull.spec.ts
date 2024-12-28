@@ -9,6 +9,7 @@ import * as endpointsObj from "../../lib/endpoints";
 import * as localesObj from "../../lib/locales";
 import * as lexiconsObj from "../../lib/lexicons";
 import * as extensionsObj from "../../lib/extensions";
+import * as aiagentsObj from "../../lib/aiagents";
 import * as checksObj from "../../utils/checks";
 
 describe("Pull spec command", () => {
@@ -104,6 +105,22 @@ describe("Pull spec command", () => {
             await pull({ resourceType: "extensions", resourceName: "extensions-name", forceYes: true });
 
             expect(pullExtensionsStub.called).to.be.true;
+        });
+    });
+
+    describe("Pull AI Agent", () => {
+        let pullAiAgentStub: sinon.SinonStub;
+
+        beforeEach(() => {
+            pullAiAgentStub = sandbox.stub(aiagentsObj, "pullAiAgent");
+            pullAiAgentStub.resolves(true);
+        });
+
+        it("Should allow pulling aiAgent resourceType with name", async () => {
+            await pull({ resourceType: "aiAgent", resourceName: "agent-name", forceYes: true });
+
+            expect(pullAiAgentStub.called).to.be.true;
+            expect(pullAiAgentStub.firstCall.args).to.be.deep.equal(["agent-name"]);
         });
     });
 

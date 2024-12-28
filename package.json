@@ -1,6 +1,6 @@
 {
   "name": "@cognigy/cognigy-cli",
-  "version": "0.0.0-semantic-release",
+  "version": "1.6.0",
   "description": "Cognigy Command Line Interface",
   "main": "./build/cognigy.js",
   "scripts": {
@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "-": "0.0.1",
-    "@cognigy/rest-api-client": "0.19.0",
+    "@cognigy/rest-api-client": "^0.20.0",
     "@google-cloud/translate": "8.0.2",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
     "axios": "1.7.8",

@@ -7,6 +7,7 @@ import { upperFirst } from '../utils/stringUtils';
 import { restoreFlows } from '../lib/flows';
 import { restoreEndpoints } from '../lib/endpoints';
 import { restoreLexicons } from '../lib/lexicons';
+import { restoreAiAgents } from '../lib/aiagents';
 
 /**
  * Restores a Virtual Agent project from disk to Cognigy.AI
@@ -40,9 +41,10 @@ export const restore = async ({ resourceType = 'agent', forceYes = false }): Pro
     switch (resourceType) {
         case "agent":
             await Promise.all([
-                restoreFlows(33),
-                restoreEndpoints(33),
-                restoreLexicons(33)
+                restoreFlows(25),
+                restoreEndpoints(25),
+                restoreLexicons(25),
+                restoreAiAgents(25)
             ]);
             break;
 
@@ -59,6 +61,11 @@ export const restore = async ({ resourceType = 'agent', forceYes = false }): Pro
         case "lexicons":
         case "lexicon":
             await restoreLexicons(100);
+            break;
+
+        case "aiAgents":
+        case "aiAgent":
+            await restoreAiAgents(100);
             break;
     }
 
