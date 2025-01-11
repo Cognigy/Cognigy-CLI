@@ -18,7 +18,7 @@ For Endpoints, Transformers will be separately stores as TypeScript files
 ## Installation
 
 ### Install globally
- 
+
 We recommend to install the Cognigy.AI CLI globally to use wherever you like. In order to so, perform the following step.
 
 `npm install -g @cognigy/cognigy-cli`
@@ -50,13 +50,13 @@ Configuration can be provided either as environment variables or inside a config
 
 The Cognigy.AI CLI needs the following configuration:
 
-| Key      | Description                                          | Environment Var |
-| -------- | ---------------------------------------------------- | --------------- |
-| baseUrl  | The base URL of your Cognigy.AI environment API      | CAI_BASEURL     |
-| apiKey   | The Cognigy.AI API Key to use                        | CAI_APIKEY      |
-| agent    | The ID of your agent project                         | CAI_AGENT       |
-| agentDir | The folder where you want to store the agent locally | CAI_AGENTDIR    |
-| playbookTimeoutSeconds | Timeout for checking playbook runs | CAI_PLAYBOOK_TIMEOUT_SECONDS |
+| Key                    | Description                                          | Environment Var              |
+| ---------------------- | ---------------------------------------------------- | ---------------------------- |
+| baseUrl                | The base URL of your Cognigy.AI environment API      | CAI_BASEURL                  |
+| apiKey                 | The Cognigy.AI API Key to use                        | CAI_APIKEY                   |
+| agent                  | The ID of your agent project                         | CAI_AGENT                    |
+| agentDir               | The folder where you want to store the agent locally | CAI_AGENTDIR                 |
+| playbookTimeoutSeconds | Timeout for checking playbook runs                   | CAI_PLAYBOOK_TIMEOUT_SECONDS |
 
 Both environment configuration and file-based configuration can be used together. Environment configuration takes priority.
 
@@ -72,7 +72,7 @@ To get help on any command, use the `-h` flag.
 
 #### Forcing configuration files
 
-By default the CLI will use the ./config.json configuration file. 
+By default the CLI will use the ./config.json configuration file.
 You can force the use of another configuration file by using the `-c` flag.
 
 `cognigy <command> -c ./config2.json` or `cognigy <command> --config ./config2.json`
@@ -98,11 +98,12 @@ Initializes a new Cognigy.AI CLI project
 
 Clones a Virtual Agent from Cognigy.AI to disk
 
-| Option | Alias | Type   | Default | Description                                                           |
-| ------ | ----- | ------ | ------- | --------------------------------------------------------------------- |
+| Option              | Alias | Type   | Default | Description                                                           |
+| ------------------- | ----- | ------ | ------- | --------------------------------------------------------------------- |
 | <nobr>--type</nobr> | -t    | String | `agent` | Which type of resource to clone (`agent` stands for the full project) |
 
 Supported resource types for clone:
+
 - agent (default, clones everything including AI Agents)
 - flows
 - endpoints
@@ -115,8 +116,8 @@ Supported resource types for clone:
 
 Restores the local agent copy back into Cognigy.AI by executing a `push` for every resource.
 
-| Option | Alias | Type   | Default | Description                                                             |
-| ------ | ----- | ------ | ------- | ----------------------------------------------------------------------- |
+| Option              | Alias | Type   | Default | Description                                                             |
+| ------------------- | ----- | ------ | ------- | ----------------------------------------------------------------------- |
 | <nobr>--type</nobr> | -t    | String | `agent` | Which type of resource to restore (`agent` stands for the full project) |
 
 ### Command: pull
@@ -132,7 +133,7 @@ Pulls a specific remote resource from Cognigy.AI
 Pushes a specific remote resource to Cognigy.AI
 
 > You can't create resources or agents by pushing. Resources must already exist on Cognigy.AI
-> 
+>
 > For Flows, only Intents and Node configurations will be updated, not Flow structure
 
 ### Command: diff
@@ -141,10 +142,9 @@ Pushes a specific remote resource to Cognigy.AI
 
 Compares a local resource to a remote resource
 
-| Option | Alias | Type   | Default | Description                                                   |
-| ------ | ----- | ------ | ------- | ------------------------------------------------------------- |
+| Option              | Alias | Type   | Default | Description                                                   |
+| ------------------- | ----- | ------ | ------- | ------------------------------------------------------------- |
 | <nobr>--mode</nobr> | -m    | String | `full`  | Full (`full`) vs Node-by-Node (`node`) comparison of the Flow |
-
 
 ### Command: train
 
@@ -152,8 +152,8 @@ Compares a local resource to a remote resource
 
 Trains the NLU model of a specified Flow on Cognigy.AI
 
-| Option    | Alias | Type   | Default | Description                                                                                        |
-| --------- | ----- | ------ | ------- | -------------------------------------------------------------------------------------------------- |
+| Option                 | Alias | Type   | Default | Description                                                                                        |
+| ---------------------- | ----- | ------ | ------- | -------------------------------------------------------------------------------------------------- |
 | <nobr>--timeout</nobr> | -t    | Number | 10000   | Timeout in ms before training progress is no longer checked (training will continue on Cognigy.AI) |
 
 ### Command: create
@@ -166,12 +166,12 @@ Creates a remote resource on Cognigy.AI and downloads it to disk.
 > For Snapshots, use `cognigy create snapshot snapname "My Description"`
 > For Locales, use `cognigy create locale localename`
 
-| Option   | Alias | Type    | Default | Description                                                                                  |
-| -------------- | ----- | ------- | ------- | -------------------------------------------------------------------------------------------- |
-| <nobr>--timeout</nobr>      | -t    | Number  | 100000  | Timeout in ms before the creation process is no longer checked (will continue on Cognigy.AI) |
-| <nobr>--skipDownload</nobr> | -s    | Boolean | false   | Skips download of created resource (for snapshots)                                           |
-| <nobr>--fallbackLocale</nobr>      | -lf    | String  | - | ID (not Reference ID) of Locale to use for new Locale |
-| <nobr>--nluLanguage</nobr>      | -lnlu    | String  | -  | NLU Language to set for new Locale |
+| Option                        | Alias | Type    | Default | Description                                                                                  |
+| ----------------------------- | ----- | ------- | ------- | -------------------------------------------------------------------------------------------- |
+| <nobr>--timeout</nobr>        | -t    | Number  | 100000  | Timeout in ms before the creation process is no longer checked (will continue on Cognigy.AI) |
+| <nobr>--skipDownload</nobr>   | -s    | Boolean | false   | Skips download of created resource (for snapshots)                                           |
+| <nobr>--fallbackLocale</nobr> | -lf   | String  | -       | ID (not Reference ID) of Locale to use for new Locale                                        |
+| <nobr>--nluLanguage</nobr>    | -lnlu | String  | -       | NLU Language to set for new Locale                                                           |
 
 ### Command: exportcsv
 
@@ -187,7 +187,7 @@ This command will go through all Flows in all Locales and create a `content.csv`
 
 Imports the content of a CSV back into a Flow.
 
-This command will go through all Flows in all Locales and check if a valid  `content.csv` exists. If yes, it will go through the Flow Chart and update all localized Nodes with the content from the CSV.
+This command will go through all Flows in all Locales and check if a valid `content.csv` exists. If yes, it will go through the Flow Chart and update all localized Nodes with the content from the CSV.
 
 ### Command: localize
 
@@ -197,15 +197,15 @@ Adds localization to Flow Intents and Nodes in bulk.
 
 This command will go through all Intents and Nodes in a given Locale and will add a localization if not already present.
 
-| Option   | Alias | Type    | Default | Description                                                                                  |
-| -------------- | ----- | ------- | ------- | -------------------------------------------------------------------------------------------- |
-| <nobr>--localName</nobr>      | -l    | String  | - | Locale to add localizations to |
-| <nobr>--sourceLocale</nobr> | -sl    | String | - | Source Locale to create localization from (optional) |
-| <nobr>--sourceLocale</nobr> | -sl    | String | - | Source Locale to create localization from (optional) |
-| <nobr>--localizeIntents</nobr> | -li    | Boolean | true | Whether to localize intents (if active, localizeNodes default is false) |
-| <nobr>--localizeNodes</nobr> | -ln    | Boolean | true | Whether to localize Nodes (if active, localizeIntents default is false) |
-| <nobr>--contentOnly</nobr> | -co    | Boolean | false | Only localize Say, Question and Optional Question Nodes (optional) |
-| <nobr>--reverse</nobr> | -r    | Boolean | false | Removes the localization from the selected Flow (can be combined with -li and -ln) |
+| Option                         | Alias | Type    | Default | Description                                                                        |
+| ------------------------------ | ----- | ------- | ------- | ---------------------------------------------------------------------------------- |
+| <nobr>--localName</nobr>       | -l    | String  | -       | Locale to add localizations to                                                     |
+| <nobr>--sourceLocale</nobr>    | -sl   | String  | -       | Source Locale to create localization from (optional)                               |
+| <nobr>--sourceLocale</nobr>    | -sl   | String  | -       | Source Locale to create localization from (optional)                               |
+| <nobr>--localizeIntents</nobr> | -li   | Boolean | true    | Whether to localize intents (if active, localizeNodes default is false)            |
+| <nobr>--localizeNodes</nobr>   | -ln   | Boolean | true    | Whether to localize Nodes (if active, localizeIntents default is false)            |
+| <nobr>--contentOnly</nobr>     | -co   | Boolean | false   | Only localize Say, Question and Optional Question Nodes (optional)                 |
+| <nobr>--reverse</nobr>         | -r    | Boolean | false   | Removes the localization from the selected Flow (can be combined with -li and -ln) |
 
 ### Command: translate
 
@@ -213,16 +213,16 @@ This command will go through all Intents and Nodes in a given Locale and will ad
 
 Translates the plain text of a chosen resource, such all Nodes inside a Flow.
 
-| Option    | Alias | Type   | Default | Description                                                                                        |
-| --------- | ----- | ------ | ------- | -------------------------------------------------------------------------------------------------- |
-| <nobr>--localeName</nobr> | -l    | String | -   | The locale to process |
-| <nobr>--fromLanguage</nobr> | -fl    | String | -   | The language to translate from |
-| <nobr>--toLanguage</nobr> | -tl    | String | -   | The language to translate to |
-| <nobr>--translator</nobr> | -tr    | String | -   | The translation tool that should be used. 'google', 'microsoft' or 'deepl' |
-| <nobr>--translateIntents</nobr> | -ti   | Boolean | false   | Whether to add localization to Flow Intents |
-| <nobr>--translateNodes</nobr> | -tn   | Boolean | false  | Whether to add localization to Flow Nodes|
-| <nobr>--apiKey</nobr> | -k | String | -  | The API Key for the chosen translation tool |
-| <nobr>--forceYes</nobr> | -y | Boolean | false  | Whether to skip warnings and overwrite all content |
+| Option                          | Alias | Type    | Default | Description                                                                |
+| ------------------------------- | ----- | ------- | ------- | -------------------------------------------------------------------------- |
+| <nobr>--localeName</nobr>       | -l    | String  | -       | The locale to process                                                      |
+| <nobr>--fromLanguage</nobr>     | -fl   | String  | -       | The language to translate from                                             |
+| <nobr>--toLanguage</nobr>       | -tl   | String  | -       | The language to translate to                                               |
+| <nobr>--translator</nobr>       | -tr   | String  | -       | The translation tool that should be used. 'google', 'microsoft' or 'deepl' |
+| <nobr>--translateIntents</nobr> | -ti   | Boolean | false   | Whether to add localization to Flow Intents                                |
+| <nobr>--translateNodes</nobr>   | -tn   | Boolean | false   | Whether to add localization to Flow Nodes                                  |
+| <nobr>--apiKey</nobr>           | -k    | String  | -       | The API Key for the chosen translation tool                                |
+| <nobr>--forceYes</nobr>         | -y    | Boolean | false   | Whether to skip warnings and overwrite all content                         |
 
 ### Command: execute
 
@@ -237,10 +237,10 @@ Supports injecting payloads either through pipes or the -d (--data) option:
 
 This command uses the `baseUrl` and `apiKey` parameters of your configuration.
 
-| Option   | Alias | Type    | Default | Description                                                                                  |
-| -------------- | ----- | ------- | ------- | -------------------------------------------------------------------------------------------- |
-| <nobr>--list</nobr>      | -l    | -  | -  | Lists all available commands |
-| <nobr>--data</nobr> | -d    | string | -   | Injects a data payload (must be in JSON format)                                           |
+| Option              | Alias | Type   | Default | Description                                     |
+| ------------------- | ----- | ------ | ------- | ----------------------------------------------- |
+| <nobr>--list</nobr> | -l    | -      | -       | Lists all available commands                    |
+| <nobr>--data</nobr> | -d    | string | -       | Injects a data payload (must be in JSON format) |
 
 ### Command: run
 
@@ -269,11 +269,11 @@ Will either use a `./playbooks.json` file or any other file you point it to. For
 
 The run command outputs the status of the playbook runs and exits:
 
-| Output | Exit Code |
-|--------|-----------|
-| SUCCESS | 0 |
-| FAILURE | 1 |
-| TIMEOUT | 2 |
+| Output  | Exit Code |
+| ------- | --------- |
+| SUCCESS | 0         |
+| FAILURE | 1         |
+| TIMEOUT | 2         |
 
 All details are written to `./playbookRunResults.json`
 
@@ -287,16 +287,17 @@ All details are written to `./playbookRunResults.json`
 
 ## Contributing
 
-Make sure you pull origin from the develop branch 
+Make sure you pull origin from the develop branch
 ```git pull develop``````
 
 ### Commiting
 
-Commit using the commitizen hook with semantic naming convetion promt 
+Commit using the commitizen hook with semantic naming convetion promt
 
 ```bash
 npx cz
 ```
+
 ### Pull Requests
 
 Create PR with any kind of feature/bugfix folloving the [semantic message format](https://github.com/semantic-release/semantic-release#commit-message-format) to the develop branch.
@@ -307,5 +308,3 @@ Any PRs to develop needs to be merged as squash merges.
 
 Create a PR from develop to main and do a merge commit. This will automatically trigger a new release.
 To make the release publish a new minor version to the npm registry, the commit message needs to follow the [semantic message format] and having at least one of the commits to main from the last release with a fix.
-
-

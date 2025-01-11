@@ -1,44 +1,50 @@
-import axios, { AxiosRequestConfig, AxiosResponse, Method} from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios';
 import * as FormData from 'form-data';
 
 import CONFIG from './config';
 
 axios.defaults.headers.common = {
-    "X-API-Key": CONFIG.apiKey
+  'X-API-Key': CONFIG.apiKey,
 };
 
 interface IMakeAxiosRequestOptions {
-    method: Method;
-    path: string;
-    data?: any;
-    form?: FormData;
-    type?: string;
-};
+  method: Method;
+  path: string;
+  data?: any;
+  form?: FormData;
+  type?: string;
+}
 
 /**
  * Executes the API Request
- * @param options 
+ * @param options
  */
-export const makeAxiosRequest = async (options: IMakeAxiosRequestOptions): Promise<AxiosResponse> => {
-    const { method, path, data, form, type } = options;
-    
-    const url = CONFIG.baseUrl + path;
-    const axiosOptions: AxiosRequestConfig = {
-        headers: {
-            "Accept": type || "application/json",
-            "Content-Type": "application/json",
-            "Cache-Control": "no-cache",
-        },
-        method,
-        url,
-        maxContentLength: Infinity,
-        maxBodyLength: Infinity,
-        data: form || data
-    };
+export const makeAxiosRequest = async (
+  options: IMakeAxiosRequestOptions
+): Promise<AxiosResponse> => {
+  const { method, path, data, form, type } = options;
 
-    if (form) {
-        axiosOptions.headers = Object.assign({}, axiosOptions.headers,form.getHeaders());
-    }
+  const url = CONFIG.baseUrl + path;
+  const axiosOptions: AxiosRequestConfig = {
+    headers: {
+      Accept: type || 'application/json',
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+    },
+    method,
+    url,
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity,
+    data: form || data,
+  };
 
-    return await axios(axiosOptions);
-}
+  if (form) {
+    axiosOptions.headers = Object.assign(
+      {},
+      axiosOptions.headers,
+      form.getHeaders()
+    );
+  }
+
+  return await axios(axiosOptions);
+};

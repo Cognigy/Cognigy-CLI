@@ -1,1 +1,1 @@
-export type TResourceType = "store" | "source";
+export type TResourceType = 'store' | 'source';

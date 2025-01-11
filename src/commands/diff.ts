@@ -10,31 +10,35 @@ import { diffAiAgents } from '../lib/aiagents';
  * @param resourceId the _id of the resource to compare
  * @param mode diff mode (regular or node)
  */
-export const diff = async (resourceType: string, resourceId: string, mode: string = 'full'): Promise<void> => {
-    // check if project exists on Cognigy.AI and the APIKey can retrieve it
-    await checkProject();
+export const diff = async (
+  resourceType: string,
+  resourceId: string,
+  mode: string = 'full'
+): Promise<void> => {
+  // check if project exists on Cognigy.AI and the APIKey can retrieve it
+  await checkProject();
 
-    // check agent directory
-    checkAgentDir();
+  // check agent directory
+  checkAgentDir();
 
-    switch (resourceType) {
-        case "flow":
-            await diffFlows(resourceId, mode);
-            break;
+  switch (resourceType) {
+    case 'flow':
+      await diffFlows(resourceId, mode);
+      break;
 
-        case "endpoint":
-            await diffEndpoints(resourceId, mode);
-            break;
+    case 'endpoint':
+      await diffEndpoints(resourceId, mode);
+      break;
 
-        case "lexicon":
-            await diffLexicons(resourceId, mode);
-            break;
+    case 'lexicon':
+      await diffLexicons(resourceId, mode);
+      break;
 
-        case "aiAgent":
-            await diffAiAgents(resourceId, mode);
-            break;
+    case 'aiAgent':
+      await diffAiAgents(resourceId, mode);
+      break;
 
-        default:
-            console.log(`Resource type ${resourceType} can't be compared.`);
-    }
+    default:
+      console.log(`Resource type ${resourceType} can't be compared.`);
+  }
 };

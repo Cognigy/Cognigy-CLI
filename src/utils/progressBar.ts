@@ -9,10 +9,13 @@ const max = 100;
  * @param max Maximum progress count
  */
 export const startProgressBar = (max: number = 100) => {
-    progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-    progressBar.start(max, 0);
-    progress = 0;
-    max = max;
+  progressBar = new cliProgress.SingleBar(
+    {},
+    cliProgress.Presets.shades_classic
+  );
+  progressBar.start(max, 0);
+  progress = 0;
+  max = max;
 };
 
 /**
@@ -20,14 +23,14 @@ export const startProgressBar = (max: number = 100) => {
  * @param add The value to add
  */
 export const addToProgressBar = (add: number) => {
-    progress = progress + add;
-    progressBar.update(Math.round(progress));
+  progress = progress + add;
+  progressBar.update(Math.round(progress));
 };
 
 /**
  * Sets progress to the max value and stops the progress bar
  */
 export const endProgressBar = () => {
-    progressBar.update(max);
-    progressBar.stop();
+  progressBar.update(max);
+  progressBar.stop();
 };
