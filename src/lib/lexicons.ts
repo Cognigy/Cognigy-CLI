@@ -24,7 +24,7 @@ export const cloneLexicons = async (
 ): Promise<void> => {
   // make sure all directories exist
   checkCreateDir(CONFIG.agentDir);
-     checkCreateDir(CONFIG.agentDir + '/lexicons');
+  checkCreateDir(CONFIG.agentDir + '/lexicons');
 
   // The base directory for Lexicons
   const lexiconDir = CONFIG.agentDir + '/lexicons';
