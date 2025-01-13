@@ -181,7 +181,7 @@ export const pushLexicon = async (
   // early check if the file is missing
   if (!fs.existsSync(`${lexiconDir}/config.json`)) {
     console.log(`Lexicon ${lexiconName} can't be found in '${lexiconDir}'`)
-    process.exit(0) // Exit early if config.json is missing
+    process.exit(0)
   }
 
   const spinner = new Spinner(
@@ -218,6 +218,7 @@ export const pushLexicon = async (
     form.append("lexiconId", lexiconId)
     form.append("file", fs.createReadStream(keyphrasesPath))
 
+    // update Lexicon on Cognigy.AI
     const result = await makeAxiosRequest({
       path: `/new/v2.0/lexicons/${lexiconId}/import`,
       method: "POST",
