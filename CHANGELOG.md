@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.0...v1.6.1) (2025-01-13)
+
+
+### Bug Fixes
+
+* **bug:** handle case where there is no keyphrase in the lexicon ([0a9460d](https://github.com/Cognigy/Cognigy-CLI/commit/0a9460d8b7b4b659edf54a44905653b0e8c98caf))
+
 # [1.6.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.5.5...v1.6.0) (2024-12-28)
 
 
