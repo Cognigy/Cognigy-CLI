@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.1...v1.6.2) (2025-01-13)
+
+
+### Bug Fixes
+
+* the issue related to restoring emptry lexicon file ([2130335](https://github.com/Cognigy/Cognigy-CLI/commit/21303358639d27a8fd088fc7f70efe64560d5892))
+
 ## [1.6.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.0...v1.6.1) (2025-01-13)
 
 
