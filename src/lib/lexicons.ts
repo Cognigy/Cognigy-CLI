@@ -1,19 +1,19 @@
 /* Node modules */
-import * as fs from "fs"
-import axios from "axios"
-import * as Diff from "diff"
-import { Spinner } from "cli-spinner"
-import chalk from "chalk"
-import FormData from "form-data"
+import * as fs from 'fs';
+import axios from 'axios';
+import * as Diff from 'diff';
+import { Spinner } from 'cli-spinner';
+import chalk from 'chalk';
+import FormData from 'form-data';
 
 /* Custom modules */
-import { addToProgressBar } from "../utils/progressBar"
-import CONFIG from "../utils/config"
-import CognigyClient from "../utils/cognigyClient"
-import { makeAxiosRequest } from "../utils/axiosClient"
-import { checkCreateDir, checkTask, removeCreateDir } from "../utils/checks"
-import { indexAll } from "../utils/indexAll"
-import { chunkArray } from "../utils/chunk"
+import { addToProgressBar } from '../utils/progressBar';
+import CONFIG from '../utils/config';
+import CognigyClient from '../utils/cognigyClient';
+import { makeAxiosRequest } from '../utils/axiosClient';
+import { checkCreateDir, checkTask, removeCreateDir } from '../utils/checks';
+import { indexAll } from '../utils/indexAll';
+import { chunkArray } from '../utils/chunk';
 
 /**
  * Clones Cognigy Lexicons to disk
@@ -23,37 +23,37 @@ export const cloneLexicons = async (
   availableProgress: number
 ): Promise<void> => {
   // make sure all directories exist
-  checkCreateDir(CONFIG.agentDir)
-  checkCreateDir(CONFIG.agentDir + "/lexicons")
+  checkCreateDir(CONFIG.agentDir);
+  checkCreateDir(CONFIG.agentDir + '/lexicons');
 
   // The base directory for Lexicons
-  const lexiconDir = CONFIG.agentDir + "/lexicons"
+  const lexiconDir = CONFIG.agentDir + '/lexicons';
 
   // remove and create target directory
-  await removeCreateDir(lexiconDir)
+  await removeCreateDir(lexiconDir);
 
   // query Cognigy.AI for all Lexicons in this agent
   const lexicons = await indexAll(CognigyClient.indexLexicons)({
     projectId: CONFIG.agent,
-  })
+  });
 
-  const incrementPerLexicon = availableProgress / lexicons.items.length
+  const incrementPerLexicon = availableProgress / lexicons.items.length;
 
-  const lexiconsPromiseArr: Array<() => Promise<void>> = []
+  const lexiconsPromiseArr: Array<() => Promise<void>> = [];
   for (let lexicon of lexicons.items) {
     lexiconsPromiseArr.push(() =>
       pullLexicon(lexicon.name, incrementPerLexicon)
-    )
+    );
   }
 
-  const chunkedLexiconssPromiseArr = chunkArray(lexiconsPromiseArr, 5)
+  const chunkedLexiconssPromiseArr = chunkArray(lexiconsPromiseArr, 5);
 
   for (let chunk of chunkedLexiconssPromiseArr) {
-    await Promise.all(chunk.map((func) => func()))
+    await Promise.all(chunk.map((func) => func()));
   }
 
-  return Promise.resolve()
-}
+  return Promise.resolve();
+};
 
 /**
  * Pulls a  Cognigy Lexicon to disk
@@ -65,81 +65,81 @@ export const pullLexicon = async (
   availableProgress: number
 ): Promise<void> => {
   // make sure all directories exist
-  checkCreateDir(CONFIG.agentDir)
-  checkCreateDir(CONFIG.agentDir + "/lexicons")
+  checkCreateDir(CONFIG.agentDir);
+  checkCreateDir(CONFIG.agentDir + '/lexicons');
 
   // The base directory for Lexicons
-  const lexiconDir = CONFIG.agentDir + "/lexicons/" + lexiconName
+  const lexiconDir = CONFIG.agentDir + '/lexicons/' + lexiconName;
 
   // An increment counter for the progress bar
-  const progressIncrement = availableProgress / 3
+  const progressIncrement = availableProgress / 3;
 
   // query Cognigy.AI for all Lexicons in this agent
   const lexicons = await indexAll(CognigyClient.indexLexicons)({
     projectId: CONFIG.agent,
-  })
-  addToProgressBar(progressIncrement)
+  });
+  addToProgressBar(progressIncrement);
 
   // check if lexicon with given name exists
   const lexicon = lexicons.items.find((lexicon) => {
-    if (lexicon.name === lexiconName) return lexicon
-  })
+    if (lexicon.name === lexiconName) return lexicon;
+  });
   if (!lexicon) {
     console.log(
       `\n\Lexicon with name ${lexiconName} can't be found in your Virtual Agent on Cognigy.AI. Aborting...`
-    )
-    process.exit(0)
+    );
+    process.exit(0);
   }
 
   // remove target directory
-  await removeCreateDir(lexiconDir)
-  addToProgressBar(progressIncrement)
+  await removeCreateDir(lexiconDir);
+  addToProgressBar(progressIncrement);
 
   // store lexicon config
   const lexiconConfig = {
     lexiconId: lexicon._id,
-  }
+  };
 
   fs.writeFileSync(
-    lexiconDir + "/config.json",
+    lexiconDir + '/config.json',
     JSON.stringify(lexiconConfig, undefined, 4)
-  )
+  );
 
-  let lexiconFile
+  let lexiconFile;
 
   const keyphraseCount = (
     await CognigyClient.indexLexiconKeyphrases(lexiconConfig)
-  ).total
+  ).total;
 
   if (keyphraseCount > 0) {
     // create pulling lexicon task from Cognigy.AI
-    let exportFromLexiconTask
+    let exportFromLexiconTask;
 
     exportFromLexiconTask = await CognigyClient.exportFromLexicon({
       lexiconId: lexicon._id,
       projectId: CONFIG.agent,
-    })
+    });
 
     // check previous tasks is done.
-    await checkTask(exportFromLexiconTask._id)
+    await checkTask(exportFromLexiconTask._id);
 
     // create a downloadable link for the lexicon task data
     const downloadLink = await CognigyClient.composeLexiconDownloadLink({
       lexiconId: lexicon._id,
-    })
+    });
 
     // download the lexicon dataFile
-    lexiconFile = (await axios.get(downloadLink.downloadLink)).data
+    lexiconFile = (await axios.get(downloadLink.downloadLink)).data;
   } else {
-    lexiconFile = ""
+    lexiconFile = '';
   }
 
   // write files to disk
-  fs.writeFileSync(lexiconDir + "/keyphrases.csv", lexiconFile)
-  addToProgressBar(progressIncrement)
+  fs.writeFileSync(lexiconDir + '/keyphrases.csv', lexiconFile);
+  addToProgressBar(progressIncrement);
 
-  return Promise.resolve()
-}
+  return Promise.resolve();
+};
 
 /**
  * Restores Lexicons back to Cognigy.AI
@@ -148,23 +148,23 @@ export const pullLexicon = async (
 export const restoreLexicons = async (
   availableProgress: number
 ): Promise<void> => {
-  const agentLexiconDir = CONFIG.agentDir + "/lexicons"
+  const agentLexiconDir = CONFIG.agentDir + '/lexicons';
 
   // read lexicon directories
-  const lexiconDirectories = fs.readdirSync(agentLexiconDir)
+  const lexiconDirectories = fs.readdirSync(agentLexiconDir);
   if (!lexiconDirectories || lexiconDirectories.length === 0) {
-    console.log("No Lexicons found, aborting...\n")
-    return
+    console.log('No Lexicons found, aborting...\n');
+    return;
   }
 
-  const incrementPerLexicon = availableProgress / lexiconDirectories.length
+  const incrementPerLexicon = availableProgress / lexiconDirectories.length;
 
   // iterate through lexicons and push all to Cognigy.AI
   for (let lexicon of lexiconDirectories) {
-    await pushLexicon(lexicon, incrementPerLexicon)
+    await pushLexicon(lexicon, incrementPerLexicon);
   }
-  return Promise.resolve()
-}
+  return Promise.resolve();
+};
 
 /**
  * Pushes an Lexicon back to Cognigy.AI
@@ -176,70 +176,70 @@ export const pushLexicon = async (
   availableProgress: number,
   options?: any
 ): Promise<void> => {
-  const lexiconDir = CONFIG.agentDir + "/lexicons/" + lexiconName
+  const lexiconDir = CONFIG.agentDir + '/lexicons/' + lexiconName;
 
   // early check if the file is missing
   if (!fs.existsSync(`${lexiconDir}/config.json`)) {
-    console.log(`Lexicon ${lexiconName} can't be found in '${lexiconDir}'`)
-    process.exit(0)
+    console.log(`Lexicon ${lexiconName} can't be found in '${lexiconDir}'`);
+    process.exit(0);
   }
 
   const spinner = new Spinner(
     `Uploading lexicon ${lexiconName} to Cognigy.AI... %s`
-  )
-  spinner.setSpinnerString("|/-\\")
+  );
+  spinner.setSpinnerString('|/-\\');
 
   try {
-    spinner.start()
+    spinner.start();
 
     const lexiconConfig = JSON.parse(
       fs.readFileSync(`${lexiconDir}/config.json`).toString()
-    )
-    const lexiconId = lexiconConfig.lexiconId
+    );
+    const lexiconId = lexiconConfig.lexiconId;
 
-    const keyphrasesPath = `${lexiconDir}/keyphrases.csv`
+    const keyphrasesPath = `${lexiconDir}/keyphrases.csv`;
 
     if (!fs.existsSync(keyphrasesPath)) {
       // early check if the file is missing
-      throw new Error("keyphrases.csv file is missing.")
+      throw new Error('keyphrases.csv file is missing.');
     }
 
-    const fileStats = fs.statSync(keyphrasesPath)
+    const fileStats = fs.statSync(keyphrasesPath);
 
     // if the file is empty, skip the API call
     if (fileStats.size === 0) {
-      console.log(`The keyphrases.csv file is empty. Skipping the API call.`)
-      spinner.stop()
-      return Promise.resolve()
+      console.log(`The keyphrases.csv file is empty. Skipping the API call.`);
+      spinner.stop();
+      return Promise.resolve();
     }
 
-    const form = new FormData()
-    form.append("mode", "overwrite")
-    form.append("lexiconId", lexiconId)
-    form.append("file", fs.createReadStream(keyphrasesPath))
+    const form = new FormData();
+    form.append('mode', 'overwrite');
+    form.append('lexiconId', lexiconId);
+    form.append('file', fs.createReadStream(keyphrasesPath));
 
     // update Lexicon on Cognigy.AI
     const result = await makeAxiosRequest({
       path: `/new/v2.0/lexicons/${lexiconId}/import`,
-      method: "POST",
-      type: "multipart/form-data",
+      method: 'POST',
+      type: 'multipart/form-data',
       form: form,
-    })
+    });
 
-    await checkTask(result?.data?._id, options?.timeout)
+    await checkTask(result?.data?._id, options?.timeout);
 
-    spinner.stop()
-    console.log(`Successfully uploaded lexicon ${lexiconName}.`)
+    spinner.stop();
+    console.log(`Successfully uploaded lexicon ${lexiconName}.`);
   } catch (err) {
-    spinner.stop()
+    spinner.stop();
     console.error(
-      `\n${chalk.red("Error:")} Failed to upload Lexicon ${lexiconName} to Cognigy.AI: ${err.message}.\n Aborting...`
-    )
-    process.exit(1)
+      `\n${chalk.red('Error:')} Failed to upload Lexicon ${lexiconName} to Cognigy.AI: ${err.message}.\n Aborting...`
+    );
+    process.exit(1);
   }
 
-  return Promise.resolve()
-}
+  return Promise.resolve();
+};
 
 /**
  * Compares two Lexicon JSON representations
@@ -248,81 +248,81 @@ export const pushLexicon = async (
  */
 export const diffLexicons = async (
   lexiconName: string,
-  mode: string = "full"
+  mode: string = 'full'
 ): Promise<void> => {
   try {
     // check if a valid mode was selected
-    if (["full"].indexOf(mode) === -1) {
+    if (['full'].indexOf(mode) === -1) {
       console.log(
         `Selected mode not supported for Lexicons. Supported modes:\n\n- full\n`
-      )
-      process.exit(0)
+      );
+      process.exit(0);
     }
 
     const spinner = new Spinner(
-      `Comparing ${chalk.green("local")} and ${chalk.red(
-        "remote"
+      `Comparing ${chalk.green('local')} and ${chalk.red(
+        'remote'
       )} Lexicon resource ${lexiconName}... %s`
-    )
-    spinner.setSpinnerString("|/-\\")
-    spinner.start()
+    );
+    spinner.setSpinnerString('|/-\\');
+    spinner.start();
 
-    const lexiconDir = CONFIG.agentDir + "/lexicons"
+    const lexiconDir = CONFIG.agentDir + '/lexicons';
 
     // check whether Lexicon directory and config.json for the Lexicon exist
     if (
-      !fs.existsSync(lexiconDir + "/" + lexiconName) ||
-      !fs.existsSync(lexiconDir + "/" + lexiconName + "/config.json") ||
-      !fs.existsSync(lexiconDir + "/" + lexiconName + "/keyphrases.csv")
+      !fs.existsSync(lexiconDir + '/' + lexiconName) ||
+      !fs.existsSync(lexiconDir + '/' + lexiconName + '/config.json') ||
+      !fs.existsSync(lexiconDir + '/' + lexiconName + '/keyphrases.csv')
     ) {
-      spinner.stop()
+      spinner.stop();
       console.log(
         `\nThe requested Lexicon resource (${lexiconName}) couldn't be found ${chalk.green(
-          "locally"
+          'locally'
         )}. Aborting...`
-      )
-      process.exit(0)
+      );
+      process.exit(0);
     }
 
     // retrieve local Lexicon config & csv
     const localConfig = JSON.parse(
       fs
-        .readFileSync(lexiconDir + "/" + lexiconName + "/config.json")
+        .readFileSync(lexiconDir + '/' + lexiconName + '/config.json')
         .toString()
-    )
+    );
     const localCsvData = fs
-      .readFileSync(lexiconDir + "/" + lexiconName + "/keyphrases.csv")
-      .toString()
+      .readFileSync(lexiconDir + '/' + lexiconName + '/keyphrases.csv')
+      .toString();
 
     // retrieve remote Flow chart
     const remoteConfig = await CognigyClient.readLexicon({
       lexiconId: localConfig.lexiconId,
-    })
+    });
 
     const remoteCsvData = await CognigyClient.exportFromLexicon({
       lexiconId: localConfig.lexiconId,
       projectId: CONFIG.agent,
-    })
+    });
 
-    const diff = Diff.diffChars(remoteCsvData, localCsvData)
+    const diff = Diff.diffChars(remoteCsvData, localCsvData);
 
     // perform full comparison and output results
-    let diffString = ""
+    let diffString = '';
     diff.forEach((part) => {
       // green for additions, red for deletions
       // grey for common parts
-      const color = part.added ? "green" : part.removed ? "red" : "grey"
-      diffString += part.value[color]
-    })
+      const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
+      diffString += part.value[color];
+    });
 
-    spinner.stop()
+    spinner.stop();
 
-    if (diffString) console.log(`\n\n ${diffString}`)
-    else console.log(`\n\nThe local and remote resource are identical.`)
+    if (diffString) console.log(`\n\n ${diffString}`);
+    else console.log(`\n\nThe local and remote resource are identical.`);
 
-    return
+    return;
   } catch (err) {
-    console.log(err.message)
-    process.exit(0)
+    console.log(err.message);
+    process.exit(0);
   }
-}
+};

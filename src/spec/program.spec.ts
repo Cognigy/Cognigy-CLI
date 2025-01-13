@@ -1,248 +1,317 @@
 /* Node modules */
-import { expect } from "chai";
-import * as sinon from "sinon";
+import { expect } from 'chai';
+import * as sinon from 'sinon';
 
 /* Custom Modules */
 import { program, setStdIn, getStdIn } from '../program/program';
-import * as  init from '../commands/init';
-import * as  restore from '../commands/restore';
-import * as  diff from '../commands/diff';
-import * as  clone from '../commands/clone';
-import * as  push from '../commands/push';
-import * as  pull from '../commands/pull';
-import * as  train from '../commands/train';
-import * as  create from '../commands/create';
-import * as  exportcsv from '../commands/exportcsv';
-import * as  importcsv from '../commands/importcsv';
-import * as  localize from '../commands/localize';
+import * as init from '../commands/init';
+import * as restore from '../commands/restore';
+import * as diff from '../commands/diff';
+import * as clone from '../commands/clone';
+import * as push from '../commands/push';
+import * as pull from '../commands/pull';
+import * as train from '../commands/train';
+import * as create from '../commands/create';
+import * as exportcsv from '../commands/exportcsv';
+import * as importcsv from '../commands/importcsv';
+import * as localize from '../commands/localize';
 import * as translate from '../commands/translate';
 import * as execute from '../commands/execute';
 
-describe("cognigy CLI commands", () => {
-    const sandbox: sinon.SinonSandbox = sinon.createSandbox();
+describe('cognigy CLI commands', () => {
+  const sandbox: sinon.SinonSandbox = sinon.createSandbox();
 
-    let stdOutWriteStub: sinon.SinonStub;
-    
-	beforeEach(() => {
-		sinon.restore();
+  let stdOutWriteStub: sinon.SinonStub;
 
-        stdOutWriteStub = sandbox.stub(process, "stdout");
-	});
+  beforeEach(() => {
+    sinon.restore();
 
-	afterEach(() => {
-		sandbox.restore();
-	});
+    stdOutWriteStub = sandbox.stub(process, 'stdout');
+  });
 
-    describe("INIT CMD", () => {
-        let initStub: sinon.SinonStub;
+  afterEach(() => {
+    sandbox.restore();
+  });
 
-        beforeEach(() => {
-            initStub = sandbox.stub(init, "init");
-        });
+  describe('INIT CMD', () => {
+    let initStub: sinon.SinonStub;
 
-        it("Should call the init method", () => {
-            program.parse(["", "cognigy", "init"]);
-
-            expect(initStub.called).to.be.true;
-        });
+    beforeEach(() => {
+      initStub = sandbox.stub(init, 'init');
     });
 
-    describe("CLONE CMD", () => {
-        let cloneStub: sinon.SinonStub;
+    it('Should call the init method', () => {
+      program.parse(['', 'cognigy', 'init']);
 
-        beforeEach(() => {
-            cloneStub = sandbox.stub(clone, "clone");
-        });
+      expect(initStub.called).to.be.true;
+    });
+  });
 
-        it("Should call the clone method and pass basic compulsory params resourceType", () => {
-            program.parse(["", "cognigy", "clone", "-t", "flow"]);
+  describe('CLONE CMD', () => {
+    let cloneStub: sinon.SinonStub;
 
-            expect(cloneStub.called).to.be.true;
-            expect(cloneStub.firstCall.args[0].resourceType, "Clone function should have the correct params").to.be.equal('flow');
-        });
+    beforeEach(() => {
+      cloneStub = sandbox.stub(clone, 'clone');
     });
 
-    describe("RESTORE CMD", () => {
-        let restoreStub: sinon.SinonStub;
+    it('Should call the clone method and pass basic compulsory params resourceType', () => {
+      program.parse(['', 'cognigy', 'clone', '-t', 'flow']);
 
-        beforeEach(() => {
-            restoreStub = sandbox.stub(restore, "restore");
-        });
+      expect(cloneStub.called).to.be.true;
+      expect(
+        cloneStub.firstCall.args[0].resourceType,
+        'Clone function should have the correct params'
+      ).to.be.equal('flow');
+    });
+  });
 
-        it("Should call the restore method and pass basic compulsory params resourceType", () => {
-            program.parse(["", "cognigy", "restore","-t", "flow"]);
+  describe('RESTORE CMD', () => {
+    let restoreStub: sinon.SinonStub;
 
-            expect(restoreStub.called).to.be.true;
-            expect(restoreStub.firstCall.args[0].resourceType, "Restore function should have the correct params").to.be.equal('flow');
-        });
+    beforeEach(() => {
+      restoreStub = sandbox.stub(restore, 'restore');
     });
 
-    describe("DIFF CMD", () => {
-        let diffStub: sinon.SinonStub;
+    it('Should call the restore method and pass basic compulsory params resourceType', () => {
+      program.parse(['', 'cognigy', 'restore', '-t', 'flow']);
 
-        beforeEach(() => {
-            diffStub = sandbox.stub(diff, "diff");
-        });
+      expect(restoreStub.called).to.be.true;
+      expect(
+        restoreStub.firstCall.args[0].resourceType,
+        'Restore function should have the correct params'
+      ).to.be.equal('flow');
+    });
+  });
 
-        it("Should call the diff method and pass basic compulsory params resourceType and resourceId", () => {
-            program.parse(["", "cognigy", "diff","flow", "6273f386ae217b0de51b3995"]);
-            expect(diffStub.called).to.be.true;
-            expect(diffStub.firstCall.args[0], "diff function should have the correct params").to.be.equal('flow');
-            expect(diffStub.firstCall.args[1], "diff function should have the correct params").to.be.equal('6273f386ae217b0de51b3995');
-        });
+  describe('DIFF CMD', () => {
+    let diffStub: sinon.SinonStub;
+
+    beforeEach(() => {
+      diffStub = sandbox.stub(diff, 'diff');
     });
 
-    describe("PUSH CMD", () => {
-        let pushStub: sinon.SinonStub;
+    it('Should call the diff method and pass basic compulsory params resourceType and resourceId', () => {
+      program.parse([
+        '',
+        'cognigy',
+        'diff',
+        'flow',
+        '6273f386ae217b0de51b3995',
+      ]);
+      expect(diffStub.called).to.be.true;
+      expect(
+        diffStub.firstCall.args[0],
+        'diff function should have the correct params'
+      ).to.be.equal('flow');
+      expect(
+        diffStub.firstCall.args[1],
+        'diff function should have the correct params'
+      ).to.be.equal('6273f386ae217b0de51b3995');
+    });
+  });
 
-        beforeEach(() => {
-            pushStub = sandbox.stub(push, "push");
-        });
+  describe('PUSH CMD', () => {
+    let pushStub: sinon.SinonStub;
 
-        it("Should call the push method and pass basic compulsory params resourceType and resourceName", () => {
-            program.parse(["", "cognigy", "push","flow", "main"]);
-
-            expect(pushStub.called).to.be.true;
-            expect(pushStub.firstCall.args[0].resourceType, "Push function should have the correct params").to.be.equal('flow');
-            expect(pushStub.firstCall.args[0].resourceName, "Push function should have the correct params").to.be.equal('main');
-        });
+    beforeEach(() => {
+      pushStub = sandbox.stub(push, 'push');
     });
 
-    describe("PULL CMD", () => {
-        let pullStub: sinon.SinonStub;
+    it('Should call the push method and pass basic compulsory params resourceType and resourceName', () => {
+      program.parse(['', 'cognigy', 'push', 'flow', 'main']);
 
-        beforeEach(() => {
-            pullStub = sandbox.stub(pull, "pull");
-        });
+      expect(pushStub.called).to.be.true;
+      expect(
+        pushStub.firstCall.args[0].resourceType,
+        'Push function should have the correct params'
+      ).to.be.equal('flow');
+      expect(
+        pushStub.firstCall.args[0].resourceName,
+        'Push function should have the correct params'
+      ).to.be.equal('main');
+    });
+  });
 
-        it("Should call the pull method and pass basic compulsory params resourceType and resourceName", () => {
-            program.parse(["", "cognigy", "pull","flow", "main"]);
+  describe('PULL CMD', () => {
+    let pullStub: sinon.SinonStub;
 
-            expect(pullStub.called).to.be.true;
-            expect(pullStub.firstCall.args[0].resourceType, "Pull function should have the correct params").to.be.equal('flow');
-            expect(pullStub.firstCall.args[0].resourceName, "Pull function should have the correct params").to.be.equal('main');
-        });
+    beforeEach(() => {
+      pullStub = sandbox.stub(pull, 'pull');
     });
 
-    describe("TRAIN CMD", () => {
-        let trainStub: sinon.SinonStub;
+    it('Should call the pull method and pass basic compulsory params resourceType and resourceName', () => {
+      program.parse(['', 'cognigy', 'pull', 'flow', 'main']);
 
-        beforeEach(() => {
-            trainStub = sandbox.stub(train, "train");
-        });
+      expect(pullStub.called).to.be.true;
+      expect(
+        pullStub.firstCall.args[0].resourceType,
+        'Pull function should have the correct params'
+      ).to.be.equal('flow');
+      expect(
+        pullStub.firstCall.args[0].resourceName,
+        'Pull function should have the correct params'
+      ).to.be.equal('main');
+    });
+  });
 
-        it("Should call the train method and pass basic compulsory params resourceName", () => {
-            program.parse(["", "cognigy", "train", "flow", "main"]);
+  describe('TRAIN CMD', () => {
+    let trainStub: sinon.SinonStub;
 
-            expect(trainStub.called).to.be.true;
-            expect(trainStub.firstCall.args[0].resourceName, "Train function should have the correct params").to.be.equal('main');        });
+    beforeEach(() => {
+      trainStub = sandbox.stub(train, 'train');
     });
 
-    describe("CREATE CMD", () => {
-        let createStub: sinon.SinonStub;
+    it('Should call the train method and pass basic compulsory params resourceName', () => {
+      program.parse(['', 'cognigy', 'train', 'flow', 'main']);
 
-        beforeEach(() => {
-            createStub = sandbox.stub(create, "create");
-        });
+      expect(trainStub.called).to.be.true;
+      expect(
+        trainStub.firstCall.args[0].resourceName,
+        'Train function should have the correct params'
+      ).to.be.equal('main');
+    });
+  });
 
-        it("Should call the create method and pass basic compulsory params resourceType and resourceName", () => {
-            program.parse(["", "cognigy", "create","flow", "main"]);
+  describe('CREATE CMD', () => {
+    let createStub: sinon.SinonStub;
 
-            expect(createStub.called).to.be.true;
-            expect(createStub.firstCall.args[0].resourceType, "Create function should have the correct params").to.be.equal('flow');
-            expect(createStub.firstCall.args[0].resourceName, "Create function should have the correct params").to.be.equal('main');
-        });
+    beforeEach(() => {
+      createStub = sandbox.stub(create, 'create');
     });
 
-    describe("EXPORTCSV CMD", () => {
-        let exportCSVStub: sinon.SinonStub;
+    it('Should call the create method and pass basic compulsory params resourceType and resourceName', () => {
+      program.parse(['', 'cognigy', 'create', 'flow', 'main']);
 
-        beforeEach(() => {
-            exportCSVStub = sandbox.stub(exportcsv, "exportcsv");
-        });
+      expect(createStub.called).to.be.true;
+      expect(
+        createStub.firstCall.args[0].resourceType,
+        'Create function should have the correct params'
+      ).to.be.equal('flow');
+      expect(
+        createStub.firstCall.args[0].resourceName,
+        'Create function should have the correct params'
+      ).to.be.equal('main');
+    });
+  });
 
-        it("Should call the exportcsv method and pass basic compulsory params resourceType", () => {
-            program.parse(["", "cognigy", "exportcsv","flow"]);
+  describe('EXPORTCSV CMD', () => {
+    let exportCSVStub: sinon.SinonStub;
 
-            expect(exportCSVStub.called).to.be.true;
-            expect(exportCSVStub.firstCall.args[0].resourceType, "ExportCSV function should have the correct params").to.be.equal('flow');
-        });
+    beforeEach(() => {
+      exportCSVStub = sandbox.stub(exportcsv, 'exportcsv');
     });
 
-    describe("IMPORTCSV CMD", () => {
-        let importCSVStub: sinon.SinonStub;
+    it('Should call the exportcsv method and pass basic compulsory params resourceType', () => {
+      program.parse(['', 'cognigy', 'exportcsv', 'flow']);
 
-        beforeEach(() => {
-            importCSVStub = sandbox.stub(importcsv, "importcsv");
-        });
+      expect(exportCSVStub.called).to.be.true;
+      expect(
+        exportCSVStub.firstCall.args[0].resourceType,
+        'ExportCSV function should have the correct params'
+      ).to.be.equal('flow');
+    });
+  });
 
-        it("Should call the importcsv method and pass basic compulsory params resourceType", () => {
-            program.parse(["", "cognigy", "importcsv","flow"]);
+  describe('IMPORTCSV CMD', () => {
+    let importCSVStub: sinon.SinonStub;
 
-            expect(importCSVStub.called).to.be.true;
-            expect(importCSVStub.firstCall.args[0].resourceType, "ImportCSV function should have the correct params").to.be.equal('flow');
-        });
+    beforeEach(() => {
+      importCSVStub = sandbox.stub(importcsv, 'importcsv');
     });
 
-    describe("LOCALIZE CMD", () => {
-        let localizeStub: sinon.SinonStub;
+    it('Should call the importcsv method and pass basic compulsory params resourceType', () => {
+      program.parse(['', 'cognigy', 'importcsv', 'flow']);
 
-        beforeEach(() => {
-            localizeStub = sandbox.stub(localize, "localize");
-        });
+      expect(importCSVStub.called).to.be.true;
+      expect(
+        importCSVStub.firstCall.args[0].resourceType,
+        'ImportCSV function should have the correct params'
+      ).to.be.equal('flow');
+    });
+  });
 
-        it("Should call the localize method and pass basic compulsory params resourceType and resourceName", () => {
-            program.parse(["", "cognigy", "localize","flow", "main"]);
+  describe('LOCALIZE CMD', () => {
+    let localizeStub: sinon.SinonStub;
 
-            expect(localizeStub.called).to.be.true;
-            expect(localizeStub.firstCall.args[0].resourceType, "Localize function should have the correct params").to.be.equal('flow');
-            expect(localizeStub.firstCall.args[0].resourceName, "Localize function should have the correct params").to.be.equal('main');
-
-        });
+    beforeEach(() => {
+      localizeStub = sandbox.stub(localize, 'localize');
     });
 
-    describe("TRANSLATE CMD", () => {
-        let translateStub: sinon.SinonStub;
+    it('Should call the localize method and pass basic compulsory params resourceType and resourceName', () => {
+      program.parse(['', 'cognigy', 'localize', 'flow', 'main']);
 
-        beforeEach(() => {
-            translateStub = sandbox.stub(translate, "translate");
-        });
+      expect(localizeStub.called).to.be.true;
+      expect(
+        localizeStub.firstCall.args[0].resourceType,
+        'Localize function should have the correct params'
+      ).to.be.equal('flow');
+      expect(
+        localizeStub.firstCall.args[0].resourceName,
+        'Localize function should have the correct params'
+      ).to.be.equal('main');
+    });
+  });
 
-        it("Should call the translate method and pass basic compulsory params resourceType and resourceName", () => {
-            program.parse(["", "cognigy", "translate","flow", "main"]);
+  describe('TRANSLATE CMD', () => {
+    let translateStub: sinon.SinonStub;
 
-            expect(translateStub.called).to.be.true;
-            expect(translateStub.firstCall.args[0].resourceType, "Translate function should have the correct params").to.be.equal('flow');
-            expect(translateStub.firstCall.args[0].resourceName, "Translate  function should have the correct params").to.be.equal('main');
-
-        });
+    beforeEach(() => {
+      translateStub = sandbox.stub(translate, 'translate');
     });
 
-    describe("EXECUTE CMD", () => {
-        let executeStub: sinon.SinonStub;
+    it('Should call the translate method and pass basic compulsory params resourceType and resourceName', () => {
+      program.parse(['', 'cognigy', 'translate', 'flow', 'main']);
 
-        beforeEach(() => {
-            executeStub = sandbox.stub(execute, "execute");
-        });
+      expect(translateStub.called).to.be.true;
+      expect(
+        translateStub.firstCall.args[0].resourceType,
+        'Translate function should have the correct params'
+      ).to.be.equal('flow');
+      expect(
+        translateStub.firstCall.args[0].resourceName,
+        'Translate  function should have the correct params'
+      ).to.be.equal('main');
+    });
+  });
 
-        it("Should call the execute method and pass basic compulsory params resourceType and resourceName", () => {
-            program.parse(["", "cognigy", "execute", "readFlow", "-d", '{"flowId": "5f5618bce35138ed3ab9ab9a"}']);
+  describe('EXECUTE CMD', () => {
+    let executeStub: sinon.SinonStub;
 
-            expect(executeStub.called).to.be.true;
-            expect(executeStub.firstCall.args[0].command, "Execute function should have the correct params").to.be.equal('readFlow');
-            expect(JSON.parse(executeStub.firstCall.args[0].options.data).flowId, "Execute function should have the correct params").to.be.equal('5f5618bce35138ed3ab9ab9a');
-        });
+    beforeEach(() => {
+      executeStub = sandbox.stub(execute, 'execute');
     });
 
-    describe("Other methods", () => {
-        it("Should stdin have all appended strings", () => {
-            setStdIn("hello");
+    it('Should call the execute method and pass basic compulsory params resourceType and resourceName', () => {
+      program.parse([
+        '',
+        'cognigy',
+        'execute',
+        'readFlow',
+        '-d',
+        '{"flowId": "5f5618bce35138ed3ab9ab9a"}',
+      ]);
 
-            expect(getStdIn()).to.be.equal('hello');
-
-            setStdIn(" world");
-
-            expect(getStdIn()).to.be.equal('hello world');
-        });
+      expect(executeStub.called).to.be.true;
+      expect(
+        executeStub.firstCall.args[0].command,
+        'Execute function should have the correct params'
+      ).to.be.equal('readFlow');
+      expect(
+        JSON.parse(executeStub.firstCall.args[0].options.data).flowId,
+        'Execute function should have the correct params'
+      ).to.be.equal('5f5618bce35138ed3ab9ab9a');
     });
-})
+  });
+
+  describe('Other methods', () => {
+    it('Should stdin have all appended strings', () => {
+      setStdIn('hello');
+
+      expect(getStdIn()).to.be.equal('hello');
+
+      setStdIn(' world');
+
+      expect(getStdIn()).to.be.equal('hello world');
+    });
+  });
+});

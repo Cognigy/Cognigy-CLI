@@ -3,7 +3,7 @@ name: ReleaseV2
 on:
   workflow_dispatch:
   push:
-    branches: 
+    branches:
       - main
 jobs:
   release:
@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: release action
         run: |
-         echo Starting the CLI release
+          echo Starting the CLI release
       - name: Checkout
         uses: actions/checkout@v2
         with:

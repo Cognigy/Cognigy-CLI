@@ -1,4 +1,5 @@
 # Success criteria
+
 Please describe what should be possible after this change. List all individual items on a separate line.
 
 - A
@@ -6,6 +7,7 @@ Please describe what should be possible after this change. List all individual i
 - C
 
 # How to test
+
 Please describe the individual steps on how a peer can test your change.
 
 1. A
@@ -13,6 +15,7 @@ Please describe the individual steps on how a peer can test your change.
 3. C
 
 # Security
+
 - [ ] Possible injection vector
 - [ ] Authentication/Access controls touched
 - [ ] Sensitive Data could be exposed
@@ -22,4 +25,5 @@ Please describe the individual steps on how a peer can test your change.
 - [ ] No security implications
 
 # Additional considerations
+
 - [ ] This PR might have performance implications

@@ -1,33 +1,38 @@
 /* Custom Modules */
-import { createKnowledgeSourceCMD } from "./source/createKnowledgeSourceCMD";
-import { createKnowledgeStoreCMD } from "./store/createKnowledgeStoreCMD";
+import { createKnowledgeSourceCMD } from './source/createKnowledgeSourceCMD';
+import { createKnowledgeStoreCMD } from './store/createKnowledgeStoreCMD';
 
 /** Types */
-import { TResourceType } from "./IResourceType";
-import { TKnowledgeSourceType } from "@cognigy/rest-api-client";
+import { TResourceType } from './IResourceType';
+import { TKnowledgeSourceType } from '@cognigy/rest-api-client';
 
 export const createKnowledgeAIResourceCMD = (data: {
-	resourceType: TResourceType,	
-	name: string,
-	description: string,
-    projectId?: string,
-	language?: string,
-	knowledgeStoreId?: string,
-    type?: TKnowledgeSourceType,
-    url?: string
+  resourceType: TResourceType;
+  name: string;
+  description: string;
+  projectId?: string;
+  language?: string;
+  knowledgeStoreId?: string;
+  type?: TKnowledgeSourceType;
+  url?: string;
 }): Promise<void> => {
+  const { resourceType, name, description } = data;
 
-	const { resourceType, name, description } = data;
-
-	if (resourceType === "store") {
-		const { projectId, language } = data;
-		return createKnowledgeStoreCMD(projectId, language, name, description);
-	}
-	else if (resourceType === "source") {
-		const {knowledgeStoreId, type, url } = data;
-		return createKnowledgeSourceCMD(knowledgeStoreId, name, description, type, url);
-	}
-	else {
-		throw new Error (`Inavalid resourceType for the command 'cognigy knowdledge-ai create',  wrong type: ${resourceType}`)
-	}
+  if (resourceType === 'store') {
+    const { projectId, language } = data;
+    return createKnowledgeStoreCMD(projectId, language, name, description);
+  } else if (resourceType === 'source') {
+    const { knowledgeStoreId, type, url } = data;
+    return createKnowledgeSourceCMD(
+      knowledgeStoreId,
+      name,
+      description,
+      type,
+      url
+    );
+  } else {
+    throw new Error(
+      `Inavalid resourceType for the command 'cognigy knowdledge-ai create',  wrong type: ${resourceType}`
+    );
+  }
 };

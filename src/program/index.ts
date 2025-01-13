@@ -1,2 +1,2 @@
-export { program, setStdIn } from "./program";
-export { makeKnowledgeAIProgram } from "./knowledgeAIProgram";
+export { program, setStdIn } from './program';
+export { makeKnowledgeAIProgram } from './knowledgeAIProgram';

@@ -3,8 +3,8 @@ module.exports = {
     'main',
     {
       name: 'develop',
-      prerelease: true
-    }
+      prerelease: true,
+    },
   ],
   plugins: [
     [
@@ -14,16 +14,16 @@ module.exports = {
         releaseRules: [
           { type: 'docs', scope: 'README', release: 'patch' },
           { type: 'refactor', release: 'patch' },
-          { type: 'style', release: 'patch' }
-        ]
-      }
+          { type: 'style', release: 'patch' },
+        ],
+      },
     ],
     '@semantic-release/release-notes-generator',
     [
       '@semantic-release/changelog',
       {
-        changelogFile: 'CHANGELOG.md'
-      }
+        changelogFile: 'CHANGELOG.md',
+      },
     ],
     '@semantic-release/npm',
     '@semantic-release/github',
@@ -33,8 +33,8 @@ module.exports = {
         assets: ['CHANGELOG.md'],
         message:
           // eslint-disable-next-line no-template-curly-in-string
-          'chore(release): set `package.json` to ${nextRelease.version} [skip ci]'
-      }
-    ]
-  ]
+          'chore(release): set `package.json` to ${nextRelease.version} [skip ci]',
+      },
+    ],
+  ],
 };

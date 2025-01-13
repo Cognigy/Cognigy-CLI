@@ -1,9 +1,9 @@
 {
-    "apiKey": "some-key",
-    "agent": "some-agent-id",
-    "baseUrl": "http://some-url",
-    "agentDir": "./agent",
-    "playbookTimeoutSeconds": 10,
-    "maxNumberOfTokens": 2048,
-    "knowledgeAIStoreDir": "./knowledgeAIStore"
+  "apiKey": "some-key",
+  "agent": "some-agent-id",
+  "baseUrl": "http://some-url",
+  "agentDir": "./agent",
+  "playbookTimeoutSeconds": 10,
+  "maxNumberOfTokens": 2048,
+  "knowledgeAIStoreDir": "./knowledgeAIStore"
 }

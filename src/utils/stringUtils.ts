@@ -3,5 +3,5 @@
  * @param text Input text
  */
 export const upperFirst = (text: string) => {
-    return text.charAt(0).toUpperCase() + text.slice(1);
+  return text.charAt(0).toUpperCase() + text.slice(1);
 };
