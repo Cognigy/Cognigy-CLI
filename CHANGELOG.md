@@ -1,3 +1,10 @@
+## [1.6.3](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.2...v1.6.3) (2025-01-13)
+
+### Bug Fixes
+
+- **code-standard:** format issue fix ([780ab96](https://github.com/Cognigy/Cognigy-CLI/commit/780ab96dcf863fa624e450406191fdd8119ac699))
+- resolve merge conflicts ([bde4714](https://github.com/Cognigy/Cognigy-CLI/commit/bde471443c76c1845da88fc60c764cf6c42c75c8))
+
 ## [1.6.2](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.1...v1.6.2) (2025-01-13)
 
 ### Bug Fixes
