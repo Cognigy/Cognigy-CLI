@@ -178,51 +178,66 @@ export const pushLexicon = async (
 ): Promise<void> => {
   const lexiconDir = CONFIG.agentDir + "/lexicons/" + lexiconName
 
-  if (fs.existsSync(lexiconDir + "/config.json")) {
-    // config exist for this lexicon, proceed
-    const spinner = new Spinner(
-      `Uploading lexicon ${lexiconName} to Cognigy.AI... %s`
-    )
-    spinner.setSpinnerString("|/-\\")
-    try {
-      spinner.start()
-      // read local lexicon config
-      const lexiconConfig = JSON.parse(
-        fs.readFileSync(lexiconDir + "/config.json").toString()
-      )
-      const lexiconId = lexiconConfig.lexiconId
-
-      const form = new FormData()
-      form.append("mode", "overwrite")
-      form.append("lexiconId", lexiconId)
-      form.append("file", fs.createReadStream(lexiconDir + "/keyphrases.csv"))
-
-      // update Lexicon on Cognigy.AI
-      const result = await makeAxiosRequest({
-        path: `/new/v2.0/lexicons/${lexiconId}/import`,
-        method: "POST",
-        type: "multipart/form-data",
-        form: form,
-      })
-
-      await checkTask(result?.data?._id, options?.timeout)
-      spinner.stop()
-    } catch (err) {
-      console.error(
-        `\n${chalk.red(
-          "error:"
-        )} Error when updating Lexicon ${lexiconName} on Cognigy.AI: ${
-          err.message
-        }.\nAborting...`
-      )
-      spinner.stop()
-      process.exit(0)
-    }
-  } else {
-    // chart or config are missing, skip
+  // early check if the file is missing
+  if (!fs.existsSync(`${lexiconDir}/config.json`)) {
     console.log(`Lexicon ${lexiconName} can't be found in '${lexiconDir}'`)
     process.exit(0)
   }
+
+  const spinner = new Spinner(
+    `Uploading lexicon ${lexiconName} to Cognigy.AI... %s`
+  )
+  spinner.setSpinnerString("|/-\\")
+
+  try {
+    spinner.start()
+
+    const lexiconConfig = JSON.parse(
+      fs.readFileSync(`${lexiconDir}/config.json`).toString()
+    )
+    const lexiconId = lexiconConfig.lexiconId
+
+    const keyphrasesPath = `${lexiconDir}/keyphrases.csv`
+
+    if (!fs.existsSync(keyphrasesPath)) {
+      // early check if the file is missing
+      throw new Error("keyphrases.csv file is missing.")
+    }
+
+    const fileStats = fs.statSync(keyphrasesPath)
+
+    // if the file is empty, skip the API call
+    if (fileStats.size === 0) {
+      console.log(`The keyphrases.csv file is empty. Skipping the API call.`)
+      spinner.stop()
+      return Promise.resolve()
+    }
+
+    const form = new FormData()
+    form.append("mode", "overwrite")
+    form.append("lexiconId", lexiconId)
+    form.append("file", fs.createReadStream(keyphrasesPath))
+
+    // update Lexicon on Cognigy.AI
+    const result = await makeAxiosRequest({
+      path: `/new/v2.0/lexicons/${lexiconId}/import`,
+      method: "POST",
+      type: "multipart/form-data",
+      form: form,
+    })
+
+    await checkTask(result?.data?._id, options?.timeout)
+
+    spinner.stop()
+    console.log(`Successfully uploaded lexicon ${lexiconName}.`)
+  } catch (err) {
+    spinner.stop()
+    console.error(
+      `\n${chalk.red("Error:")} Failed to upload Lexicon ${lexiconName} to Cognigy.AI: ${err.message}.\n Aborting...`
+    )
+    process.exit(1)
+  }
+
   return Promise.resolve()
 }
 
