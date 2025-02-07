@@ -1,3 +1,9 @@
+## [1.6.4](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.3...v1.6.4) (2025-02-07)
+
+### Bug Fixes
+
+- **package.json:** add fs-extra package as dependency in package.json ([#199](https://github.com/Cognigy/Cognigy-CLI/issues/199)) ([3c8f234](https://github.com/Cognigy/Cognigy-CLI/commit/3c8f2348fc4dd31404c3e0f885670f3209e71cb5)), closes [#193](https://github.com/Cognigy/Cognigy-CLI/issues/193)
+
 ## [1.6.3](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.2...v1.6.3) (2025-01-13)
 
 ### Bug Fixes
