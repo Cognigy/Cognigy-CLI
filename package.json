@@ -18,6 +18,7 @@
   "author": "Cognigy GmbH",
   "license": "MIT",
   "devDependencies": {
+    "@types/lodash": "^4.14.189",
     "@commitlint/cli": "18.0.0",
     "@commitlint/config-conventional": "15.0.0",
     "@commitlint/prompt": "15.0.0",
@@ -76,7 +77,8 @@
     "playwright": "1.38.1",
     "rimraf": "5.0.5",
     "srt-parser-2": "1.2.3",
-    "uuid": "8.3.1"
+    "uuid": "8.3.1",
+    "lodash": "^4.17.21"
   },
   "bin": {
     "cognigy": "./build/cognigy.js"
