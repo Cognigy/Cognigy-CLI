@@ -1,3 +1,9 @@
+## [1.6.6](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.5...v1.6.6) (2025-02-10)
+
+### Bug Fixes
+
+- **vulnerability:** updating lodash version ([a668ea6](https://github.com/Cognigy/Cognigy-CLI/commit/a668ea664ed3749109fbedcec6a7968954db1e71))
+
 ## [1.6.5](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.4...v1.6.5) (2025-02-10)
 
 ### Bug Fixes
