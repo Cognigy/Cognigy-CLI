@@ -46,7 +46,7 @@ npm config set https-proxy http://usr:pwd@proxy.company.com:8080
 
 ## Configuration
 
-Configuration can be provided either as environment variables or inside a config.json file. The config.json can be created by executing `cognigy init`.
+Configuration can be provided via config.json file. The config.json can be created by executing `cognigy init`.
 
 The Cognigy.AI CLI needs the following configuration:
 
