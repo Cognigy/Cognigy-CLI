@@ -1,3 +1,9 @@
+## [1.6.5](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.4...v1.6.5) (2025-02-10)
+
+### Bug Fixes
+
+- **info:** updating readme to remove .env info ([aa50207](https://github.com/Cognigy/Cognigy-CLI/commit/aa5020769880072faaec9b0ec154c7667541f7a3))
+
 ## [1.6.4](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.3...v1.6.4) (2025-02-07)
 
 ### Bug Fixes
