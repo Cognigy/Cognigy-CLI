@@ -47,7 +47,7 @@
   "dependencies": {
     "-": "0.0.1",
     "@cognigy/rest-api-client": "^0.20.0",
-    "@google-cloud/translate": "8.0.2",
+    "@google-cloud/translate": "8.1.0",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
     "axios": "1.7.8",
     "chalk": "4.1.2",
@@ -74,7 +74,7 @@
     "os": "0.1.2",
     "pdf-parse": "1.1.1",
     "pdfjs": "2.5.2",
-    "playwright": "1.38.1",
+    "playwright": "1.39.0",
     "rimraf": "5.0.5",
     "srt-parser-2": "1.2.3",
     "uuid": "8.3.1",
