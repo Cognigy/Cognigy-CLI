@@ -1,17 +1,17 @@
 /** Node Modules */
 const { convert } = require('html-to-text');
 import { TextLoader } from 'langchain/document_loaders/fs/text';
-import { PDFLoader } from 'langchain/document_loaders/fs/pdf';
-import { DocxLoader } from 'langchain/document_loaders/fs/docx';
-import { CSVLoader } from 'langchain/document_loaders/fs/csv';
+import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
+import { DocxLoader } from '@langchain/community/document_loaders/fs/docx';
+import { CSVLoader } from '@langchain/community/document_loaders/fs/csv';
 import {
   JSONLoader,
   JSONLinesLoader,
 } from 'langchain/document_loaders/fs/json';
-import { EPubLoader } from 'langchain/document_loaders/fs/epub';
-import { SRTLoader } from 'langchain/document_loaders/fs/srt';
-import { CheerioWebBaseLoader } from 'langchain/document_loaders/web/cheerio';
-import { PlaywrightWebBaseLoader } from 'langchain/document_loaders/web/playwright';
+import { EPubLoader } from '@langchain/community/document_loaders/fs/epub';
+import { SRTLoader } from '@langchain/community/document_loaders/fs/srt';
+import { CheerioWebBaseLoader } from '@langchain/community/document_loaders/web/cheerio';
+import { PlaywrightWebBaseLoader } from '@langchain/community/document_loaders/web/playwright';
 
 /** Custom Modules */
 import { splitDocs } from '../../../utils/textSplitter';
