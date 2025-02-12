@@ -58,6 +58,8 @@ The Cognigy.AI CLI needs the following configuration:
 | agentDir               | The folder where you want to store the agent locally | CAI_AGENTDIR                 |
 | playbookTimeoutSeconds | Timeout for checking playbook runs                   | CAI_PLAYBOOK_TIMEOUT_SECONDS |
 
+NOTE: [The API Base URL is the endpoint for accessing the Cognigy.AI OpenAPI](https://docs.cognigy.com/ai/developers/api-and-cli/#the-api-base-url).
+
 Both environment configuration and file-based configuration can be used together. Environment configuration takes priority.
 
 ## Commands
