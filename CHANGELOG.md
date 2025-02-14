@@ -1,3 +1,12 @@
+## [1.6.7](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.6...v1.6.7) (2025-02-14)
+
+### Bug Fixes
+
+- **vulnerability:** adding package lock ([efa17c5](https://github.com/Cognigy/Cognigy-CLI/commit/efa17c5a0056c10d37840e45f41b757844eef623))
+- **vulnerability:** fixing nock version and removing lodash ([9bbe2ad](https://github.com/Cognigy/Cognigy-CLI/commit/9bbe2ad5911a772496bc3d148523fa72130495f6))
+- **vulnerability:** updating langchain version and fixing srt parser version ([e2898c0](https://github.com/Cognigy/Cognigy-CLI/commit/e2898c051ad53a420921caaedca77bcf4434807b))
+- **vulnerability:** updating versions recommended by snyk ([971dffd](https://github.com/Cognigy/Cognigy-CLI/commit/971dffdf13d005efe4f8c0030ae30b2eb09ec463))
+
 ## [1.6.6](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.5...v1.6.6) (2025-02-10)
 
 ### Bug Fixes
