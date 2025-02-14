@@ -10,3 +10,4 @@ playbooks.json
 playbookRunResults.json
 config.**.json
 config.json
+.idea
