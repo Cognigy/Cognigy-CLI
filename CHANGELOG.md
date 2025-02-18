@@ -1,3 +1,9 @@
+## [1.6.8](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.7...v1.6.8) (2025-02-18)
+
+### Bug Fixes
+
+- **vulnerability:** updating mocha versions ([4eb3318](https://github.com/Cognigy/Cognigy-CLI/commit/4eb3318f2e9705795ad7f43484e39e9517d68279))
+
 ## [1.6.7](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.6...v1.6.7) (2025-02-14)
 
 ### Bug Fixes
