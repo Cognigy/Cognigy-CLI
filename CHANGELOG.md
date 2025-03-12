@@ -1,3 +1,9 @@
+## [1.6.10](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.9...v1.6.10) (2025-03-12)
+
+### Bug Fixes
+
+- package.json & package-lock.json to reduce vulnerabilities ([f0fd25b](https://github.com/Cognigy/Cognigy-CLI/commit/f0fd25bae4e9341c3ace5dc331b1e7df2b37f865))
+
 ## [1.6.9](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.8...v1.6.9) (2025-03-10)
 
 ### Bug Fixes
