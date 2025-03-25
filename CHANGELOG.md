@@ -1,3 +1,9 @@
+## [1.6.12](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.11...v1.6.12) (2025-03-25)
+
+### Bug Fixes
+
+- **vulnerability:** fixing axios version ([a87129c](https://github.com/Cognigy/Cognigy-CLI/commit/a87129c363f1c14f3c2c18ae2310acf56e529b47))
+
 ## [1.6.11](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.10...v1.6.11) (2025-03-25)
 
 ### Bug Fixes
