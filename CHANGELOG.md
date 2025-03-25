@@ -1,3 +1,10 @@
+## [1.6.11](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.10...v1.6.11) (2025-03-25)
+
+### Bug Fixes
+
+- package.json & package-lock.json to reduce vulnerabilities ([adb3328](https://github.com/Cognigy/Cognigy-CLI/commit/adb3328a31e2df69962574a0af2e13762bb38177))
+- **vulnerability:** updating rest client version ([e70dfa0](https://github.com/Cognigy/Cognigy-CLI/commit/e70dfa05d419f78c85db6af9884f7cb38be7270a))
+
 ## [1.6.10](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.9...v1.6.10) (2025-03-12)
 
 ### Bug Fixes
