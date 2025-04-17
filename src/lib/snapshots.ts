@@ -54,11 +54,14 @@ export const createSnapshot = async (
       spinner.setSpinnerTitle(`Downloading Snapshot ... %s`);
       const snapshotFile = (
         await axios.get(downloadLink.downloadLink, {
-          responseType: 'arraybuffer',
+          responseType: 'stream',
         })
       ).data;
 
-      fs.writeFileSync(snapshotDir + '/' + snap.name + '.csnap', snapshotFile);
+      const writer = fs.createWriteStream(
+        snapshotDir + '/' + snap.name + '.csnap'
+      );
+      snapshotFile.pipe(writer);
     }
 
     spinner.stop();
