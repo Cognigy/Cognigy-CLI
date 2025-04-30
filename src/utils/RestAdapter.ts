@@ -18,10 +18,19 @@ interface IOptions {
 export class RestAdapter implements IHttpAdapter {
   private config: IRestAPIClientConfig;
   private options: IOptions;
+  private cliVersion: string;
+  private agentId: string;
 
-  constructor(config?: IRestAPIClientConfig, options?: IOptions) {
-    this.config = config || {};
-    this.options = options || {};
+  constructor(
+    config: IRestAPIClientConfig = {},
+    options: IOptions = {},
+    cliVersion: string = 'unknown',
+    agentId: string = 'unknown'
+  ) {
+    this.config = config;
+    this.options = options;
+    this.cliVersion = cliVersion;
+    this.agentId = agentId;
   }
 
   public setConfig(config: IRestAPIClientConfig): void {
@@ -36,6 +45,15 @@ export class RestAdapter implements IHttpAdapter {
     let axiosResponse: AxiosResponse;
 
     try {
+      // Construct the custom header
+      const cliInfoHeader = `cognigy-cli/${this.cliVersion} project/${this.agentId}`;
+
+      // Ensure headers object exists and add the custom header
+      httpRequest.headers = {
+        ...httpRequest.headers,
+        'X-Cognigy-CLI-Info': cliInfoHeader,
+      };
+
       if (httpRequest.withAuthentication) {
         const authenticationHeaders =
           await client.authenticationHandler?.getAuthenticationHeaders();
