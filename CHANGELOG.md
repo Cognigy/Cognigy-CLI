@@ -1,3 +1,9 @@
+# [1.7.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.12...v1.7.0) (2025-05-02)
+
+### Features
+
+- **cli:** correctly version the package cli ([ee8d214](https://github.com/Cognigy/Cognigy-CLI/commit/ee8d2140817baa9aa68f4a8f332aa49f463063c1))
+
 ## [1.6.12](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.11...v1.6.12) (2025-03-25)
 
 ### Bug Fixes
