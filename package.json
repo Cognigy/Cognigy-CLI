@@ -1,6 +1,6 @@
 {
   "name": "@cognigy/cognigy-cli",
-  "version": "1.6.4",
+  "version": "0.0.0-semantic-release",
   "description": "Cognigy Command Line Interface",
   "main": "./build/cognigy.js",
   "scripts": {
