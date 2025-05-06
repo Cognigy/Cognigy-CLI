@@ -53,7 +53,6 @@ export class RestAdapter implements IHttpAdapter {
         ...httpRequest.headers,
         'X-Cognigy-Client-Info': cliInfoHeader,
       };
-      console.log('httpRequest.headers', httpRequest.headers);
 
       if (httpRequest.withAuthentication) {
         const authenticationHeaders =
