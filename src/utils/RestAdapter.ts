@@ -51,8 +51,9 @@ export class RestAdapter implements IHttpAdapter {
       // Ensure headers object exists and add the custom header
       httpRequest.headers = {
         ...httpRequest.headers,
-        'X-Cognigy-CLI-Info': cliInfoHeader,
+        'X-Cognigy-Client-Info': cliInfoHeader,
       };
+      console.log('httpRequest.headers', httpRequest.headers);
 
       if (httpRequest.withAuthentication) {
         const authenticationHeaders =
