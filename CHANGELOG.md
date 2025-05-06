@@ -1,3 +1,11 @@
+# [1.8.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.7.0...v1.8.0) (2025-05-06)
+
+### Features
+
+- **headers:** adding info headers ([cdf433f](https://github.com/Cognigy/Cognigy-CLI/commit/cdf433f1ac95309da0c520be1d133b941521789e))
+- **headers:** removing console.log ([5a385ac](https://github.com/Cognigy/Cognigy-CLI/commit/5a385ac25aaec4d8cee862bb6c621bcff5d8cb9b))
+- **headers:** updating name ([1771eee](https://github.com/Cognigy/Cognigy-CLI/commit/1771eeeb0aab5ee21eeab854c848634973ffe3c3))
+
 # [1.7.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.6.12...v1.7.0) (2025-05-02)
 
 ### Features
