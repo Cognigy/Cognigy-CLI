@@ -61,7 +61,12 @@ export const createSnapshot = async (
       const writer = fs.createWriteStream(
         snapshotDir + '/' + snap.name + '.csnap'
       );
-      snapshotFile.pipe(writer);
+      // Wait for the download to complete
+      await new Promise((resolve, reject) => {
+        snapshotFile.pipe(writer);
+        writer.on('finish', resolve);
+        writer.on('error', reject);
+      });
     }
 
     spinner.stop();
