@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.8.0...v1.8.1) (2025-05-12)
+
+### Bug Fixes
+
+- await snapshot file write completion ([08f1aa6](https://github.com/Cognigy/Cognigy-CLI/commit/08f1aa6bde670afd73187bd060a1de2ca2befe6e))
+- **bug:** use stream when downloading snapshot locally ([c17d4b4](https://github.com/Cognigy/Cognigy-CLI/commit/c17d4b425014b940e23b05c2f916d4f27fcc251c))
+
 # [1.8.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.7.0...v1.8.0) (2025-05-06)
 
 ### Features
