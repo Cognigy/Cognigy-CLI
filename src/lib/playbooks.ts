@@ -90,7 +90,7 @@ async function checkPlaybookRuns(
         const task = await CognigyClient.readTask({
           taskId: scheduledPlaybookRun.taskId,
         });
-        const playbookRun = await CognigyClient.readPlaybookRun({
+        const playbookRun = await waitForPlaybookRun({
           playbookId: scheduledPlaybookRun.playbookId,
           playbookRunId: task.data.playbookRunId,
         });
@@ -131,4 +131,51 @@ async function checkPlaybookRuns(
       }
     }, 1000);
   });
+}
+
+/**
+ * Waits for a playbook run to be available, retrying until timeout
+ * @param playbookId The playbook ID
+ * @param playbookRunId The run ID
+ * @returns The playbook run object if found
+ * @throws Error if not found within timeout
+ */
+async function waitForPlaybookRun({
+  playbookId,
+  playbookRunId,
+}: {
+  playbookId: string;
+  playbookRunId: string;
+}): Promise<any> {
+  const timeoutMs: number = (CONFIG.playbookTimeoutSeconds || 10) * 1000;
+  const delayMs: number = 3000;
+  const startTime = Date.now();
+  let attempt = 0;
+
+  while (Date.now() - startTime < timeoutMs) {
+    attempt++;
+    try {
+      const playbookRun = await CognigyClient.readPlaybookRun({
+        playbookId,
+        playbookRunId,
+      });
+      console.log(`Playbook run found after ${attempt} attempt(s).`);
+      return playbookRun;
+    } catch (error: any) {
+      if (error.httpStatusCode === 404) {
+        console.log(
+          `Attempt ${attempt}: Playbook run not found (playbookId=${playbookId}, runId=${playbookRunId}). Retrying in ${delayMs}ms...`
+        );
+        await new Promise((res) => setTimeout(res, delayMs));
+      } else {
+        throw error; // Fail fast on non-404 errors
+      }
+    }
+  }
+
+  console.log(
+    `Timed out after ${timeoutMs / 1000}s: Playbook run ${playbookRunId} (playbookId=${playbookId}) was not found.\n` +
+      `Please check the status of the run in the Cognigy UI for more details.`
+  );
+  process.exit(2);
 }
