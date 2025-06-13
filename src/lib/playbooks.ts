@@ -1,6 +1,7 @@
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
 import * as fs from 'fs';
+import { checkTask } from '../utils/checks';
 
 interface Playbook {
   playbookId: string;
@@ -87,6 +88,7 @@ async function checkPlaybookRuns(
 
       // Check the status of all playbooks
       for (const scheduledPlaybookRun of scheduledPlaybookRuns) {
+        await checkTask(scheduledPlaybookRun.taskId);
         const task = await CognigyClient.readTask({
           taskId: scheduledPlaybookRun.taskId,
         });
