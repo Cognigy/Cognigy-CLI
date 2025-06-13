@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/Cognigy/Cognigy-CLI/compare/v1.8.1...v1.8.2) (2025-06-13)
+
+### Bug Fixes
+
+- wait for playbook to be available via api ([cf1ef4a](https://github.com/Cognigy/Cognigy-CLI/commit/cf1ef4a92615963f14ee6ac14981c04eeac1f6bb))
+- wait for task to be finished ([09f9c58](https://github.com/Cognigy/Cognigy-CLI/commit/09f9c58c2e9492ac233ed752ab769e1db7057e2c))
+
 ## [1.8.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.8.0...v1.8.1) (2025-05-12)
 
 ### Bug Fixes
