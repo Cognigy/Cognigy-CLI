@@ -133,15 +133,26 @@ export class RestAdapter implements IHttpAdapter {
     client: TRestAPIClient
   ): Promise<AxiosRequestConfig> {
     const baseUrl = request.baseUrl || this.config.baseUrl;
+    const method = request.method || 'GET';
 
     const axiosRequest: AxiosRequestConfig = {
-      data: request.data,
       headers: request.headers,
-      method: request.method || 'GET',
+      method,
       url: `${baseUrl}${request.url}`,
       // @ts-ignore
       validateStatus: null,
     };
+
+    if (method !== 'GET' && method !== 'HEAD') {
+      axiosRequest.data = request.data;
+    } else if (request.data) {
+      const stack = new Error().stack;
+      console.warn(
+        `Warning: RestAdapter: ${method} request to ${request.url} includes body data which will be ignored. ` +
+          `This may indicate an issue with the API client implementation. ` +
+          `Stack trace: ${stack}`
+      );
+    }
 
     return axiosRequest;
   }
