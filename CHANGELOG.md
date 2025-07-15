@@ -1,3 +1,9 @@
+## [1.8.3](https://github.com/Cognigy/Cognigy-CLI/compare/v1.8.2...v1.8.3) (2025-07-15)
+
+### Bug Fixes
+
+- upgrade @langchain/community from 0.3.29 to 0.3.44 ([77896d4](https://github.com/Cognigy/Cognigy-CLI/commit/77896d484924ff82872204a57bb264b04e58d3c9))
+
 ## [1.8.2](https://github.com/Cognigy/Cognigy-CLI/compare/v1.8.1...v1.8.2) (2025-06-13)
 
 ### Bug Fixes
