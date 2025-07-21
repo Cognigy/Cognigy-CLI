@@ -1,3 +1,10 @@
+## [1.8.4](https://github.com/Cognigy/Cognigy-CLI/compare/v1.8.3...v1.8.4) (2025-07-21)
+
+### Bug Fixes
+
+- package.json & package-lock.json to reduce vulnerabilities ([26dee28](https://github.com/Cognigy/Cognigy-CLI/commit/26dee28611e54b2ceec450078789e77eb6443dce))
+- **vulnerability:** updating form-data version ([5fe087c](https://github.com/Cognigy/Cognigy-CLI/commit/5fe087c855337141a9da0acf9863cbcbc928c757))
+
 ## [1.8.3](https://github.com/Cognigy/Cognigy-CLI/compare/v1.8.2...v1.8.3) (2025-07-15)
 
 ### Bug Fixes
