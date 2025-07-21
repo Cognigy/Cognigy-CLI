@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "-": "0.0.1",
-    "@cognigy/rest-api-client": "^4.97.0",
+    "@cognigy/rest-api-client": "^4.98.0",
     "@google-cloud/translate": "9.1.0",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
     "@langchain/community": "0.3.44",
@@ -61,7 +61,7 @@
     "diff": "5.0.0",
     "epub2": "3.0.2",
     "express": "4.21.2",
-    "form-data": "4.0.3",
+    "form-data": "4.0.4",
     "fs-extra": "^11.3.0",
     "gpt-3-encoder": "1.1.4",
     "html-to-text": "9.0.5",
