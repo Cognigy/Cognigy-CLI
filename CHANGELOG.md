@@ -1,3 +1,9 @@
+## [1.8.5](https://github.com/Cognigy/Cognigy-CLI/compare/v1.8.4...v1.8.5) (2025-07-29)
+
+### Bug Fixes
+
+- filter out body data from GET/HEAD requests to prevent 403 errors ([#243](https://github.com/Cognigy/Cognigy-CLI/issues/243)) ([531534b](https://github.com/Cognigy/Cognigy-CLI/commit/531534b6c36c08575789d52559f34412a4452b93)), closes [#242](https://github.com/Cognigy/Cognigy-CLI/issues/242)
+
 ## [1.8.4](https://github.com/Cognigy/Cognigy-CLI/compare/v1.8.3...v1.8.4) (2025-07-21)
 
 ### Bug Fixes
