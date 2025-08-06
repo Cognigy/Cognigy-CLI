@@ -48,7 +48,7 @@
     "@cognigy/rest-api-client": "2025.15.1",
     "@google-cloud/translate": "9.1.0",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
-    "@langchain/community": "0.3.48",
+    "@langchain/community": "0.3.49",
     "axios": "1.11.0",
     "chalk": "4.1.2",
     "cheerio": "1.1.0",
