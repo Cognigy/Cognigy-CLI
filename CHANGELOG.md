@@ -1,3 +1,13 @@
+# [1.9.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.8.6...v1.9.0) (2025-08-12)
+
+### Bug Fixes
+
+- fixed fulnerability by adding npm override for form-data ([68e4009](https://github.com/Cognigy/Cognigy-CLI/commit/68e4009628589901d151df3d9db68ddf1a2ce17d))
+
+### Features
+
+- added dependabot config ([2902d82](https://github.com/Cognigy/Cognigy-CLI/commit/2902d82e66973d81270024555a0ef23470a89999))
+
 ## [1.8.6](https://github.com/Cognigy/Cognigy-CLI/compare/v1.8.5...v1.8.6) (2025-08-12)
 
 ### Bug Fixes
