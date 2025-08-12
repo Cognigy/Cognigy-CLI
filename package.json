@@ -95,6 +95,7 @@
     "url": "https://github.com/Cognigy/Cognigy-CLI"
   },
   "overrides": {
+    "form-data": "4.0.4",
     "cross-spawn": "7.0.5",
     "srt-parser-2": "1.1.3",
     "axios": "1.11.0",
