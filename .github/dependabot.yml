@@ -1,0 +1,49 @@
+version: 2
+registries:
+  cognigy-internal:
+    type: npm-registry
+    url: https://cognigy.pkgs.visualstudio.com/_packaging/cognigy-feed/npm/registry/
+    username: ${{secrets.COGNIGY_NPM_USERNAME}}
+    password: ${{secrets.COGNIGY_NPM_TOKEN_DECODED}} # Must be an unencoded password
+updates:
+  # Maintain dependencies for npm
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'sunday'
+      time: '09:00'
+    open-pull-requests-limit: 10
+    labels:
+      - 'dependencies'
+      - 'npm'
+    versioning-strategy: 'auto'
+    commit-message:
+      prefix: 'npm'
+      prefix-development: 'npm dev'
+      include: 'scope'
+    registries: '*'
+    allow:
+      - dependency-type: 'all'
+    groups:
+      # Specify a name for the group, which will be used in pull request titles
+      # and branch names
+      minor-patch-updates:
+        applies-to: version-updates
+        update-types:
+          - 'minor'
+          - 'patch'
+
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'sunday'
+    open-pull-requests-limit: 5
+    labels:
+      - 'dependencies'
+      - 'github-actions'
+    commit-message:
+      prefix: 'github-actions'
+      include: 'scope'
