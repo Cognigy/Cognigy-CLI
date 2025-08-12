@@ -1,3 +1,9 @@
+## [1.9.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.0...v1.9.1) (2025-08-12)
+
+### Bug Fixes
+
+- change dependabot config to follow semmantic-commits ([166b301](https://github.com/Cognigy/Cognigy-CLI/commit/166b301d1851439fe060778d21ac487eb946cb25))
+
 # [1.9.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.8.6...v1.9.0) (2025-08-12)
 
 ### Bug Fixes
