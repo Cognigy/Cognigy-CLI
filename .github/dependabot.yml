@@ -19,8 +19,8 @@ updates:
       - 'npm'
     versioning-strategy: 'auto'
     commit-message:
-      prefix: 'npm'
-      prefix-development: 'npm dev'
+      prefix: 'fix'
+      prefix-development: 'chore'
       include: 'scope'
     registries: '*'
     allow:
