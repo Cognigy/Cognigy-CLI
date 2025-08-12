@@ -15,7 +15,7 @@ jobs:
         run: |
           echo Starting the CLI release
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
         with:
           token: ${{ secrets.COGNIGY_CLI_RELEASE_TOKEN }}
       - name: Setup Node.js
