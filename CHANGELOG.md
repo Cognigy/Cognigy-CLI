@@ -1,3 +1,11 @@
+## [1.8.6](https://github.com/Cognigy/Cognigy-CLI/compare/v1.8.5...v1.8.6) (2025-08-12)
+
+### Bug Fixes
+
+- upgrade @langchain/community from 0.3.48 to 0.3.49 ([a1c3a25](https://github.com/Cognigy/Cognigy-CLI/commit/a1c3a253a10c57282c4de1c79f763db9e61644cd))
+- upgrade mammoth from 1.9.0 to 1.9.1 ([54bbc05](https://github.com/Cognigy/Cognigy-CLI/commit/54bbc05e70d612cad8df8b1e19ca3026a5aaf65c))
+- upgrade playwright from 1.53.2 to 1.54.1 ([04bd2c4](https://github.com/Cognigy/Cognigy-CLI/commit/04bd2c4b0765376159eed551b0e846aa6356c2ba))
+
 ## [1.8.5](https://github.com/Cognigy/Cognigy-CLI/compare/v1.8.4...v1.8.5) (2025-07-29)
 
 ### Bug Fixes
