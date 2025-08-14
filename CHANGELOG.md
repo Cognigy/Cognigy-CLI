@@ -1,3 +1,9 @@
+## [1.9.2](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.1...v1.9.2) (2025-08-14)
+
+### Bug Fixes
+
+- **project:** correctly version cli upon release ([fb694b7](https://github.com/Cognigy/Cognigy-CLI/commit/fb694b70c5bb2c371f59cefe981a723b0be843b9))
+
 ## [1.9.1](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.0...v1.9.1) (2025-08-12)
 
 ### Bug Fixes
