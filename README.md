@@ -4,6 +4,8 @@ Cognigy CLI offers a series of tools and functionalities in order to interact wi
 
 **The CLI can only create Snapshots and Locales right now - no other resources. It is meant for changing already existing resources and manipulating their state.**
 
+
+
 Currently supported resources (`<resourceType>`):
 
 - Flows (clone, restore, push, pull, diff, train)
