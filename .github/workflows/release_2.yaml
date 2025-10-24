@@ -35,5 +35,5 @@ jobs:
         run: npm --save-dev i @semantic-release/changelog @semantic-release/git
       - name: Release
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN_CI }} # TODO: This is most likely an DevOps Azure PAT, it will be replaced soon for a better approach
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN_CI }} # TODO: This is most likely a DevOps Azure PAT, it will be replaced soon for a better approach
         run: npx semantic-release@23.0.2
