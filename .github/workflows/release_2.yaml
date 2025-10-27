@@ -36,4 +36,5 @@ jobs:
       - name: Release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN_CI }} # TODO: This is most likely a DevOps Azure PAT, it will be replaced soon for a better approach
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: npx semantic-release@23.0.2
