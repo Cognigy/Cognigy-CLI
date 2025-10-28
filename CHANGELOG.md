@@ -1,3 +1,9 @@
+## [1.9.4](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.3...v1.9.4) (2025-10-28)
+
+### Bug Fixes
+
+- **deps:** bump playwright and @playwright/test ([2a89b9c](https://github.com/Cognigy/Cognigy-CLI/commit/2a89b9c9e005fbbe4344f98187f269008d773b3c))
+
 ## [1.9.3](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.2...v1.9.3) (2025-10-28)
 
 ### Bug Fixes
