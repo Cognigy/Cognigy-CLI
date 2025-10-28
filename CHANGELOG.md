@@ -1,3 +1,9 @@
+## [1.9.5](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.4...v1.9.5) (2025-10-28)
+
+### Bug Fixes
+
+- **deps:** bump mammoth from 1.10.0 to 1.11.0 ([2b9583c](https://github.com/Cognigy/Cognigy-CLI/commit/2b9583cc79dd418bea8cac2db5a9b49ed82f6942))
+
 ## [1.9.4](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.3...v1.9.4) (2025-10-28)
 
 ### Bug Fixes
