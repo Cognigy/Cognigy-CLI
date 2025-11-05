@@ -1,3 +1,9 @@
+## [1.9.6](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.5...v1.9.6) (2025-11-05)
+
+### Bug Fixes
+
+- **deps:** bump the minor-patch-updates group across 1 directory with 49 updates ([a99d4e8](https://github.com/Cognigy/Cognigy-CLI/commit/a99d4e88305c2c373b1a9251fb6627365c64bb73))
+
 ## [1.9.5](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.4...v1.9.5) (2025-10-28)
 
 ### Bug Fixes
