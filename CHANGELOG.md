@@ -1,3 +1,9 @@
+## [1.9.7](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.6...v1.9.7) (2025-11-11)
+
+### Bug Fixes
+
+- update dependencies and refactor imports ([#341](https://github.com/Cognigy/Cognigy-CLI/issues/341)) ([9930de1](https://github.com/Cognigy/Cognigy-CLI/commit/9930de17e0c3effa978abb57f0c4c41d7e43d50b))
+
 ## [1.9.6](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.5...v1.9.6) (2025-11-05)
 
 ### Bug Fixes
