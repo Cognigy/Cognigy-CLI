@@ -1,4 +1,4 @@
-import * as inquirer from 'inquirer';
+import { prompt } from './inquirer';
 
 console.log('\n\nCognigy.AI CLI Simulator');
 console.log('------------------------');
@@ -6,7 +6,7 @@ console.log('  (used for debugging)');
 console.log('\n');
 
 (async () => {
-  const answers = await inquirer.prompt([
+  const answers = await prompt([
     {
       type: 'input',
       name: 'command',

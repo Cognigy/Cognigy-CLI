@@ -1,4 +1,4 @@
-import * as inquirer from 'inquirer';
+import { prompt } from '../utils/inquirer';
 import * as fs from 'fs';
 
 /**
@@ -10,7 +10,7 @@ export const init = async (): Promise<void> => {
   );
 
   // collect all necessary data from user
-  const answers = await inquirer.prompt([
+  const answers = await prompt([
     {
       type: 'input',
       name: 'name',

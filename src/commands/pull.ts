@@ -1,4 +1,4 @@
-import * as inquirer from 'inquirer';
+import { prompt } from '../utils/inquirer';
 
 import CONFIG from '../utils/config';
 import { startProgressBar, endProgressBar } from '../utils/progressBar';
@@ -26,7 +26,7 @@ export const pull = async ({
   // get confirmation from user that local data will be overwritten
   const answers = forceYes
     ? { overwrite: true }
-    : await inquirer.prompt([
+    : await prompt([
         {
           type: 'confirm',
           name: 'overwrite',

@@ -1,4 +1,4 @@
-import inquirer = require('inquirer');
+import { prompt } from '../utils/inquirer';
 import { ITranslateFlowOptions, pullFlow, translateFlow } from '../lib/flows';
 import { checkAgentDir, checkLocale, checkProject } from '../utils/checks';
 import { endProgressBar, startProgressBar } from '../utils/progressBar';
@@ -53,7 +53,7 @@ export const translate = async ({
   // get confirmation from user that data will be overwritten
   const answers = forceYes
     ? { overwrite: true }
-    : await inquirer.prompt([
+    : await prompt([
         {
           type: 'confirm',
           name: 'overwrite',

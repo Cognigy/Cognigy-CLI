@@ -1,4 +1,4 @@
-import * as inquirer from 'inquirer';
+import { prompt } from '../utils/inquirer';
 
 import { startProgressBar, endProgressBar } from '../utils/progressBar';
 import { pushFlow } from '../lib/flows';
@@ -29,7 +29,7 @@ export const push = async ({
   // get confirmation from user that Cognigy.AI data will be overwritten
   const answers = options.forceYes
     ? { overwrite: true }
-    : await inquirer.prompt([
+    : await prompt([
         {
           type: 'confirm',
           name: 'overwrite',
