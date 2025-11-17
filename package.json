@@ -47,11 +47,11 @@
   },
   "dependencies": {
     "-": "0.0.1",
-    "@cognigy/rest-api-client": "2025.22.0",
-    "@google-cloud/translate": "9.2.1",
+    "@cognigy/rest-api-client": "2025.23.0",
+    "@google-cloud/translate": "9.3.0",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
-    "@langchain/community": "1.0.2",
-    "@langchain/core": "1.0.2",
+    "@langchain/community": "1.0.3",
+    "@langchain/core": "1.0.5",
     "axios": "1.12.2",
     "chalk": "4.1.2",
     "cheerio": "1.1.2",
@@ -82,7 +82,7 @@
     "uuid": "13.0.0"
   },
   "resolutions": {
-    "@langchain/core": "1.0.2"
+    "@langchain/core": "1.0.5"
   },
   "bin": {
     "cognigy": "./build/cognigy.js"
