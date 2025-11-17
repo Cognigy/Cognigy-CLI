@@ -2,7 +2,7 @@ import { startProgressBar, endProgressBar } from '../utils/progressBar';
 import { localizeFlow, pullFlow } from '../lib/flows';
 import { checkLocale, checkProject } from '../utils/checks';
 import { pullLocales } from '../lib/locales';
-import { prompt } from '../utils/inquirer';
+import inquirer from '../utils/inquirer';
 import { upperFirst } from '../utils/stringUtils';
 
 /**
@@ -31,7 +31,7 @@ export const localize = async ({
   // get confirmation from user that data will be overwritten
   const answers = options.forceYes
     ? { overwrite: true }
-    : await prompt([
+    : await inquirer.prompt([
         {
           type: 'confirm',
           name: 'overwrite',

@@ -1,4 +1,4 @@
-import { prompt } from '../utils/inquirer';
+import inquirer from '../utils/inquirer';
 
 import { startProgressBar, endProgressBar } from '../utils/progressBar';
 import { checkAgentDir, checkProject } from '../utils/checks';
@@ -26,7 +26,7 @@ export const restore = async ({
   // get confirmation from user that Cognigy.AI data will be overwritten
   const answers = forceYes
     ? { overwrite: true }
-    : await prompt([
+    : await inquirer.prompt([
         {
           type: 'confirm',
           name: 'overwrite',
