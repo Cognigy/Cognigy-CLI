@@ -1,6 +1,6 @@
 {
   "name": "@cognigy/cognigy-cli",
-  "version": "1.9.2",
+  "version": "1.9.9",
   "description": "Cognigy Command Line Interface",
   "main": "./build/cognigy.js",
   "scripts": {
@@ -19,13 +19,13 @@
   "license": "MIT",
   "devDependencies": {
     "@commitlint/cli": "18.0.0",
-    "@commitlint/config-conventional": "19.8.1",
+    "@commitlint/config-conventional": "15.0.0",
     "@commitlint/prompt": "19.8.1",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/cli-progress": "3.11.6",
     "@types/cli-spinner": "0.2.3",
-    "@types/express": "5.0.3",
+    "@types/express": "5.0.5",
     "@types/inquirer": "6.5.0",
     "@types/mocha": "10.0.10",
     "@types/mongodb": "4.0.7",
@@ -35,23 +35,24 @@
     "chai": "4.3.4",
     "chai-autoload-plugins": "0.1.0",
     "cz-conventional-changelog": "3.3.0",
-    "husky": "7.0.4",
+    "husky": "9.1.7",
     "mocha": "10.8.2",
     "nock": "14.0.10",
     "nyc": "17.1.0",
     "prettier": "3.6.2",
     "sinon": "17.0.0",
-    "ts-mocha": "10.0.0",
+    "ts-mocha": "11.1.0",
     "tslint": "6.1.3",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   },
   "dependencies": {
     "-": "0.0.1",
-    "@cognigy/rest-api-client": "2025.16.0",
-    "@google-cloud/translate": "9.2.0",
+    "@cognigy/rest-api-client": "2025.23.0",
+    "@google-cloud/translate": "9.3.0",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
-    "@langchain/community": "0.3.51",
-    "axios": "1.11.0",
+    "@langchain/community": "1.0.3",
+    "@langchain/core": "1.0.5",
+    "axios": "1.12.2",
     "chalk": "4.1.2",
     "cheerio": "1.1.2",
     "cli-progress": "3.12.0",
@@ -64,21 +65,24 @@
     "epub2": "3.0.2",
     "express": "5.1.0",
     "form-data": "4.0.4",
-    "fs-extra": "11.3.1",
+    "fs-extra": "11.3.2",
     "gpt-3-encoder": "1.1.4",
     "html-to-text": "9.0.5",
     "inquirer": "8.2.7",
-    "js-yaml": "4.1.0",
+    "js-yaml": "4.1.1",
     "json-diff": "1.0.6",
     "jsonpointer": "5.0.1",
-    "mammoth": "1.10.0",
+    "mammoth": "1.11.0",
     "os": "0.1.2",
     "pdf-parse": "1.1.1",
     "pdfjs": "2.5.4",
-    "playwright": "1.54.2",
-    "rimraf": "6.0.1",
+    "playwright": "1.56.1",
+    "rimraf": "6.1.0",
     "srt-parser-2": "1.1.3",
-    "uuid": "11.1.0"
+    "uuid": "13.0.0"
+  },
+  "resolutions": {
+    "@langchain/core": "1.0.5"
   },
   "bin": {
     "cognigy": "./build/cognigy.js"
@@ -100,7 +104,7 @@
     "form-data": "4.0.4",
     "cross-spawn": "7.0.5",
     "srt-parser-2": "1.1.3",
-    "axios": "1.11.0",
+    "axios": "1.12.2",
     "brace-expansion": "1.1.12",
     "google-gax": {
       "form-data": "2.5.4"
