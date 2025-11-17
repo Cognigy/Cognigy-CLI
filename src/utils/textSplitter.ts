@@ -1,5 +1,5 @@
 /** Custom Modules */
-import * as splitters from 'langchain/text_splitter';
+import * as splitters from '@langchain/textsplitters';
 
 /** Interfaces */
 import { IExtractOptions } from '../lib/knowledgeAI/extractionProvider/IExtractorOptions';
