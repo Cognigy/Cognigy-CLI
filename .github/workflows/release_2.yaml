@@ -14,12 +14,17 @@ jobs:
       - name: release action
         run: |
           echo Starting the CLI release
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ secrets.BYPASS_BRANCH_PROTECTION_APP_ID }}
+          private-key: ${{ secrets.BYPASS_BRANCH_PROTECTION_PRIVATE_KEY }}
       - name: Checkout
         uses: actions/checkout@v5
         with:
-          token: ${{ secrets.COGNIGY_CLI_RELEASE_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: 20.x
       - name: Install dependencies
@@ -30,6 +35,6 @@ jobs:
         run: npm --save-dev i @semantic-release/changelog @semantic-release/git
       - name: Release
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN_CI }}
-          GITHUB_TOKEN: ${{ secrets.COGNIGY_CLI_RELEASE_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN_CI }} # TODO: This is most likely a DevOps Azure PAT, it will be replaced soon for a better approach
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: npx semantic-release@23.0.2

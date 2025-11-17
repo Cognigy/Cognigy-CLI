@@ -1,3 +1,44 @@
+## [1.9.8](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.7...v1.9.8) (2025-11-17)
+
+### Bug Fixes
+
+- **deps:** bump js-yaml from 4.1.0 to 4.1.1 ([fc62f06](https://github.com/Cognigy/Cognigy-CLI/commit/fc62f06a884e19dabc3325ff656860ac3158a8f1))
+
+## [1.9.7](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.6...v1.9.7) (2025-11-11)
+
+### Bug Fixes
+
+- update dependencies and refactor imports ([#341](https://github.com/Cognigy/Cognigy-CLI/issues/341)) ([9930de1](https://github.com/Cognigy/Cognigy-CLI/commit/9930de17e0c3effa978abb57f0c4c41d7e43d50b))
+
+## [1.9.6](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.5...v1.9.6) (2025-11-05)
+
+### Bug Fixes
+
+- **deps:** bump the minor-patch-updates group across 1 directory with 49 updates ([a99d4e8](https://github.com/Cognigy/Cognigy-CLI/commit/a99d4e88305c2c373b1a9251fb6627365c64bb73))
+
+## [1.9.5](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.4...v1.9.5) (2025-10-28)
+
+### Bug Fixes
+
+- **deps:** bump mammoth from 1.10.0 to 1.11.0 ([2b9583c](https://github.com/Cognigy/Cognigy-CLI/commit/2b9583cc79dd418bea8cac2db5a9b49ed82f6942))
+
+## [1.9.4](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.3...v1.9.4) (2025-10-28)
+
+### Bug Fixes
+
+- **deps:** bump playwright and @playwright/test ([2a89b9c](https://github.com/Cognigy/Cognigy-CLI/commit/2a89b9c9e005fbbe4344f98187f269008d773b3c))
+
+## [1.9.3](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.2...v1.9.3) (2025-10-28)
+
+### Bug Fixes
+
+- **deps:** bump @browserbasehq/stagehand from 1.12.0 to 1.14.0 ([2a2d936](https://github.com/Cognigy/Cognigy-CLI/commit/2a2d936b676466b751ccd90c35fed3c070d1bac9))
+- **deps:** bump the minor-patch-updates group across 1 directory with 20 updates ([#285](https://github.com/Cognigy/Cognigy-CLI/issues/285)) ([2f4f1ba](https://github.com/Cognigy/Cognigy-CLI/commit/2f4f1ba754a652207931de478ec6218ef5d12b42))
+- **deps:** bump the minor-patch-updates group across 1 directory with 41 updates ([a81bfd8](https://github.com/Cognigy/Cognigy-CLI/commit/a81bfd868c539f22ec29f81dd188c7273045103d))
+- Pass bypass token as GITHUB_TOKEN to semantic release ([052e53b](https://github.com/Cognigy/Cognigy-CLI/commit/052e53b6fe74bb80c4875778251a07c58c1c300e))
+- Update release pipeline to stop using github PAT ([77a4c0a](https://github.com/Cognigy/Cognigy-CLI/commit/77a4c0abc7ac0319eb83b926e2d2078e8063589c))
+- update typo ([7e26524](https://github.com/Cognigy/Cognigy-CLI/commit/7e265242eb084ff60a31b059a616cee6cd63590c))
+
 ## [1.9.2](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.1...v1.9.2) (2025-08-14)
 
 ### Bug Fixes
