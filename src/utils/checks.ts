@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { rimraf } from 'rimraf';
-import chalk from 'chalk';
+import chalk from './chalk';
 import CONFIG from '../utils/config';
 import CognigyClient from '../utils/cognigyClient';
 import { pullLocales } from '../lib/locales';

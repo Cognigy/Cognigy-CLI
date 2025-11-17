@@ -6,7 +6,7 @@ import { indexAll } from '../utils/indexAll';
 import { addToProgressBar } from '../utils/progressBar';
 import * as jsonDiff from 'json-diff';
 import { Spinner } from 'cli-spinner';
-import chalk from 'chalk';
+import chalk from '../utils/chalk';
 
 interface AiAgent {
   _id: string;
