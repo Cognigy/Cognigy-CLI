@@ -168,12 +168,12 @@ Creates a remote resource on Cognigy.AI and downloads it to disk.
 > For Snapshots, use `cognigy create snapshot snapname "My Description"`
 > For Locales, use `cognigy create locale localename`
 
-| Option                        | Alias | Type    | Default | Description                                                                                  |
-| ----------------------------- | ----- | ------- | ------- | -------------------------------------------------------------------------------------------- |
-| <nobr>--timeout</nobr>        | -t    | Number  | 100000  | Timeout in ms before the creation process is no longer checked (will continue on Cognigy.AI) |
-| <nobr>--skipDownload</nobr>   | -s    | Boolean | false   | Skips download of created resource (for snapshots)                                           |
-| <nobr>--fallbackLocale</nobr> | -lf   | String  | -       | ID (not Reference ID) of Locale to use for new Locale                                        |
-| <nobr>--nluLanguage</nobr>    | -lnlu | String  | -       | NLU Language to set for new Locale                                                           |
+| Option                        | Alias  | Type    | Default | Description                                                                                  |
+| ----------------------------- | ------ | ------- | ------- | -------------------------------------------------------------------------------------------- |
+| <nobr>--timeout</nobr>        | -t     | Number  | 100000  | Timeout in ms before the creation process is no longer checked (will continue on Cognigy.AI) |
+| <nobr>--skipDownload</nobr>   | -s     | Boolean | false   | Skips download of created resource (for snapshots)                                           |
+| <nobr>--fallbackLocale</nobr> | --lf   | String  | -       | ID (not Reference ID) of Locale to use for new Locale                                        |
+| <nobr>--nluLanguage</nobr>    | --lnlu | String  | -       | NLU Language to set for new Locale                                                           |
 
 ### Command: exportcsv
 
@@ -199,15 +199,14 @@ Adds localization to Flow Intents and Nodes in bulk.
 
 This command will go through all Intents and Nodes in a given Locale and will add a localization if not already present.
 
-| Option                         | Alias | Type    | Default | Description                                                                        |
-| ------------------------------ | ----- | ------- | ------- | ---------------------------------------------------------------------------------- |
-| <nobr>--localName</nobr>       | -l    | String  | -       | Locale to add localizations to                                                     |
-| <nobr>--sourceLocale</nobr>    | -sl   | String  | -       | Source Locale to create localization from (optional)                               |
-| <nobr>--sourceLocale</nobr>    | -sl   | String  | -       | Source Locale to create localization from (optional)                               |
-| <nobr>--localizeIntents</nobr> | -li   | Boolean | true    | Whether to localize intents (if active, localizeNodes default is false)            |
-| <nobr>--localizeNodes</nobr>   | -ln   | Boolean | true    | Whether to localize Nodes (if active, localizeIntents default is false)            |
-| <nobr>--contentOnly</nobr>     | -co   | Boolean | false   | Only localize Say, Question and Optional Question Nodes (optional)                 |
-| <nobr>--reverse</nobr>         | -r    | Boolean | false   | Removes the localization from the selected Flow (can be combined with -li and -ln) |
+| Option                         | Alias | Type    | Default | Description                                                                      |
+| ------------------------------ | ----- | ------- | ------- | -------------------------------------------------------------------------------- |
+| <nobr>--localName</nobr>       | -l    | String  | -       | Locale to add localizations to                                                   |
+| <nobr>--sourceLocale</nobr>    | --sl  | String  | -       | Source Locale to create localization from (optional)                             |
+| <nobr>--localizeIntents</nobr> | --li  | Boolean | true    | Whether to localize intents (if active, localizeNodes default is false)          |
+| <nobr>--localizeNodes</nobr>   | --ln  | Boolean | true    | Whether to localize Nodes (if active, localizeIntents default is false)          |
+| <nobr>--contentOnly</nobr>     | --co  | Boolean | false   | Only localize Say, Question and Optional Question Nodes (optional)               |
+| <nobr>--reverse</nobr>         | -r    | Boolean | false   | Removes the localization from the selected Flow (can be combined with --li/--ln) |
 
 ### Command: translate
 
@@ -218,11 +217,11 @@ Translates the plain text of a chosen resource, such all Nodes inside a Flow.
 | Option                          | Alias | Type    | Default | Description                                                                |
 | ------------------------------- | ----- | ------- | ------- | -------------------------------------------------------------------------- |
 | <nobr>--localeName</nobr>       | -l    | String  | -       | The locale to process                                                      |
-| <nobr>--fromLanguage</nobr>     | -fl   | String  | -       | The language to translate from                                             |
-| <nobr>--toLanguage</nobr>       | -tl   | String  | -       | The language to translate to                                               |
-| <nobr>--translator</nobr>       | -tr   | String  | -       | The translation tool that should be used. 'google', 'microsoft' or 'deepl' |
-| <nobr>--translateIntents</nobr> | -ti   | Boolean | false   | Whether to add localization to Flow Intents                                |
-| <nobr>--translateNodes</nobr>   | -tn   | Boolean | false   | Whether to add localization to Flow Nodes                                  |
+| <nobr>--fromLanguage</nobr>     | --fl  | String  | -       | The language to translate from                                             |
+| <nobr>--toLanguage</nobr>       | --tl  | String  | -       | The language to translate to                                               |
+| <nobr>--translator</nobr>       | --tr  | String  | -       | The translation tool that should be used. 'google', 'microsoft' or 'deepl' |
+| <nobr>--translateIntents</nobr> | --ti  | Boolean | false   | Whether to add localization to Flow Intents                                |
+| <nobr>--translateNodes</nobr>   | --tn  | Boolean | false   | Whether to add localization to Flow Nodes                                  |
 | <nobr>--apiKey</nobr>           | -k    | String  | -       | The API Key for the chosen translation tool                                |
 | <nobr>--forceYes</nobr>         | -y    | Boolean | false   | Whether to skip warnings and overwrite all content                         |
 

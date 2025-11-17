@@ -122,8 +122,8 @@ program
   )
   .option('-t, --timeout <ms>', 'timeout for creating the snapshot')
   .option('-s, --skipDownload', 'skip downloading the snapshot')
-  .option('-lf, --fallbackLocale <localeId>', 'fallback locale ID')
-  .option('-lnlu, --nluLanguage <languageCode>', 'NLU to use')
+  .option('--lf, --fallbackLocale <localeId>', 'fallback locale ID')
+  .option('--lnlu, --nluLanguage <languageCode>', 'NLU to use')
   .action(
     async (
       resourceType,
@@ -174,11 +174,11 @@ program
     'force the use of a specific config file'
   )
   .option('-l, --localeName <localeName>', 'locale to process')
-  .option('-sl, --sourceLocale <sourceLocaleName>', 'locale to copy from')
-  .option('-li, --localizeIntents', 'adds localization to Flow Intents')
-  .option('-ln, --localizeNodes', 'adds localization to Flow Nodes')
+  .option('--sl, --sourceLocale <sourceLocaleName>', 'locale to copy from')
+  .option('--li, --localizeIntents', 'adds localization to Flow Intents')
+  .option('--ln, --localizeNodes', 'adds localization to Flow Nodes')
   .option(
-    '-co, --contentOnly',
+    '--co, --contentOnly',
     'adds localization only to Flow Nodes of type Say, Question and Optional Question'
   )
   .option('-r, --reverse', 'removes the localization from the selected Flow')
@@ -193,16 +193,16 @@ program
   .description('Translate a resource')
   .option('-l, --localeName <localeName>', 'locale to process')
   .option(
-    '-fl, --fromLanguage <fromLanguageCode>',
+    '--fl, --fromLanguage <fromLanguageCode>',
     'language to translate from'
   )
-  .option('-tl, --toLanguage <targetLanguageCode>', 'language to translate to')
+  .option('--tl, --toLanguage <targetLanguageCode>', 'language to translate to')
   .option(
-    '-tr, --translator <translator>',
+    '--tr, --translator <translator>',
     'the translation tool, google, microsoft or deepl'
   )
-  .option('-ti, --translateIntents', 'adds localization to Flow Intents')
-  .option('-tn, --translateNodes', 'adds localization to Flow Nodes')
+  .option('--ti, --translateIntents', 'adds localization to Flow Intents')
+  .option('--tn, --translateNodes', 'adds localization to Flow Nodes')
   .option('-k, --apiKey <apiKey>', 'the translator api key')
   .option('-y, --forceYes', 'skips warnings and overwrites all content')
   .action(async (resourceType, resourceName, cmdObj) => {
