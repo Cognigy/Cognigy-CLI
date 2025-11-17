@@ -304,7 +304,10 @@ export const diffLexicons = async (
       projectId: CONFIG.agent,
     });
 
-    const diff = Diff.diffChars(remoteCsvData, localCsvData);
+    const diff = Diff.diffChars(
+      remoteCsvData as unknown as string,
+      localCsvData
+    );
 
     // perform full comparison and output results
     let diffString = '';
