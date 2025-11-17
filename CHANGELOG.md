@@ -1,3 +1,9 @@
+## [1.9.8](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.7...v1.9.8) (2025-11-17)
+
+### Bug Fixes
+
+- **deps:** bump js-yaml from 4.1.0 to 4.1.1 ([fc62f06](https://github.com/Cognigy/Cognigy-CLI/commit/fc62f06a884e19dabc3325ff656860ac3158a8f1))
+
 ## [1.9.7](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.6...v1.9.7) (2025-11-11)
 
 ### Bug Fixes

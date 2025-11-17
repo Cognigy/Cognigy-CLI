@@ -1,6 +1,6 @@
 {
   "name": "@cognigy/cognigy-cli",
-  "version": "1.9.7",
+  "version": "1.9.8",
   "description": "Cognigy Command Line Interface",
   "main": "./build/cognigy.js",
   "scripts": {
@@ -41,7 +41,7 @@
     "nyc": "17.1.0",
     "prettier": "3.6.2",
     "sinon": "17.0.0",
-    "ts-mocha": "10.0.0",
+    "ts-mocha": "11.1.0",
     "tslint": "6.1.3",
     "typescript": "5.9.3"
   },
@@ -69,7 +69,7 @@
     "gpt-3-encoder": "1.1.4",
     "html-to-text": "9.0.5",
     "inquirer": "8.2.7",
-    "js-yaml": "4.1.0",
+    "js-yaml": "4.1.1",
     "json-diff": "1.0.6",
     "jsonpointer": "5.0.1",
     "mammoth": "1.11.0",
