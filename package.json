@@ -108,7 +108,9 @@
     "brace-expansion": "1.1.12",
     "google-gax": {
       "form-data": "2.5.4"
-    }
+    },
+    "glob@^10.0.0": "10.5.0",
+    "glob@^11.0.0": "11.1.0"
   },
   "husky": {
     "hooks": {
