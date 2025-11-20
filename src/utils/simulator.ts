@@ -1,4 +1,4 @@
-import * as inquirer from 'inquirer';
+import inquirer from './inquirer';
 
 console.log('\n\nCognigy.AI CLI Simulator');
 console.log('------------------------');

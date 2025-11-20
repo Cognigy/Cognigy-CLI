@@ -1,4 +1,4 @@
-import * as inquirer from 'inquirer';
+import inquirer from '../utils/inquirer';
 
 import CONFIG from '../utils/config';
 import { startProgressBar, endProgressBar } from '../utils/progressBar';
