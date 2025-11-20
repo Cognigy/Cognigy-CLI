@@ -1,3 +1,9 @@
+## [1.9.10](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.9...v1.9.10) (2025-11-19)
+
+### Bug Fixes
+
+- adjust typescript type after types/node update ([f709b0d](https://github.com/Cognigy/Cognigy-CLI/commit/f709b0d7dcfc3adbe4624305a7abb73ac0e90c85))
+
 ## [1.9.9](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.8...v1.9.9) (2025-11-17)
 
 ### Bug Fixes
