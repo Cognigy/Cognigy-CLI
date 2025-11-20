@@ -1,3 +1,9 @@
+## [1.9.11](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.10...v1.9.11) (2025-11-20)
+
+### Bug Fixes
+
+- override glob versions to remove high vunerability ([dbb3fad](https://github.com/Cognigy/Cognigy-CLI/commit/dbb3fadb17b10bf710942d2387a6ece74153ccb8))
+
 ## [1.9.10](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.9...v1.9.10) (2025-11-19)
 
 ### Bug Fixes
