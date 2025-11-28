@@ -68,17 +68,17 @@ The syntax for the command is
 cognigy knowledge-ai extract <type> -i path_to_input_file -o path_to_output_file
 ```
 
-| Option                                | Description                                                                                                        |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `-i, --inputFile <string>`            | Input File Path                                                                                                    |
-| `-o, --outputFile <string>`           | Output File Path                                                                                                   |
-| `-u --url <string>`                   | Target URL (for cheerio & playwright extraction)                                                                   |
-| `-e, --excludeString <string>`        | Excludes paragraphs containing this string                                                                         |
-| `-s, --splitter <string>`             | Splitter to use, leave empty for default (see below)                                                               |
-| `-cs, --chunkSize <number>`           | Chunk size, default 2000                                                                                           |
-| `-co, --chunkOverlap <number>`        | Chunk overlap, default 200                                                                                         |
-| `-ap --additionalParameters <string>` | Additional parameters for the extractor                                                                            |
-| `-fl --forceLocal`                    | Skips the API call to the extraction service and forces local processing of files. Will not work with type `other` |
+| Option                                 | Description                                                                                                        |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `-i, --inputFile <string>`             | Input File Path                                                                                                    |
+| `-o, --outputFile <string>`            | Output File Path                                                                                                   |
+| `-u --url <string>`                    | Target URL (for cheerio & playwright extraction)                                                                   |
+| `-e, --excludeString <string>`         | Excludes paragraphs containing this string                                                                         |
+| `-s, --splitter <string>`              | Splitter to use, leave empty for default (see below)                                                               |
+| `--cs, --chunkSize <number>`           | Chunk size, default 2000                                                                                           |
+| `--co, --chunkOverlap <number>`        | Chunk overlap, default 200                                                                                         |
+| `--ap --additionalParameters <string>` | Additional parameters for the extractor                                                                            |
+| `--fl --forceLocal`                    | Skips the API call to the extraction service and forces local processing of files. Will not work with type `other` |
 
 The following types are available:
 
