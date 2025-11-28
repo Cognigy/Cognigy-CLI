@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import chalk = require('chalk');
+import chalk from '../utils/chalk';
 
 import CognigyClient from '../utils/cognigyClient';
 import CONFIG from '../utils/config';
