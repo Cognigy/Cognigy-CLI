@@ -109,6 +109,9 @@
     "google-gax": {
       "form-data": "2.5.4"
     },
+    "express": {
+      "body-parser": "2.2.1"
+    },
     "glob@^10.0.0": "10.5.0",
     "glob@^11.0.0": "11.1.0"
   },
