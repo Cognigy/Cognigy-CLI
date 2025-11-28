@@ -1,3 +1,9 @@
+## [1.9.12](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.11...v1.9.12) (2025-11-28)
+
+### Bug Fixes
+
+- **deps:** bump body-parser from 2.2.0 to 2.2.1 ([18a5484](https://github.com/Cognigy/Cognigy-CLI/commit/18a5484d9061deb04bb3a5307d511698879e9cd3))
+
 ## [1.9.11](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.10...v1.9.11) (2025-11-20)
 
 ### Bug Fixes
