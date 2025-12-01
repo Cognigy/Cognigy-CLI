@@ -1,3 +1,10 @@
+## [1.9.14](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.13...v1.9.14) (2025-12-01)
+
+### Bug Fixes
+
+- **deps:** bump chalk from 4.1.2 to 5.6.2 ([09407be](https://github.com/Cognigy/Cognigy-CLI/commit/09407bee0637431ee644b79ae8984c4c699ef95c))
+- fix typescript error for chalk as a esm only module ([01f8417](https://github.com/Cognigy/Cognigy-CLI/commit/01f8417f846f167785cf1c9aa538db068a867a19))
+
 ## [1.9.13](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.12...v1.9.13) (2025-12-01)
 
 ### Bug Fixes
