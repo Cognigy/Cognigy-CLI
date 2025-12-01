@@ -1,3 +1,11 @@
+## [1.9.13](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.12...v1.9.13) (2025-12-01)
+
+### Bug Fixes
+
+- **deps:** bump inquirer from 8.2.7 to 12.11.0 ([18fe91a](https://github.com/Cognigy/Cognigy-CLI/commit/18fe91a4883d236fc2ab4180c10247a8a1d219b3))
+- load inquirer dynamically ([d044f95](https://github.com/Cognigy/Cognigy-CLI/commit/d044f9586cb79f13a32ee1ad9ad55d8313f6f41f))
+- simplify inquirer import ([353cf01](https://github.com/Cognigy/Cognigy-CLI/commit/353cf0118dfc2d1b8151c6f7622008c70cf06ad6))
+
 ## [1.9.12](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.11...v1.9.12) (2025-11-28)
 
 ### Bug Fixes
