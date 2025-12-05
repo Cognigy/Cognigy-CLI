@@ -299,11 +299,22 @@ export const diffLexicons = async (
       lexiconId: localConfig.lexiconId,
     });
 
-    const remoteCsvData = await CognigyClient.exportFromLexicon({
+    // create export task
+    const exportFromLexiconTask = await CognigyClient.exportFromLexicon({
       lexiconId: localConfig.lexiconId,
       projectId: CONFIG.agent,
     });
 
+    // wait for task to complete
+    await checkTask(exportFromLexiconTask._id);
+
+    // get download link
+    const downloadLink = await CognigyClient.composeLexiconDownloadLink({
+      lexiconId: localConfig.lexiconId,
+    });
+
+    // download the actual CSV content
+    const remoteCsvData = (await axios.get(downloadLink.downloadLink)).data;
     const diff = Diff.diffChars(remoteCsvData, localCsvData);
 
     // perform full comparison and output results
@@ -311,8 +322,13 @@ export const diffLexicons = async (
     diff.forEach((part) => {
       // green for additions, red for deletions
       // grey for common parts
-      const color = part.added ? 'green' : part.removed ? 'red' : 'grey';
-      diffString += part.value[color];
+      if (part.added) {
+        diffString += chalk.green(part.value);
+      } else if (part.removed) {
+        diffString += chalk.red(part.value);
+      } else {
+        diffString += chalk.grey(part.value);
+      }
     });
 
     spinner.stop();
