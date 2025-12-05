@@ -1,3 +1,10 @@
+## [1.9.15](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.14...v1.9.15) (2025-12-05)
+
+### Bug Fixes
+
+- fix bug with diff lexicons ([25b6427](https://github.com/Cognigy/Cognigy-CLI/commit/25b642737e4ea21b99ba32606a8d1662b9de3721))
+- force casting IExportFromLexiconRestReturnValue_2_0 to string temporally ([dd7a94b](https://github.com/Cognigy/Cognigy-CLI/commit/dd7a94b64f9615d14ed0dbe218302ac66f652e84))
+
 ## [1.9.14](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.13...v1.9.14) (2025-12-01)
 
 ### Bug Fixes
