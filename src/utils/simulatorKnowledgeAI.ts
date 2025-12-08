@@ -1,4 +1,4 @@
-import * as inquirer from 'inquirer';
+import inquirer from './inquirer';
 
 (async () => {
   console.log('\n\nCognigy.AI Knowledge Search CLI Simulator');
