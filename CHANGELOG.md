@@ -1,3 +1,9 @@
+## [1.9.16](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.15...v1.9.16) (2025-12-08)
+
+### Bug Fixes
+
+- **vuln:** override jws version to fix vulnerabilities ([d05e833](https://github.com/Cognigy/Cognigy-CLI/commit/d05e833f0f78fefee78391ffaab03e6e6cd4583f))
+
 ## [1.9.15](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.14...v1.9.15) (2025-12-05)
 
 ### Bug Fixes
