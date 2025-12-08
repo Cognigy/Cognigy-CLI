@@ -2,7 +2,7 @@ import { startProgressBar, endProgressBar } from '../utils/progressBar';
 import { localizeFlow, pullFlow } from '../lib/flows';
 import { checkLocale, checkProject } from '../utils/checks';
 import { pullLocales } from '../lib/locales';
-import inquirer = require('inquirer');
+import inquirer from '../utils/inquirer';
 import { upperFirst } from '../utils/stringUtils';
 
 /**

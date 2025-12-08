@@ -1,5 +1,5 @@
 import _default from '@google-cloud/translate';
-import chalk = require('chalk');
+import chalk from './chalk';
 import { StringDecoder } from 'string_decoder';
 import * as https from 'https';
 

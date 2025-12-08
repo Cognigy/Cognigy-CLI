@@ -1,3 +1,73 @@
+## [1.9.16](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.15...v1.9.16) (2025-12-08)
+
+### Bug Fixes
+
+- **vuln:** override jws version to fix vulnerabilities ([d05e833](https://github.com/Cognigy/Cognigy-CLI/commit/d05e833f0f78fefee78391ffaab03e6e6cd4583f))
+
+## [1.9.15](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.14...v1.9.15) (2025-12-05)
+
+### Bug Fixes
+
+- fix bug with diff lexicons ([25b6427](https://github.com/Cognigy/Cognigy-CLI/commit/25b642737e4ea21b99ba32606a8d1662b9de3721))
+- force casting IExportFromLexiconRestReturnValue_2_0 to string temporally ([dd7a94b](https://github.com/Cognigy/Cognigy-CLI/commit/dd7a94b64f9615d14ed0dbe218302ac66f652e84))
+
+## [1.9.14](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.13...v1.9.14) (2025-12-01)
+
+### Bug Fixes
+
+- **deps:** bump chalk from 4.1.2 to 5.6.2 ([09407be](https://github.com/Cognigy/Cognigy-CLI/commit/09407bee0637431ee644b79ae8984c4c699ef95c))
+- fix typescript error for chalk as a esm only module ([01f8417](https://github.com/Cognigy/Cognigy-CLI/commit/01f8417f846f167785cf1c9aa538db068a867a19))
+
+## [1.9.13](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.12...v1.9.13) (2025-12-01)
+
+### Bug Fixes
+
+- **deps:** bump inquirer from 8.2.7 to 12.11.0 ([18fe91a](https://github.com/Cognigy/Cognigy-CLI/commit/18fe91a4883d236fc2ab4180c10247a8a1d219b3))
+- load inquirer dynamically ([d044f95](https://github.com/Cognigy/Cognigy-CLI/commit/d044f9586cb79f13a32ee1ad9ad55d8313f6f41f))
+- simplify inquirer import ([353cf01](https://github.com/Cognigy/Cognigy-CLI/commit/353cf0118dfc2d1b8151c6f7622008c70cf06ad6))
+
+## [1.9.12](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.11...v1.9.12) (2025-11-28)
+
+### Bug Fixes
+
+- **deps:** bump body-parser from 2.2.0 to 2.2.1 ([18a5484](https://github.com/Cognigy/Cognigy-CLI/commit/18a5484d9061deb04bb3a5307d511698879e9cd3))
+
+## [1.9.11](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.10...v1.9.11) (2025-11-20)
+
+### Bug Fixes
+
+- override glob versions to remove high vunerability ([dbb3fad](https://github.com/Cognigy/Cognigy-CLI/commit/dbb3fadb17b10bf710942d2387a6ece74153ccb8))
+
+## [1.9.10](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.9...v1.9.10) (2025-11-19)
+
+### Bug Fixes
+
+- adjust typescript type after types/node update ([f709b0d](https://github.com/Cognigy/Cognigy-CLI/commit/f709b0d7dcfc3adbe4624305a7abb73ac0e90c85))
+
+## [1.9.9](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.8...v1.9.9) (2025-11-17)
+
+### Bug Fixes
+
+- **deps:** bump the minor-patch-updates group across 1 directory with 16 updates ([31868cd](https://github.com/Cognigy/Cognigy-CLI/commit/31868cd1b94a47605823a1cddc51f76ac6f1441c))
+
+## [1.9.8](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.7...v1.9.8) (2025-11-17)
+
+### Bug Fixes
+
+- **deps:** bump js-yaml from 4.1.0 to 4.1.1 ([fc62f06](https://github.com/Cognigy/Cognigy-CLI/commit/fc62f06a884e19dabc3325ff656860ac3158a8f1))
+
+## [1.9.7](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.6...v1.9.7) (2025-11-11)
+
+### Bug Fixes
+
+- update dependencies and refactor imports ([#341](https://github.com/Cognigy/Cognigy-CLI/issues/341)) ([9930de1](https://github.com/Cognigy/Cognigy-CLI/commit/9930de17e0c3effa978abb57f0c4c41d7e43d50b))
+
+## [1.9.6](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.5...v1.9.6) (2025-11-05)
+
+### Bug Fixes
+
+- **deps:** bump the minor-patch-updates group across 1 directory with 49 updates ([a99d4e8](https://github.com/Cognigy/Cognigy-CLI/commit/a99d4e88305c2c373b1a9251fb6627365c64bb73))
+
 ## [1.9.5](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.4...v1.9.5) (2025-10-28)
 
 ### Bug Fixes

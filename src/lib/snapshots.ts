@@ -62,7 +62,7 @@ export const createSnapshot = async (
         snapshotDir + '/' + snap.name + '.csnap'
       );
       // Wait for the download to complete
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         snapshotFile.pipe(writer);
         writer.on('finish', resolve);
         writer.on('error', reject);

@@ -1,4 +1,4 @@
-import inquirer = require('inquirer');
+import inquirer from '../utils/inquirer';
 import { ITranslateFlowOptions, pullFlow, translateFlow } from '../lib/flows';
 import { checkAgentDir, checkLocale, checkProject } from '../utils/checks';
 import { endProgressBar, startProgressBar } from '../utils/progressBar';

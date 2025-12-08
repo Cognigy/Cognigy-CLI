@@ -1,4 +1,4 @@
-import * as inquirer from 'inquirer';
+import inquirer from '../utils/inquirer';
 
 import { startProgressBar, endProgressBar } from '../utils/progressBar';
 import { checkAgentDir, checkProject } from '../utils/checks';
