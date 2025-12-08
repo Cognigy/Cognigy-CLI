@@ -109,6 +109,12 @@
     "google-gax": {
       "form-data": "2.5.4"
     },
+    "google-auth-library": {
+      "jws": "4.0.1"
+    },
+    "jsonwebtoken": {
+      "jws": "3.2.3"
+    },
     "glob@^10.0.0": "10.5.0",
     "glob@^11.0.0": "11.1.0"
   },
