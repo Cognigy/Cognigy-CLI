@@ -36,7 +36,7 @@
     "chai-autoload-plugins": "0.1.0",
     "cz-conventional-changelog": "3.3.0",
     "husky": "9.1.7",
-    "mocha": "10.8.2",
+    "mocha": "11.7.5",
     "nock": "14.0.10",
     "nyc": "17.1.0",
     "prettier": "3.6.2",
