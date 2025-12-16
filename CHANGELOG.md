@@ -1,3 +1,10 @@
+## [1.9.17](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.16...v1.9.17) (2025-12-16)
+
+### Bug Fixes
+
+- **deps:** bump express from 5.1.0 to 5.2.0 ([9976c1e](https://github.com/Cognigy/Cognigy-CLI/commit/9976c1e6a68e07a60a068251d56efe2bf4835e42))
+- upgrade pdf-parse from 1.1.1 to 1.1.4 ([6865dde](https://github.com/Cognigy/Cognigy-CLI/commit/6865dde5eb6e6d9ab6aa409684dd2eddb923c745))
+
 ## [1.9.16](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.15...v1.9.16) (2025-12-08)
 
 ### Bug Fixes
