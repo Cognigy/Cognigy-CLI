@@ -213,13 +213,16 @@ Examples:
       '-s, --splitter <string>',
       'Name of the splitter to use, leave empty for default'
     )
-    .option('-cs, --chunkSize <number>', 'Chunksize to use, default 2000')
-    .option('-co, --chunkOverlap <number>', 'Chunk overlap to use, default 200')
+    .option('--cs, --chunkSize <number>', 'Chunksize to use, default 2000')
     .option(
-      '-ap --additionalParameters <string>',
+      '--co, --chunkOverlap <number>',
+      'Chunk overlap to use, default 200'
+    )
+    .option(
+      '--ap, --additionalParameters <string>',
       'Additional parameters to send to the extractor'
     )
-    .option('-fl, --forceLocal', 'Forces local processing of files')
+    .option('--fl, --forceLocal', 'Forces local processing of files')
     .option('-v, --verbose', 'Print detailed logs', false)
     .action(async (type: string, options: IExtractOptions) => {
       try {
