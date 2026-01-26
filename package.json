@@ -1,6 +1,6 @@
 {
   "name": "@cognigy/cognigy-cli",
-  "version": "1.9.17",
+  "version": "2.0.3",
   "description": "Cognigy Command Line Interface",
   "main": "./build/cognigy.js",
   "scripts": {
@@ -51,7 +51,7 @@
     "@google-cloud/translate": "9.3.0",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
     "@langchain/community": "1.0.3",
-    "@langchain/core": "1.0.5",
+    "@langchain/core": "1.1.8",
     "axios": "1.12.2",
     "chalk": "5.6.2",
     "cheerio": "1.1.2",
@@ -61,9 +61,9 @@
     "csv-parser": "3.2.0",
     "csv-writer": "1.6.0",
     "d3-dsv": "2.0.0",
-    "diff": "8.0.2",
+    "diff": "8.0.3",
     "epub2": "3.0.2",
-    "express": "5.2.0",
+    "express": "5.2.1",
     "form-data": "4.0.4",
     "fs-extra": "11.3.2",
     "gpt-3-encoder": "1.1.4",
@@ -116,8 +116,13 @@
     "jsonwebtoken": {
       "jws": "3.2.3"
     },
+    "undici": "7.18.2",
+    "@actions/http-client": {
+      "undici": "6.23.0"
+    },
     "glob@^10.0.0": "10.5.0",
-    "glob@^11.0.0": "11.1.0"
+    "glob@^11.0.0": "11.1.0",
+    "lodash": "4.17.23"
   },
   "husky": {
     "hooks": {

@@ -1,3 +1,47 @@
+## [2.0.3](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.2...v2.0.3) (2026-01-26)
+
+### Bug Fixes
+
+- **deps:** bump tar and npm ([42a3296](https://github.com/Cognigy/Cognigy-CLI/commit/42a32967e7a210db6da966d0a9943a91e3852340))
+
+## [2.0.2](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.1...v2.0.2) (2026-01-26)
+
+### Bug Fixes
+
+- package.json & package-lock.json to reduce vulnerabilities ([12b0c3b](https://github.com/Cognigy/Cognigy-CLI/commit/12b0c3b511e536ffd8dc107875f6530ea3510dff))
+
+## [2.0.1](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.0...v2.0.1) (2025-12-29)
+
+### Bug Fixes
+
+- package.json & package-lock.json to reduce vulnerabilities ([1f21f69](https://github.com/Cognigy/Cognigy-CLI/commit/1f21f69cf65445d7d39e11b461d5621bce61b832))
+
+# [2.0.0](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.17...v2.0.0) (2025-12-19)
+
+### Bug Fixes
+
+- **deps:** bump commander from 11.1.0 to 14.0.2 ([1db5c70](https://github.com/Cognigy/Cognigy-CLI/commit/1db5c70870162bf3132090779710f72d77415e3c))
+
+- fix!: enforce single-char short flags (e.g. "-cf" now is "--cs") ([aac98b0](https://github.com/Cognigy/Cognigy-CLI/commit/aac98b0d509f5b19770190d4ea5c2b2fb057ab44))
+
+### BREAKING CHANGES
+
+- The following options were changed from single-dash to double-dash:
+
+-cs → --cs
+-co → --co
+-ap → --ap
+-fl → --fl
+-lf → --lf
+-lnlu → --lnlu
+-sl → --sl
+-li → --li
+-ln → --ln
+-tl → --tl
+-tr → --tr
+-ti → --ti
+-tn → --tn
+
 ## [1.9.17](https://github.com/Cognigy/Cognigy-CLI/compare/v1.9.16...v1.9.17) (2025-12-16)
 
 ### Bug Fixes
