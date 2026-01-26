@@ -61,7 +61,7 @@
     "csv-parser": "3.2.0",
     "csv-writer": "1.6.0",
     "d3-dsv": "2.0.0",
-    "diff": "8.0.2",
+    "diff": "8.0.3",
     "epub2": "3.0.2",
     "express": "5.2.1",
     "form-data": "4.0.4",
