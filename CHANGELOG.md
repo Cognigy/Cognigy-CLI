@@ -1,3 +1,9 @@
+## [2.0.2](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.1...v2.0.2) (2026-01-26)
+
+### Bug Fixes
+
+- package.json & package-lock.json to reduce vulnerabilities ([12b0c3b](https://github.com/Cognigy/Cognigy-CLI/commit/12b0c3b511e536ffd8dc107875f6530ea3510dff))
+
 ## [2.0.1](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.0...v2.0.1) (2025-12-29)
 
 ### Bug Fixes
