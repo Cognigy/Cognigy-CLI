@@ -1,3 +1,9 @@
+## [2.0.3](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.2...v2.0.3) (2026-01-26)
+
+### Bug Fixes
+
+- **deps:** bump tar and npm ([42a3296](https://github.com/Cognigy/Cognigy-CLI/commit/42a32967e7a210db6da966d0a9943a91e3852340))
+
 ## [2.0.2](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.1...v2.0.2) (2026-01-26)
 
 ### Bug Fixes
