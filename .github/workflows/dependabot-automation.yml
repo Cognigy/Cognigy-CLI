@@ -1,0 +1,72 @@
+# Dependabot Automation - Auto Approve & Auto Merge
+#
+# This workflow automatically approves and enables auto-merge for Dependabot PRs.
+# The actual merge only happens after all required checks pass (branch protection).
+#
+# Configuration:
+#   - APPROVAL COUNT: Set approval-count to '1' (default) or '2' (requires second app)
+#   - PATCH updates: Auto-merged by default (recommended for all teams)
+#   - MINOR updates: Set merge-minor to 'true' to enable
+#   - MAJOR updates: Set merge-major to 'true' to enable (use with caution)
+#
+# Prerequisites:
+#   1. Configure GitHub App secrets for auto-approve:
+#      - DEPENDABOT_AUTO_APPROVE_APP_ID
+#      - DEPENDABOT_AUTO_APPROVE_PRIVATE_KEY
+#      - DEPENDABOT_AUTO_APPROVE_INSTALL_ID
+#      (For 2 approvals, also add _2 suffixed secrets for a second app)
+#
+#   2. Enable "Allow auto-merge" in repository settings:
+#      Settings → General → Pull Requests → ✅ Allow auto-merge
+#
+#   3. Configure branch protection with required status checks:
+#      Settings → Branches → Branch protection rules → Edit (main branch)
+#      → ✅ Require status checks to pass before merging
+#
+name: Dependabot Automation
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependabot:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      # ============================================================
+      # AUTO APPROVE
+      # Automatically approves the Dependabot PR using a GitHub App
+      # ============================================================
+      - name: Auto Approve
+        uses: Cognigy/github-actions/dependabot-auto-approve@v1
+        with:
+          app-id: ${{ secrets.DEPENDABOT_AUTO_APPROVE_APP_ID }}
+          private-key: ${{ secrets.DEPENDABOT_AUTO_APPROVE_PRIVATE_KEY }}
+          installation-id: ${{ secrets.DEPENDABOT_AUTO_APPROVE_INSTALL_ID }}
+          second-app-id: ${{ secrets.DEPENDABOT_AUTO_APPROVE_APP_ID_2 }}
+          second-private-key: ${{ secrets.DEPENDABOT_AUTO_APPROVE_PRIVATE_KEY_2 }}
+          second-installation-id: ${{ secrets.DEPENDABOT_AUTO_APPROVE_INSTALL_ID_2 }}
+          approval-count: '2'
+
+      # ============================================================
+      # AUTO MERGE
+      # Enables GitHub's auto-merge feature for the PR
+      # The actual merge happens only after all checks pass
+      # ============================================================
+      - name: Auto Merge
+        uses: Cognigy/github-actions/dependabot-auto-merge@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          merge-patch: 'true'   # Safe to auto-merge (bug fixes only)
+          merge-minor: 'false'  # Set to 'true' if you have good test coverage
+          merge-major: 'false'  # Set to 'true' with caution (breaking changes)
+          merge-method: 'squash'
