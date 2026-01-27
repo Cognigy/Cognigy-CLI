@@ -52,9 +52,9 @@ jobs:
           app-id: ${{ secrets.DEPENDABOT_AUTO_APPROVE_APP_ID }}
           private-key: ${{ secrets.DEPENDABOT_AUTO_APPROVE_PRIVATE_KEY }}
           installation-id: ${{ secrets.DEPENDABOT_AUTO_APPROVE_INSTALL_ID }}
-          second-app-id: ${{ secrets.DEPENDABOT_AUTO_APPROVE_APP_ID_2 }}
-          second-private-key: ${{ secrets.DEPENDABOT_AUTO_APPROVE_PRIVATE_KEY_2 }}
-          second-installation-id: ${{ secrets.DEPENDABOT_AUTO_APPROVE_INSTALL_ID_2 }}
+          second-app-id: ${{ secrets.DEPENDABOT_FULL_AUTO_APPROVE_APP_ID }}
+          second-private-key: ${{ secrets.DEPENDABOT_FULL_AUTO_APPROVE_PRIVATE_KEY }}
+          second-installation-id: ${{ secrets.DEPENDABOT_FULL_AUTO_APPROVE_INSTALL_ID }}
           approval-count: '2'
 
       # ============================================================
