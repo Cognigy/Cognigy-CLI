@@ -1,4 +1,4 @@
-name: ReleaseV2
+name: Release
 
 on:
   workflow_dispatch:
@@ -35,6 +35,6 @@ jobs:
         run: npm --save-dev i @semantic-release/changelog @semantic-release/git
       - name: Release
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN_CI }} # TODO: This is most likely a DevOps Azure PAT, it will be replaced soon for a better approach
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN_CI }} # TODO: This is a token from npmjs public registry, this will be replaced by trusted publishing soon
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: npx semantic-release@23.0.2

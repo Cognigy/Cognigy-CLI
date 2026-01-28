@@ -13,6 +13,9 @@ updates:
       interval: 'weekly'
       day: 'sunday'
       time: '09:00'
+    # Layer of protection against supply chain attacks (e.g., Sha1-Hulud) by waiting 7 days
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 10
     labels:
       - 'dependencies'
@@ -40,6 +43,10 @@ updates:
     schedule:
       interval: 'weekly'
       day: 'sunday'
+      time: '09:00'
+    # Layer of protection against supply chain attacks (e.g., Sha1-Hulud) by waiting 7 days
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 5
     labels:
       - 'dependencies'

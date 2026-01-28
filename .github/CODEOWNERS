@@ -1,0 +1,11 @@
+# CODEOWNERS
+# This file defines code ownership for this repository.
+# Reviews will be automatically requested from the specified owners when a PR touches their code.
+#
+# Each line is a file pattern followed by one or more owners (GitHub usernames or team names).
+# Order matters - the last matching pattern takes precedence.
+#
+# More info: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo (unless a more specific rule below applies)
+* @Cognigy/team-aluminium
