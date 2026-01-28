@@ -1,3 +1,9 @@
+## [2.0.6](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.5...v2.0.6) (2026-01-28)
+
+### Bug Fixes
+
+- **deps:** bump lodash-es from 4.17.21 to 4.17.23 ([3c46845](https://github.com/Cognigy/Cognigy-CLI/commit/3c468457633e1743f13d3456c3184822860a2914))
+
 ## [2.0.5](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.4...v2.0.5) (2026-01-28)
 
 ### Bug Fixes
