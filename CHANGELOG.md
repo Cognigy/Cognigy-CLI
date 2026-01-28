@@ -1,3 +1,9 @@
+## [2.0.4](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.3...v2.0.4) (2026-01-28)
+
+### Bug Fixes
+
+- update secret name ([1efc228](https://github.com/Cognigy/Cognigy-CLI/commit/1efc228bc4a06b86a644a2884306f52988ffbee1))
+
 ## [2.0.3](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.2...v2.0.3) (2026-01-26)
 
 ### Bug Fixes
