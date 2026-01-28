@@ -47,7 +47,7 @@ jobs:
       # Automatically approves the Dependabot PR using a GitHub App
       # ============================================================
       - name: Auto Approve
-        uses: Cognigy/github-actions/dependabot-auto-approve@v1
+        uses: Cognigy/public-github-actions/dependabot-auto-approve@v1
         with:
           app-id: ${{ secrets.DEPENDABOT_AUTO_APPROVE_APP_ID }}
           private-key: ${{ secrets.DEPENDABOT_AUTO_APPROVE_PRIVATE_KEY }}
@@ -63,7 +63,7 @@ jobs:
       # The actual merge happens only after all checks pass
       # ============================================================
       - name: Auto Merge
-        uses: Cognigy/github-actions/dependabot-auto-merge@v1
+        uses: Cognigy/public-github-actions/dependabot-auto-merge@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           merge-patch: 'true'   # Safe to auto-merge (bug fixes only)
