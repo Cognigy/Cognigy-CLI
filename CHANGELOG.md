@@ -1,3 +1,9 @@
+## [2.0.5](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.4...v2.0.5) (2026-01-28)
+
+### Bug Fixes
+
+- use public-github-actions repo for dependabot automation ([140a95f](https://github.com/Cognigy/Cognigy-CLI/commit/140a95fae71d5a36834a99dfa04d6d83f26c72ba))
+
 ## [2.0.4](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.3...v2.0.4) (2026-01-28)
 
 ### Bug Fixes
