@@ -5,6 +5,11 @@ on:
   push:
     branches:
       - main
+
+permissions:
+  id-token: write # Required for npm trusted publishing (OIDC)
+  contents: read
+
 jobs:
   release:
     name: Release
@@ -26,7 +31,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 20.x
+          node-version: 24.x
+          registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: npm ci
       - name: Build
@@ -35,6 +41,5 @@ jobs:
         run: npm --save-dev i @semantic-release/changelog @semantic-release/git
       - name: Release
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN_CI }} # TODO: This is a token from npmjs public registry, this will be replaced by trusted publishing soon
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: npx semantic-release@23.0.2
