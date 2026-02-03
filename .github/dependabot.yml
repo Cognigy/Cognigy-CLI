@@ -20,6 +20,7 @@ updates:
     labels:
       - 'dependencies'
       - 'npm'
+      - 'dependabot'
     versioning-strategy: 'auto'
     commit-message:
       prefix: 'fix'
