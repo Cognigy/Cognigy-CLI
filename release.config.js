@@ -6,6 +6,13 @@ module.exports = {
       prerelease: true,
     },
   ],
+  // Explicitly configure verifyConditions to skip npm verification
+  // (npm OIDC/trusted publishing doesn't support 'npm whoami' verification)
+  verifyConditions: [
+    '@semantic-release/changelog',
+    '@semantic-release/github',
+    '@semantic-release/git',
+  ],
   plugins: [
     [
       '@semantic-release/commit-analyzer',
