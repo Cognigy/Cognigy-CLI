@@ -11,3 +11,4 @@ playbookRunResults.json
 config.**.json
 config.json
 .idea
+.semantic-release-version
