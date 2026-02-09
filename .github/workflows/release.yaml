@@ -7,8 +7,10 @@ on:
       - main
 
 permissions:
-  id-token: write # Required for npm trusted publishing (OIDC)
-  contents: read
+  id-token: write      # Required for npm trusted publishing (OIDC)
+  contents: write      # Required for semantic-release to push tags/commits
+  issues: write        # Required for semantic-release to comment on issues
+  pull-requests: write # Required for semantic-release to comment on PRs
 
 jobs:
   release:
@@ -28,18 +30,27 @@ jobs:
         uses: actions/checkout@v6
         with:
           token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
           node-version: 24.x
-          registry-url: 'https://registry.npmjs.org'
+          # Do NOT set registry-url: it creates a temp .npmrc with
+          # _authToken=${NODE_AUTH_TOKEN} that blocks npm OIDC trusted publishing.
+          # The registry is configured in the project's .npmrc instead.
       - name: Install dependencies
         run: npm ci
       - name: Build
         run: npm run build
       - name: Install semantic-release extra plugins
-        run: npm --save-dev i @semantic-release/changelog @semantic-release/git
+        run: npm install --save-dev @semantic-release/changelog @semantic-release/git @semantic-release/exec
       - name: Release
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: npx semantic-release@23.0.2
+        run: npx semantic-release@24
+      - name: Publish to npm (trusted publishing)
+        if: ${{ hashFiles('.semantic-release-version') != '' }}
+        run: |
+          NEW_VERSION=$(cat .semantic-release-version)
+          echo "Publishing version $NEW_VERSION to npm via trusted publishing (OIDC)"
+          npm publish --access public

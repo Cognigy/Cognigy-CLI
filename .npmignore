@@ -3,6 +3,7 @@ src
 agent
 agent2
 .vscode
+.semantic-release-version
 
 config.bak.json
 playbooks.json
