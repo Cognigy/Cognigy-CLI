@@ -1,3 +1,15 @@
+# [2.1.0](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.6...v2.1.0) (2026-02-09)
+
+### Bug Fixes
+
+- **deps:** bump @isaacs/brace-expansion from 5.0.0 to 5.0.1 ([#421](https://github.com/Cognigy/Cognigy-CLI/issues/421)) ([80c8f61](https://github.com/Cognigy/Cognigy-CLI/commit/80c8f61cdf630f47d014208ef8c6f6e4c3dcf29d))
+- **deps:** bump the minor-patch-updates group across 1 directory with 70 updates ([bdac88d](https://github.com/Cognigy/Cognigy-CLI/commit/bdac88dfda9234471814490a1747579946cbca51))
+- **release:** update release workflow for npm trusted publishing ([e255358](https://github.com/Cognigy/Cognigy-CLI/commit/e255358363d862ede547256a33870ea031b50499))
+
+### Features
+
+- add npm trusted publishing with OIDC authentication ([40174bc](https://github.com/Cognigy/Cognigy-CLI/commit/40174bccc9fd6e5680ee551fdda55485cfde3029))
+
 ## [2.0.6](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.5...v2.0.6) (2026-01-28)
 
 ### Bug Fixes
