@@ -38,7 +38,7 @@
     "cz-conventional-changelog": "3.3.0",
     "husky": "9.1.7",
     "mocha": "11.7.5",
-    "nock": "14.0.10",
+    "nock": "15.0.0",
     "nyc": "17.1.0",
     "prettier": "3.8.1",
     "sinon": "17.0.0",
