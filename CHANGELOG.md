@@ -1,3 +1,14 @@
+# [2.2.0](https://github.com/Cognigy/Cognigy-CLI/compare/v2.1.0...v2.2.0) (2026-02-18)
+
+### Bug Fixes
+
+- **deps:** bump @langchain/community from 1.1.10 to 1.1.14 ([#430](https://github.com/Cognigy/Cognigy-CLI/issues/430)) ([769050d](https://github.com/Cognigy/Cognigy-CLI/commit/769050d695699839214818b557e9d79ec3a0a646))
+- **deps:** bump qs from 6.14.1 to 6.14.2 ([#431](https://github.com/Cognigy/Cognigy-CLI/issues/431)) ([70bc438](https://github.com/Cognigy/Cognigy-CLI/commit/70bc438d203fe47ee7ee7782afc50cfd71a9b530))
+
+### Features
+
+- update node to v24, and adjust health-check pipeline ([3987bfa](https://github.com/Cognigy/Cognigy-CLI/commit/3987bfa9659e4d177a5c95619ae8e0df952c1c6e))
+
 # [2.1.0](https://github.com/Cognigy/Cognigy-CLI/compare/v2.0.6...v2.1.0) (2026-02-09)
 
 ### Bug Fixes
