@@ -27,7 +27,7 @@
     "@types/cli-progress": "3.11.6",
     "@types/cli-spinner": "0.2.3",
     "@types/express": "5.0.6",
-    "@types/inquirer": "6.5.0",
+    "@types/inquirer": "9.0.9",
     "@types/mocha": "10.0.10",
     "@types/mongodb": "4.0.7",
     "@types/mongoose": "5.11.97",
