@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.0...v2.2.1) (2026-02-20)
+
+### Bug Fixes
+
+- override minimatch to version 10.2.2 to fix vulneravility ([f29826b](https://github.com/Cognigy/Cognigy-CLI/commit/f29826bef2ba5057d09ddbb139d05b03efc949ac))
+- **project:** set axios to version 1.13.5 to fix vulnerabilities ([f919d0b](https://github.com/Cognigy/Cognigy-CLI/commit/f919d0b7d7a3c5add62a13a8ce60729786235b54))
+
 # [2.2.0](https://github.com/Cognigy/Cognigy-CLI/compare/v2.1.0...v2.2.0) (2026-02-18)
 
 ### Bug Fixes
