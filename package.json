@@ -50,8 +50,8 @@
     "@cognigy/rest-api-client": "2025.23.0",
     "@google-cloud/translate": "9.3.0",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
-    "@langchain/community": "1.1.14",
-    "@langchain/core": "1.1.24",
+    "@langchain/community": "1.1.18",
+    "@langchain/core": "1.1.29",
     "axios": "1.13.5",
     "chalk": "5.6.2",
     "cheerio": "1.2.0",
@@ -60,7 +60,7 @@
     "commander": "14.0.3",
     "csv-parser": "3.2.0",
     "csv-writer": "1.6.0",
-    "d3-dsv": "2.0.0",
+    "d3-dsv": "3.0.1",
     "diff": "8.0.3",
     "epub2": "3.0.2",
     "express": "5.2.1",
@@ -74,15 +74,15 @@
     "jsonpointer": "5.0.1",
     "mammoth": "1.11.0",
     "os": "0.1.2",
-    "pdf-parse": "1.1.1",
+    "pdf-parse": "2.4.5",
     "pdfjs": "2.5.4",
     "playwright": "1.58.2",
     "rimraf": "6.1.3",
-    "srt-parser-2": "1.1.3",
+    "srt-parser-2": "1.2.3",
     "uuid": "13.0.0"
   },
   "resolutions": {
-    "@langchain/core": "1.1.24"
+    "@langchain/core": "1.1.29"
   },
   "bin": {
     "cognigy": "./build/cognigy.js"
@@ -103,7 +103,7 @@
   "overrides": {
     "form-data": "4.0.4",
     "cross-spawn": "7.0.5",
-    "srt-parser-2": "1.1.3",
+    "srt-parser-2": "1.2.3",
     "axios": "1.13.5",
     "tmp": "0.2.5",
     "brace-expansion": "1.1.12",
