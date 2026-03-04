@@ -1,3 +1,9 @@
+## [2.2.2](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.1...v2.2.2) (2026-03-04)
+
+### Bug Fixes
+
+- **deps:** bump underscore from 1.13.7 to 1.13.8 ([#451](https://github.com/Cognigy/Cognigy-CLI/issues/451)) ([1bf1258](https://github.com/Cognigy/Cognigy-CLI/commit/1bf1258a0ab864c14cfd77aae367d454915276ac))
+
 ## [2.2.1](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.0...v2.2.1) (2026-02-20)
 
 ### Bug Fixes
