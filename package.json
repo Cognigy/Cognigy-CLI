@@ -68,7 +68,7 @@
     "fs-extra": "11.3.3",
     "gpt-3-encoder": "1.1.4",
     "html-to-text": "9.0.5",
-    "inquirer": "13.2.2",
+    "inquirer": "13.2.4",
     "js-yaml": "4.1.1",
     "json-diff": "1.0.6",
     "jsonpointer": "5.0.1",
