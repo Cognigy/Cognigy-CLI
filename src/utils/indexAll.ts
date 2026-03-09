@@ -1,4 +1,3 @@
-import { AsyncReturnType } from 'type-fest';
 import {
   IRestPagination,
   ICursorBasedPaginationReturnValue,
@@ -11,7 +10,7 @@ type TIndexFn<Query extends IRestPagination<Entity>, Entity> = (
 
 export const indexAll = <Query, Entity>(indexFn: TIndexFn<Query, Entity>) => {
   type TParams = Parameters<typeof indexFn>[0];
-  type TResponse = AsyncReturnType<typeof indexFn>;
+  type TResponse = Awaited<ReturnType<typeof indexFn>>;
   type TResponseWithoutPagination = Pick<TResponse, 'items' | 'total'>;
 
   type TIndexAllFn = (query: TParams) => Promise<TResponseWithoutPagination>;
