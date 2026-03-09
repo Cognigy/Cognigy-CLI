@@ -120,9 +120,6 @@
     "@actions/http-client": {
       "undici": "6.23.0"
     },
-    "@google-cloud/translate": {
-      "minimatch": "10.2.3"
-    },
     "rimraf": {
       "minimatch": "10.2.3"
     },
