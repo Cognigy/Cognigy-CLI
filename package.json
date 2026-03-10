@@ -120,9 +120,6 @@
     "@actions/http-client": {
       "undici": "6.23.0"
     },
-    "@google-cloud/translate": {
-      "minimatch": "10.2.2"
-    },
     "glob@^10.0.0": "10.5.0",
     "glob@^11.0.0": "11.1.0",
     "lodash": "4.17.23"
