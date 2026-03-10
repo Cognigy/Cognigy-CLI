@@ -1,3 +1,14 @@
+## [2.2.3](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.2...v2.2.3) (2026-03-10)
+
+### Bug Fixes
+
+- address feedback message ([3e236d9](https://github.com/Cognigy/Cognigy-CLI/commit/3e236d948b486355d855c8b4d3bc38f2c3997c14))
+- address feedback message ([4f07aa0](https://github.com/Cognigy/Cognigy-CLI/commit/4f07aa011960291f0ae8e7914cc5f1d5c2cefa75))
+- replace deprecated AsyncReturnType with built-in Awaited utility type ([2c16741](https://github.com/Cognigy/Cognigy-CLI/commit/2c16741c8bae17f81279a841dcf22bf1f87a311a))
+- **synk vulnerability:** address feedback message ([8903504](https://github.com/Cognigy/Cognigy-CLI/commit/890350475ac2c62e15b97dbb0b82d98169c0554a))
+- **vulnerability:** cve-2026-27903 inefficient algorithm in cognigy-cli ([ab4ffa7](https://github.com/Cognigy/Cognigy-CLI/commit/ab4ffa7221c00a933afd260c6ae2a08c0c7449bf))
+- **vulnerability:** cve-2026-27903 inefficient algorithm in cognigy-cli - 2 ([23be7c8](https://github.com/Cognigy/Cognigy-CLI/commit/23be7c8c04120eea17a0cbafcd76f9f48963f01f))
+
 ## [2.2.2](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.1...v2.2.2) (2026-03-04)
 
 ### Bug Fixes
