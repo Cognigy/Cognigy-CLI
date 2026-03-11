@@ -1,3 +1,10 @@
+## [2.2.4](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.3...v2.2.4) (2026-03-11)
+
+### Bug Fixes
+
+- merge conflicts and upgrade @cognigy/rest-api-client ([b9a5930](https://github.com/Cognigy/Cognigy-CLI/commit/b9a5930cb6cbfe82c813ae570c6e7a68cdda2584))
+- **vulnerability:** cve-2025-69873 regular expression d in cognigy-cli ([28a2af0](https://github.com/Cognigy/Cognigy-CLI/commit/28a2af01b3729bcc2d6d7c3a66e6b2f7dd382867))
+
 ## [2.2.3](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.2...v2.2.3) (2026-03-10)
 
 ### Bug Fixes
