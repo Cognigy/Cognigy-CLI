@@ -18,9 +18,9 @@
   "author": "Cognigy GmbH",
   "license": "MIT",
   "devDependencies": {
-    "@commitlint/cli": "20.4.2",
+    "@commitlint/cli": "20.4.4",
     "@commitlint/config-conventional": "15.0.0",
-    "@commitlint/prompt": "20.4.0",
+    "@commitlint/prompt": "20.4.4",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/exec": "^7.1.0",
     "@semantic-release/git": "^10.0.1",
@@ -38,7 +38,7 @@
     "cz-conventional-changelog": "3.3.0",
     "husky": "9.1.7",
     "mocha": "11.7.5",
-    "nock": "14.0.10",
+    "nock": "14.0.11",
     "nyc": "17.1.0",
     "prettier": "3.8.1",
     "sinon": "17.0.0",
@@ -50,8 +50,8 @@
     "@cognigy/rest-api-client": "2026.5.0",
     "@google-cloud/translate": "9.3.0",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
-    "@langchain/community": "1.1.14",
-    "@langchain/core": "1.1.24",
+    "@langchain/community": "1.1.23",
+    "@langchain/core": "1.1.32",
     "axios": "1.13.5",
     "chalk": "5.6.2",
     "cheerio": "1.2.0",
@@ -65,14 +65,14 @@
     "epub2": "3.0.2",
     "express": "5.2.1",
     "form-data": "4.0.4",
-    "fs-extra": "11.3.3",
+    "fs-extra": "11.3.4",
     "gpt-3-encoder": "1.1.4",
     "html-to-text": "9.0.5",
-    "inquirer": "13.2.2",
+    "inquirer": "13.3.0",
     "js-yaml": "4.1.1",
     "json-diff": "1.0.6",
     "jsonpointer": "5.0.1",
-    "mammoth": "1.11.0",
+    "mammoth": "1.12.0",
     "os": "0.1.2",
     "pdf-parse": "1.1.1",
     "pdfjs": "2.5.4",
@@ -82,7 +82,7 @@
     "uuid": "13.0.0"
   },
   "resolutions": {
-    "@langchain/core": "1.1.24"
+    "@langchain/core": "1.1.32"
   },
   "bin": {
     "cognigy": "./build/cognigy.js"
