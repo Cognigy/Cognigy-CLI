@@ -1,3 +1,9 @@
+## [2.2.5](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.4...v2.2.5) (2026-03-23)
+
+### Bug Fixes
+
+- **project:** override undici to version 7.24.0 and remove redunant override ([a7c6481](https://github.com/Cognigy/Cognigy-CLI/commit/a7c6481d7ad6d38fc283a3fdfe35d48cda7310a8))
+
 ## [2.2.4](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.3...v2.2.4) (2026-03-11)
 
 ### Bug Fixes
