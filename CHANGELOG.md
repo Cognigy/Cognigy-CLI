@@ -1,3 +1,15 @@
+## [2.2.6](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.5...v2.2.6) (2026-04-15)
+
+### Bug Fixes
+
+- **deps:** bump @tootallnate/once and teeny-request ([#480](https://github.com/Cognigy/Cognigy-CLI/issues/480)) ([7bd14e1](https://github.com/Cognigy/Cognigy-CLI/commit/7bd14e1e020aa4a5085136c4d799b597175fdb9e))
+- **deps:** bump @xmldom/xmldom from 0.8.11 to 0.8.12 ([#476](https://github.com/Cognigy/Cognigy-CLI/issues/476)) ([b06343f](https://github.com/Cognigy/Cognigy-CLI/commit/b06343f8018b01b48a154e8acfa036cd38795c2a))
+- **deps:** bump handlebars from 4.7.8 to 4.7.9 ([#471](https://github.com/Cognigy/Cognigy-CLI/issues/471)) ([63dc4a7](https://github.com/Cognigy/Cognigy-CLI/commit/63dc4a757fc1450a88689d864e8b49c5a91c85cd))
+- **deps:** bump langsmith from 0.5.9 to 0.5.18 ([#482](https://github.com/Cognigy/Cognigy-CLI/issues/482)) ([3d032e6](https://github.com/Cognigy/Cognigy-CLI/commit/3d032e66282559e6f1f54856738e9a7563899edc))
+- **deps:** bump tar and npm ([#465](https://github.com/Cognigy/Cognigy-CLI/issues/465)) ([6f559a1](https://github.com/Cognigy/Cognigy-CLI/commit/6f559a103c85c74d0d8978a26c8ae2c94d90fe40))
+- **deps:** bump yaml from 2.8.2 to 2.8.3 ([#472](https://github.com/Cognigy/Cognigy-CLI/issues/472)) ([c5475cd](https://github.com/Cognigy/Cognigy-CLI/commit/c5475cdfbd5766b0be9b1af2fbae7275402d8f80))
+- update axios to version 1.15.0 and lodash to version 4.18.1; bump brace-expansion to 1.1.13 ([#485](https://github.com/Cognigy/Cognigy-CLI/issues/485)) ([5ea47fe](https://github.com/Cognigy/Cognigy-CLI/commit/5ea47fe5882707f564d402ddecea774498bb4e79))
+
 ## [2.2.5](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.4...v2.2.5) (2026-03-23)
 
 ### Bug Fixes
