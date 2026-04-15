@@ -52,7 +52,7 @@
     "@istanbuljs/nyc-config-typescript": "1.0.2",
     "@langchain/community": "1.1.14",
     "@langchain/core": "1.1.24",
-    "axios": "1.13.5",
+    "axios": "1.15.0",
     "chalk": "5.6.2",
     "cheerio": "1.2.0",
     "cli-progress": "3.12.0",
@@ -104,9 +104,9 @@
     "form-data": "4.0.4",
     "cross-spawn": "7.0.5",
     "srt-parser-2": "1.1.3",
-    "axios": "1.13.5",
+    "axios": "1.15.0",
     "tmp": "0.2.5",
-    "brace-expansion": "1.1.12",
+    "brace-expansion": "1.1.13",
     "google-gax": {
       "form-data": "2.5.4"
     },
@@ -119,7 +119,7 @@
     "undici": "7.24.0",
     "glob@^10.0.0": "10.5.0",
     "glob@^11.0.0": "11.1.0",
-    "lodash": "4.17.23",
+    "lodash": "4.18.1",
     "@cognigy/rest-api-client": {
       "ajv": "6.14.0"
     }
