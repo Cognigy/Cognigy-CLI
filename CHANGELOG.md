@@ -1,3 +1,9 @@
+## [2.2.7](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.6...v2.2.7) (2026-04-28)
+
+### Bug Fixes
+
+- specify packages version on cli release job ([#491](https://github.com/Cognigy/Cognigy-CLI/issues/491)) ([15706b2](https://github.com/Cognigy/Cognigy-CLI/commit/15706b24bacdec911e00ca80eb8b2d2ddf0094b2))
+
 ## [2.2.6](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.5...v2.2.6) (2026-04-15)
 
 ### Bug Fixes
