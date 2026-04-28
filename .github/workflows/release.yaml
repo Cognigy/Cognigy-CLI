@@ -43,7 +43,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Install semantic-release extra plugins
-        run: npm install --save-dev @semantic-release/changelog @semantic-release/git @semantic-release/exec
+        run: npm install --no-save @semantic-release/changelog@6.0.3 @semantic-release/git@10.0.1 @semantic-release/exec@7.1.0
       - name: Release
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
