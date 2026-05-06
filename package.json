@@ -50,8 +50,8 @@
     "@cognigy/rest-api-client": "2026.5.0",
     "@google-cloud/translate": "9.3.0",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
-    "@langchain/community": "1.1.14",
-    "@langchain/core": "1.1.29",
+    "@langchain/community": "1.1.28",
+    "@langchain/core": "1.1.44",
     "axios": "1.15.2",
     "chalk": "5.6.2",
     "cheerio": "1.2.0",
@@ -60,7 +60,7 @@
     "commander": "14.0.3",
     "csv-parser": "3.2.0",
     "csv-writer": "1.6.0",
-    "d3-dsv": "2.0.0",
+    "d3-dsv": "3.0.1",
     "diff": "8.0.3",
     "epub2": "3.0.2",
     "express": "5.2.1",
@@ -82,7 +82,7 @@
     "uuid": "14.0.0"
   },
   "resolutions": {
-    "@langchain/core": "1.1.29"
+    "@langchain/core": "1.1.44"
   },
   "bin": {
     "cognigy": "./build/cognigy.js"
