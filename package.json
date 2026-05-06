@@ -81,9 +81,6 @@
     "srt-parser-2": "1.1.3",
     "uuid": "14.0.0"
   },
-  "resolutions": {
-    "@langchain/core": "1.1.44"
-  },
   "bin": {
     "cognigy": "./build/cognigy.js"
   },
