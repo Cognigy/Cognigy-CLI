@@ -108,9 +108,6 @@
     "google-gax": {
       "form-data": "2.5.4"
     },
-    "mammoth": {
-      "@xmldom/xmldom": "0.8.13"
-    },
     "google-auth-library": {
       "jws": "4.0.1"
     },
