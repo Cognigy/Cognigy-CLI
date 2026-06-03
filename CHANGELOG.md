@@ -1,3 +1,9 @@
+## [2.2.8](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.7...v2.2.8) (2026-06-03)
+
+### Bug Fixes
+
+- **vulnerability:** fixing critical vulenrabilities ([#509](https://github.com/Cognigy/Cognigy-CLI/issues/509)) ([8f83e74](https://github.com/Cognigy/Cognigy-CLI/commit/8f83e74c070e728b7fd970712146c831fd2ef4c2))
+
 ## [2.2.7](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.6...v2.2.7) (2026-04-28)
 
 ### Bug Fixes
