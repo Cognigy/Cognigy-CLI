@@ -1,3 +1,9 @@
+## [2.2.9](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.8...v2.2.9) (2026-06-22)
+
+### Bug Fixes
+
+- **deps:** bump @grpc/grpc-js from 1.14.3 to 1.14.4 ([#516](https://github.com/Cognigy/Cognigy-CLI/issues/516)) ([6bf590a](https://github.com/Cognigy/Cognigy-CLI/commit/6bf590a00ddcb152f372d5730b0e2d240b081577))
+
 ## [2.2.8](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.7...v2.2.8) (2026-06-03)
 
 ### Bug Fixes
