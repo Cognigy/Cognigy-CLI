@@ -119,7 +119,7 @@
     "glob@^11.0.0": "11.1.0",
     "lodash": "4.18.1",
     "protobufjs": "7.6.2",
-    "@protobufjs/utf8": "1.1.1",
+    "@protobufjs/utf8": "1.1.2",
     "@cognigy/rest-api-client": {
       "ajv": "6.14.0"
     }
