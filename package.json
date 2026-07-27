@@ -47,7 +47,7 @@
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "@cognigy/rest-api-client": "2026.13.0",
+    "@cognigy/rest-api-client": "2026.15.0",
     "@google-cloud/translate": "9.4.2",
     "@istanbuljs/nyc-config-typescript": "1.0.2",
     "@langchain/community": "1.1.29",
