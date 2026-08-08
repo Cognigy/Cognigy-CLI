@@ -121,7 +121,7 @@
     "protobufjs": "7.6.2",
     "@protobufjs/utf8": "1.1.1",
     "@cognigy/rest-api-client": {
-      "ajv": "6.14.0"
+      "ajv": "6.15.0"
     }
   },
   "husky": {
