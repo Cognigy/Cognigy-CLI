@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           fetch-depth: 0
 
@@ -47,7 +47,7 @@ jobs:
       # always(): nyc still writes the lcov report when a spec fails, and
       # losing all coverage over one failing spec is how a project ends up back
       # at 0%. The test step above still fails the job, so nothing is hidden.
-      - uses: SonarSource/sonarqube-scan-action@v7
+      - uses: SonarSource/sonarqube-scan-action@c7ee0f9df90b7aa20e8dcf9695dcfe2e7da5b4f2 # v7
         if: always()
         env:
           SONAR_TOKEN: ${{ secrets.NICE_SONAR_TOKEN }}

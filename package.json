@@ -8,7 +8,7 @@
     "build:debug": "rimraf ./build && tsc && npm run execution-permission",
     "build:production": "rimraf ./build && npm run tsc:production && npm run execution-permission",
     "execution-permission": "chmod +x ./build/cognigy.js",
-    "coverage": "rimraf ./coverage && nyc --all --extension=.ts --include='src/**/*.ts' --exclude='src/spec/**' --reporter=lcovonly --reporter=text-summary ts-mocha -p tsconfig.json --experimental-worker --recursive './src/spec/**/*.ts' --timeout 120000 --preserve-symlinks",
+    "coverage": "rimraf ./coverage && rimraf ./.nyc_output && nyc --all --extension=.ts --include='src/**/*.ts' --exclude='src/spec/**' --reporter=lcovonly --reporter=text-summary ts-mocha -p tsconfig.json --experimental-worker --recursive './src/spec/**/*.ts' --timeout 120000 --preserve-symlinks",
     "test": "rimraf ./coverage && nyc mocha --require chai-autoload-plugins --recursive ./build/spec --exit --timeout 120000 --color --check-leaks  && rimraf ./.nyc_output",
     "test:tsmocha": "ts-mocha -p tsconfig.json --experimental-worker --recursive './src/spec/**/*.ts' --timeout 120000 --preserve-symlinks",
     "install-from-npm": "npm --registry=https://registry.npmjs.com/ i",
