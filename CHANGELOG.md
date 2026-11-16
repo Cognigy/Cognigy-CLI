@@ -1,3 +1,9 @@
+## [2.2.10](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.9...v2.2.10) (2026-11-16)
+
+### Bug Fixes
+
+- **deps:** bump picomatch ([#470](https://github.com/Cognigy/Cognigy-CLI/issues/470)) ([35389a4](https://github.com/Cognigy/Cognigy-CLI/commit/35389a480c696e0862f091ed7acc70fdc5315216))
+
 ## [2.2.9](https://github.com/Cognigy/Cognigy-CLI/compare/v2.2.8...v2.2.9) (2026-06-22)
 
 ### Bug Fixes
